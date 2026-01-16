@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Swifteex Studio</title>
+
+  <style>
+    :root{
+      --bg:#0d0f13;
+      --card:#14161b;
+      --muted:rgba(234,234,234,0.75);
+      --accent-start:#b11226;
+      --accent-end:#1b1e24;
+      --accent-text:#fff;
+      --nav-bg:#0f1216;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:#eaeaea;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    a{color:inherit;text-decoration:none}
+    main{min-height:100vh;display:flex;flex-direction:column}
+
+    /* HERO: slides down from above into middle of viewport */
+    .hero-wrap{position:relative;height:100vh;overflow:hidden}
+    .hero{
+      position:absolute;
+      left:50%;
+      top:-120vh;               /* start off-screen above */
+      transform:translateX(-50%);
+      width:min(980px,94%);
+      max-width:980px;
+      height:52vh;
+      border-radius:14px;
+      padding:36px 40px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      text-align:center;
+      gap:12px;
+      color:var(--accent-text);
+      background:linear-gradient(180deg,var(--accent-start),var(--accent-end));
+      box-shadow:0 30px 60px rgba(0,0,0,0.6), 0 6px 18px rgba(0,0,0,0.45);
+      animation:hero-slide 850ms cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    @keyframes hero-slide{
+      to{ top: 16vh; } /* lands roughly near middle on most viewports */
+    }
+
+    .hero h1{font-size:clamp(28px,4.5vw,44px); margin:0; letter-spacing:0.6px;}
+    .hero .tag{opacity:0.92;font-weight:500;color:rgba(255,255,255,0.92)}
+    .hero .sub{opacity:0.9;color:rgba(255,255,255,0.9);max-width:800px;margin:0 auto}
+
+    .partners-preview{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+    .pill{padding:7px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.02);font-size:0.92rem}
+
+    /* fixed top-right hamburger + nav */
+    .topbar{position:fixed;right:20px;top:18px;z-index:1400;display:flex;align-items:center;gap:12px}
+    .hamburger{width:36px;height:28px;display:inline-flex;flex-direction:column;justify-content:center;gap:5px;padding:6px;border-radius:8px;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,0.04)}
+    .hamburger .bar{height:3px;background:#fff;border-radius:2px;transition:transform .28s, opacity .28s}
+    .hamburger[aria-expanded="true"] .bar:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .hamburger[aria-expanded="true"] .bar:nth-child(2){opacity:0}
+    .hamburger[aria-expanded="true"] .bar:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+    /* slide-in nav panel */
+    .nav-panel{
+      position:fixed;
+      right:-320px;
+      top:0;
+      width:300px;
+      height:100%;
+      background:linear-gradient(180deg,var(--nav-bg),#121316);
+      box-shadow:-24px 0 40px rgba(0,0,0,0.6);
+      padding:72px 18px;
+      transition:right .32s cubic-bezier(.2,.9,.2,1);
+      z-index:1300;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .nav-panel.open{ right:0; }
+    .nav-panel a{display:block;padding:12px 14px;border-radius:8px;color:#e9eef8;font-weight:600}
+    .nav-panel a:hover{background:rgba(255,255,255,0.03)}
+    .nav-panel .small{font-size:0.86rem;color:var(--muted);font-weight:500;padding:6px 14px;margin-top:10px}
+
+    /* content area below hero */
+    .content{max-width:980px;margin:28vh auto 80px;padding:0 20px;display:grid;gap:28px}
+    .card{background:var(--card);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(0,0,0,0.45)}
+    h2{color:#ff6b78;margin:0 0 10px 0;font-size:1.2rem}
+    p,li{color:var(--muted);line-height:1.5}
+    ul{padding-left:18px}
+
+    /* partnerships list */
+    .partner{display:flex;gap:12px;align-items:flex-start}
+    .partner .meta{flex:1}
+    .partner .meta a{color:#a6d3ff;font-weight:600}
+    .partner .meta p{margin-top:6px;margin-bottom:0;color:var(--muted);font-size:0.95rem}
+
+    footer{margin:40px 0 60px;text-align:center;color:rgba(234,234,234,0.5);font-size:0.9rem}
+
+    /* responsive tweaks */
+    @media (max-width:720px){
+      .hero{width:92%;height:60vh;padding:28px}
+      .nav-panel{width:100%;right:-100%}
+      .nav-panel.open{right:0}
+      .content{margin-top:66vh}
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- top-right control -->
+    <div class="topbar" aria-hidden="false">
+      <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+
+    <!-- slide-in hero -->
+    <div class="hero-wrap" role="region" aria-label="Swifteex Studio introduction">
+      <div class="hero" id="hero">
+        <h1>Swifteex Studio</h1>
+        <div class="tag">A management layer owned by Hypercloud</div>
+        <p class="sub">Swifteex is the platform that manages product portfolios and web properties under Hypercloud. We focus on stability, curated tooling, and long-term stewardship of software like BOLT.</p>
+
+        <div class="partners-preview" aria-hidden="false" role="list">
+          <span class="pill" role="listitem">Hypercloud</span>
+          <span class="pill" role="listitem">BOLT</span>
+          <span class="pill" role="listitem">SJ Team</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- sliding nav panel -->
+    <nav id="navPanel" class="nav-panel" aria-hidden="true" aria-label="Primary">
+      <a href="#about" data-action="scroll">About Us</a>
+      <a href="bolt.html" id="boltLink" title="Open BOLT (opens bolt.html)">BOLT</a>
+      <a href="#partners" data-action="scroll">Partnerships</a>
+
+      <div class="small">Quick links</div>
+      <a href="https://github.com/HypercloudAI/HypercloudAI" target="_blank" rel="noopener">Hypercloud (repo)</a>
+      <div style="height:8px"></div>
+      <div class="small">Tip: press Esc to close the menu</div>
+    </nav>
+
+    <!-- page content -->
+    <div class="content" id="content">
+      <section id="about" class="card" aria-labelledby="about-title">
+        <h2 id="about-title">About Us</h2>
+        <p>Swifteex Studio is a platform & management studio owned by <strong>Hypercloud</strong>. We manage a focused set of internal products and websites, ensuring long-term reliability and proper operational ownership. Our approach favors maintainability and minimalism over flash — we build tools to last.</p>
+      </section>
+
+      <section id="bolt" class="card" aria-labelledby="bolt-title">
+        <h2 id="bolt-title">BOLT</h2>
+        <p><strong>BOLT</strong> is a flagship, system-level tool managed under Swifteex. It emphasizes speed, small footprint, and straightforward integration. <a href="bolt.html" id="bolt-link-inline">Open BOLT (bolt.html)</a></p>
+      </section>
+
+      <section id="partners" class="card" aria-labelledby="partners-title">
+        <h2 id="partners-title">Partnerships</h2>
+
+        <div class="partner" style="margin-bottom:14px">
+          <div class="meta">
+            <div style="font-weight:700">SJ Team</div>
+            <div style="margin-top:6px"><a href="https://sj-consultation.github.io/SJteam" target="_blank" rel="noopener">https://sj-consultation.github.io/SJteam</a></div>
+            <p>Short description: SJ Team provides consultation and development collaboration on web projects. Their public page (linked above) lists team details, project samples, and contact pathways.</p>
+          </div>
+        </div>
+
+        <div class="partner">
+          <div class="meta">
+            <div style="font-weight:700">Hypercloud</div>
+            <p>Parent organization and infrastructure owner. Hypercloud handles broader strategy, governance, and platform-level hosting for Swifteex and its products.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <footer role="contentinfo">© Hypercloud · Swifteex Studio</footer>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      const hamburger = document.getElementById('hamburger');
+      const navPanel = document.getElementById('navPanel');
+
+      function openNav(){
+        navPanel.classList.add('open');
+        navPanel.setAttribute('aria-hidden','false');
+        hamburger.setAttribute('aria-expanded','true');
+        document.addEventListener('click', outsideClick);
+        document.addEventListener('keydown', onKey);
+      }
+      function closeNav(){
+        navPanel.classList.remove('open');
+        navPanel.setAttribute('aria-hidden','true');
+        hamburger.setAttribute('aria-expanded','false');
+        document.removeEventListener('click', outsideClick);
+        document.removeEventListener('keydown', onKey);
+      }
+
+      function toggleNav(){
+        if(navPanel.classList.contains('open')) closeNav(); else openNav();
+      }
+
+      function outsideClick(e){
+        if(!navPanel.contains(e.target) && !hamburger.contains(e.target)) closeNav();
+      }
+
+      function onKey(e){
+        if(e.key === 'Escape') closeNav();
+      }
+
+      hamburger.addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        toggleNav();
+      });
+
+      // Smooth scroll for internal anchors inside nav
+      document.querySelectorAll('a[data-action="scroll"]').forEach(a=>{
+        a.addEventListener('click', function(ev){
+          ev.preventDefault();
+          closeNav();
+          const href = this.getAttribute('href');
+          const el = document.querySelector(href);
+          if(el){
+            const top = el.getBoundingClientRect().top + window.scrollY - 36;
+            window.scrollTo({top,behavior:'smooth'});
+          }
+        });
+      });
+
+      // bolt links: keep regular anchor so it navigates to bolt.html; also support programmatic navigation if needed
+      // (no extra code required; anchors will redirect naturally)
+
+      // Accessibility: focus trap minimal (focus first link when opening)
+      hamburger.addEventListener('keydown', (ev)=>{
+        if(ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggleNav(); }
+      });
+
+      // ensure hero animation only once on load; nothing else needed
+    })();
+  </script>
+</body>
+</html>
