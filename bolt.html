@@ -7,148 +7,136 @@
   <link rel="icon" href="assets/boltlogo.ico" type="image/x-icon" />
   <style>
     :root{
-      --bg1: #f6fbff;
-      --bg2: #e6f7ff;
-      --card: #ffffff;
-      --text: #0b2a3a;
-      --muted: #6b7c86;
-      --sky: #38bdf8; /* sky blue */
+      /* color tokens */
+      --red-500: #ff4b4b;
+      --auth-gray: #9aa0a6;
       --accent: #1e90ff;
-      --happy: #ffdd57;
-      --shadow: 0 8px 30px rgba(16, 24, 40, 0.08);
-      --footer-gradient: linear-gradient(90deg,#ff4b4b,#9aa0a6);
-      --glass: rgba(255,255,255,0.7);
+      --sky: #38bdf8;
+      --bg-light: #f6fbff;
+      --panel-light: #ffffff;
+      --text-dark: #0b2a3a;
+      --muted: #6b7c86;
+      --glass: rgba(255,255,255,0.6);
+      --shadow: 0 10px 35px rgba(12,18,24,0.08);
+      --radius: 14px;
     }
 
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(56,189,248,0.08), transparent),
-                  linear-gradient(180deg,var(--bg1), var(--bg2));
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      -webkit-tap-highlight-color: transparent;
+    /* dark theme tokens (applied with .dark on <html>) */
+    html.dark {
+      --bg-light: #071227;
+      --panel-light: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      --text-dark: #e6f7ff;
+      --muted: #9aa6b2;
+      --glass: rgba(255,255,255,0.03);
+      --shadow: 0 10px 35px rgba(0,0,0,0.6);
     }
 
-    /* Layout */
-    .wrap{
-      min-height:100%;
+    /* Reset + body */
+    * { box-sizing: border-box; }
+    html,body { height:100%; margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    body {
+      background: radial-gradient(800px 400px at 10% 8%, rgba(56,189,248,0.06), transparent),
+                  linear-gradient(180deg,var(--bg-light), rgba(236,249,255,0));
+      color:var(--text-dark);
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:48px;
-      box-sizing:border-box;
+      min-height:100vh;
+      padding:28px;
     }
 
-    .card {
+    /* Container centered */
+    .container {
       width:100%;
-      max-width:920px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
-      border-radius:14px;
-      padding:40px;
+      max-width:860px;
+      text-align:center;
+    }
+
+    /* Card */
+    .card {
+      border-radius:var(--radius);
+      background: var(--panel-light);
       box-shadow: var(--shadow);
+      padding:34px;
       display:flex;
       gap:28px;
       align-items:center;
-      overflow:hidden;
-      position:relative;
-    }
-
-    /* Friendly illustration-ish blob */
-    .left {
-      flex:0 0 220px;
-      display:flex;
-      align-items:center;
       justify-content:center;
+      flex-direction:column;
+      transition:transform .18s ease, box-shadow .18s ease;
     }
 
+    .card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(12,18,24,0.12); }
+
+    /* Logo */
     .logo {
-      width:140px;
-      height:140px;
-      border-radius:22px;
+      width:120px;
+      height:120px;
+      border-radius:20px;
       background-image: url('assets/boltlogo.ico');
       background-size:cover;
       background-position:center;
-      box-shadow: 0 10px 30px rgba(30,144,255,0.12);
+      margin:0 auto 14px;
+      box-shadow: 0 12px 30px rgba(30,144,255,0.08);
       transform-origin:center;
       animation: float 4s ease-in-out infinite;
     }
-
     @keyframes float {
-      0% { transform: translateY(0) rotate(-2deg); }
-      50% { transform: translateY(-8px) rotate(2deg); }
-      100% { transform: translateY(0) rotate(-2deg); }
-    }
-
-    .right {
-      flex:1;
-      min-width:0;
+      0% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-8px) rotate(1.2deg); }
+      100% { transform: translateY(0) rotate(-1deg); }
     }
 
     h1 {
-      margin:0 0 8px;
-      font-size:40px;
-      color:var(--text);
-      letter-spacing:1px;
+      margin:6px 0 6px;
+      font-size:34px;
+      letter-spacing:0.6px;
+      font-weight:700;
     }
 
     .subtitle {
       margin:0 0 20px;
       color:var(--muted);
       font-size:15px;
+      max-width:780px;
     }
 
-    /* Download button */
-    .actions { display:flex; gap:12px; align-items:center; }
+    /* Actions */
+    .actions { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
 
     .btn {
       display:inline-flex;
       align-items:center;
       gap:10px;
-      cursor:pointer;
-      border:0;
       padding:12px 18px;
       border-radius:12px;
       font-weight:700;
       font-size:15px;
+      cursor:pointer;
       text-decoration:none;
+      border:0;
+      transition: transform .12s cubic-bezier(.2,.9,.2,1), box-shadow .12s;
       user-select:none;
-      transition: transform .14s cubic-bezier(.2,.9,.2,1), box-shadow .14s;
     }
-
-    .btn:active { transform: translateY(1px); }
 
     .btn-primary {
-      background: linear-gradient(180deg, var(--sky), var(--accent));
+      background: linear-gradient(180deg,var(--sky), var(--accent));
       color:white;
-      box-shadow: 0 8px 22px rgba(56,189,248,0.18);
-      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 8px 26px rgba(30,144,255,0.14);
     }
 
-    .btn-ghost {
+    .btn-outline {
       background:transparent;
-      border:1px solid rgba(13,45,62,0.06);
-      color:var(--text);
-      font-weight:600;
+      color:var(--text-dark);
+      border:1px solid rgba(0,0,0,0.06);
       padding:10px 14px;
       border-radius:10px;
     }
 
-    /* Tiny happy badge */
-    .badge {
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background: linear-gradient(90deg,#fff0b8,#ffd86b);
-      color:#6a4f00;
-      font-weight:700;
-      font-size:13px;
-      box-shadow: 0 6px 18px rgba(255,221,87,0.12);
-    }
+    .btn-primary:active { transform:translateY(1px); }
+    .btn-primary:hover { transform: translateY(-3px); }
 
-    /* Modal */
+    /* Modal overlay */
     .overlay {
       position:fixed;
       inset:0;
@@ -156,165 +144,160 @@
       align-items:center;
       justify-content:center;
       background: rgba(8,15,20,0.45);
-      z-index:1200;
+      z-index:1400;
       padding:20px;
-      backdrop-filter: blur(6px) saturate(120%);
     }
     .overlay.show { display:flex; }
 
     .modal {
       width:100%;
       max-width:520px;
-      border-radius:12px;
       background: linear-gradient(180deg,#ffffff,#fbfeff);
-      padding:20px;
-      box-shadow: 0 18px 60px rgba(20,30,40,0.16);
+      border-radius:12px;
+      padding:18px;
+      box-shadow: 0 22px 70px rgba(10,20,30,0.18);
       text-align:left;
-      transform-origin:center;
-      animation: pop .16s ease;
       border:1px solid rgba(14,56,88,0.04);
     }
-    @keyframes pop { from { transform: translateY(8px) scale(.995); opacity:0 } to { transform:none; opacity:1 } }
-
-    .modal h2 {
-      margin:0 0 6px;
-      font-size:18px;
-      color:var(--text);
-    }
+    .modal h3 { margin:0 0 8px; font-size:18px; color:var(--text-dark); }
     .modal p { margin:0 0 14px; color:var(--muted); font-size:13px; }
 
     .asset {
-      background: linear-gradient(90deg, rgba(56,189,248,0.06), rgba(30,144,255,0.02));
+      background: rgba(56,189,248,0.04);
       padding:10px 12px;
-      border-radius:10px;
+      border-radius:8px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
       font-size:13px;
-      color:var(--text);
-      margin-bottom:12px;
+      color:var(--text-dark);
+      margin-bottom:14px;
     }
 
-    .modal .row { display:flex; gap:10px; justify-content:flex-end; }
+    .modal .controls { display:flex; gap:10px; justify-content:flex-end; align-items:center; }
 
-    /* Thank you view */
+    /* Thank you state */
     .thanks {
       display:none;
+      padding:28px 14px;
       text-align:center;
-      padding:40px;
     }
-    .thanks.show {
-      display:block;
-    }
-    .thanks h2 { margin:0 0 8px; font-size:28px; color:var(--text); }
+    .thanks.show { display:block; }
+    .thanks h2 { margin:0 0 6px; font-size:26px; color:var(--text-dark); }
     .thanks p { margin:0; color:var(--muted); }
 
-    /* Footer small gradient text */
+    /* Footer center bottom */
     .footer {
-      width:100%;
-      text-align:center;
       margin-top:18px;
-      font-size:12px;
-      letter-spacing:.2px;
+      text-align:center;
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-direction:column;
     }
+
     .madeby {
-      display:inline-block;
-      font-weight:700;
-      padding:6px 10px;
+      padding:6px 12px;
       border-radius:999px;
-      font-size:12px;
-      background:linear-gradient(90deg,#ff4b4b,#9aa0a6);
+      font-weight:700;
+      cursor:pointer;
+      background: linear-gradient(90deg, var(--red-500), var(--auth-gray));
       color:#fff;
-      opacity:0.95;
-      transform:translateY(0);
-    }
-    /* gradient text alternative (small) */
-    .madeby-text {
-      display:block;
-      margin-top:8px;
       font-size:12px;
-      font-weight:600;
-      background: var(--footer-gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color:transparent;
+      display:inline-block;
+      text-decoration:none;
     }
 
-    /* Small helpers */
-    .muted { color:var(--muted); font-size:13px; }
-    a.inline { color:var(--accent); text-decoration:none; }
+    .support {
+      color:var(--muted);
+      font-size:13px;
+    }
 
-    @media (max-width:720px){
-      .card { padding:20px; gap:18px; flex-direction:column; align-items:flex-start; }
-      .left { flex:0 0 auto; }
-      h1{ font-size:28px; }
-      .logo { width:108px; height:108px; border-radius:16px; }
+    /* theme toggle corner */
+    .theme-toggle {
+      position:fixed;
+      top:18px;
+      right:18px;
+      background:var(--panel-light);
+      border-radius:999px;
+      box-shadow: var(--shadow);
+      padding:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:46px;
+      height:46px;
+      cursor:pointer;
+      border:1px solid rgba(0,0,0,0.04);
+      z-index:1500;
+    }
+    .theme-toggle svg { width:20px; height:20px; display:block; }
+
+    /* center everything for small screens */
+    @media (max-width:680px){
+      .card { padding:22px; }
+      h1 { font-size:26px; }
+      .logo { width:96px; height:96px; border-radius:14px; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card" role="main" aria-labelledby="title">
-      <div class="left" aria-hidden="true">
-        <div class="logo" title="BOLT logo"></div>
+  <!-- theme toggle -->
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+    <!-- icon will be swapped by JS -->
+    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+    </svg>
+  </button>
+
+  <div class="container" role="main" aria-labelledby="title">
+    <div class="card" id="mainCard" role="region" aria-label="Bolt download panel">
+      <div class="logo" aria-hidden="true"></div>
+
+      <h1 id="title">BOLT 1.40</h1>
+      <p class="subtitle">Official installer — fast and secure.</p>
+
+      <div class="actions" role="group" aria-label="Download actions">
+        <button id="openDownload" class="btn btn-primary" aria-haspopup="dialog" aria-controls="downloadModal">
+          <!-- white text on sky/blue -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 11l4 4 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 21H3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Download
+        </button>
       </div>
 
-      <div class="right">
-        <h1 id="title">BOLT 1.40</h1>
-        <p class="subtitle">Fast, focused, and friendly — install the official BOLT runtime.</p>
-
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
-          <div class="badge" aria-hidden="true">Stable</div>
-          <div class="muted">Build 14100 • Released Jan 17</div>
-        </div>
-
-        <div class="actions">
-          <!-- Primary button opens modal -->
-          <button id="openBtn" class="btn btn-primary" aria-haspopup="dialog" aria-controls="downloadModal">
-            <!-- white text on sky blue button -->
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 3v12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M8 11l4 4 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M21 21H3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Download BOLT
-          </button>
-
-          <a class="btn btn-ghost" href="https://github.com/SwifteexStudio/Swifteex" target="_blank" rel="noopener">Repository</a>
-        </div>
-
-        <div class="footer" aria-hidden="true">
-          <span class="madeby-text">made by Swifteex Stdio</span>
-        </div>
+      <div class="footer" aria-hidden="true">
+        <a id="madeBy" class="madeby" href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener noreferrer">made by Swifteex Stdio</a>
+        <div class="support">Support: <a href="mailto:swifteexstudio@gmail.com" class="support" style="text-decoration:none;color:inherit;">swifteexstudio@gmail.com</a></div>
       </div>
     </div>
 
-    <!-- Thank-you view (hidden, shown after download) -->
+    <!-- Thank you view (hidden) -->
     <div id="thanks" class="thanks" aria-live="polite">
-      <h2>Thank you!</h2>
-      <p class="muted">Your download has started — we appreciate your support.</p>
+      <h2>Thank you</h2>
+      <p class="muted">Your download has started. If you need help, email <a href="mailto:swifteexstudio@gmail.com">swifteexstudio@gmail.com</a>.</p>
     </div>
   </div>
 
-  <!-- Modal overlay -->
+  <!-- Modal overlay (simple confirmation, no extra text) -->
   <div id="downloadModal" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="modalTitle">
-      <h2 id="modalTitle">BOLT DOWNLOAD 1.40</h2>
-      <p class="muted">Click the button below to start the official installer. This action will open the GitHub-hosted download.</p>
+      <h3 id="modalTitle">Start download</h3>
+      <p class="muted">Begin the official installer download.</p>
 
-      <div class="asset" aria-hidden="false">
-        boltsetupmanager.exe
-      </div>
+      <div class="asset">boltsetupmanager.exe</div>
 
-      <div style="display:flex;gap:10px;justify-content:flex-end;align-items:center;">
-        <button id="closeModal" class="btn btn-ghost">Cancel</button>
+      <div class="controls" style="margin-top:6px;">
+        <button id="cancel" class="btn btn-outline">Cancel</button>
 
-        <!-- FINAL DOWNLOAD: normal anchor so browser treats as real user click -->
-        <a id="finalDownload"
-           class="btn btn-primary"
+        <!-- final download anchor: normal link (no visible GitHub references on page) -->
+        <a id="final" class="btn btn-primary"
            href="https://github.com/SwifteexStudio/Swifteex/releases/download/BOLT/boltsetupmanager.exe"
-           target="_blank" rel="noopener noreferrer"
-           aria-label="Download boltsetupmanager.exe from GitHub">
-          Final Download
+           target="_blank" rel="noopener noreferrer" aria-label="Download installer">
+          Download
         </a>
       </div>
     </div>
@@ -323,63 +306,86 @@
   <script>
     (function(){
       // Elements
-      const openBtn = document.getElementById('openBtn');
+      const openBtn = document.getElementById('openDownload');
       const overlay = document.getElementById('downloadModal');
-      const closeModal = document.getElementById('closeModal');
-      const finalDownload = document.getElementById('finalDownload');
+      const cancelBtn = document.getElementById('cancel');
+      const finalLink = document.getElementById('final');
       const thanks = document.getElementById('thanks');
-      const card = document.querySelector('.card');
+      const mainCard = document.getElementById('mainCard');
+      const FLAG = 'bolt_1_40_started_v2';
 
-      const FLAG = 'bolt_bolt_v1_40_started';
+      // Theme toggle logic
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      const htmlEl = document.documentElement;
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-      // Open modal
+      function applyTheme(theme) {
+        if (theme === 'dark') {
+          htmlEl.classList.add('dark');
+          // moon icon
+          themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>';
+        } else {
+          htmlEl.classList.remove('dark');
+          // sun icon
+          themeIcon.innerHTML = '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>';
+        }
+      }
+
+      // initialize theme from localStorage or system
+      const saved = localStorage.getItem('ui_theme_pref_v1');
+      if (saved) applyTheme(saved);
+      else applyTheme(prefersDark ? 'dark' : 'light');
+
+      themeToggle.addEventListener('click', () => {
+        const current = htmlEl.classList.contains('dark') ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        try { localStorage.setItem('ui_theme_pref_v1', next); } catch(e) {}
+      });
+
+      // open modal
       openBtn.addEventListener('click', () => {
         overlay.classList.add('show');
         overlay.setAttribute('aria-hidden', 'false');
-        // focus final download for keyboard users
-        finalDownload.focus();
+        finalLink.focus();
       });
 
-      // Close modal
-      closeModal.addEventListener('click', () => {
+      // cancel
+      cancelBtn.addEventListener('click', () => {
         overlay.classList.remove('show');
         overlay.setAttribute('aria-hidden', 'true');
         openBtn.focus();
       });
 
-      // If user clicks the Final Download anchor: set local flag and then show thank-you on reload
-      finalDownload.addEventListener('click', (ev) => {
-        try {
-          localStorage.setItem(FLAG, Date.now().toString());
-        } catch (e) { /* ignore */ }
-
-        // Let the browser start the download (anchor opens in new tab/window) then close modal
+      // final download clicked
+      finalLink.addEventListener('click', () => {
+        try { localStorage.setItem(FLAG, Date.now().toString()); } catch(e) {}
+        // close modal
         overlay.classList.remove('show');
         overlay.setAttribute('aria-hidden', 'true');
 
-        // After a short delay show the thank you state in this page
+        // show thanks view locally after a short delay (user will get download in new tab/window)
         setTimeout(() => {
-          // Hide main card and show thanks message inline
           try {
-            card.style.display = 'none';
+            mainCard.style.display = 'none';
             thanks.classList.add('show');
-          } catch (e) { /* ignore */ }
-        }, 700);
+          } catch(e) {}
+        }, 600);
       });
 
-      // On page load, if flag exists show thanks (handles reloads)
+      // on load, if flag present, show thank-you (handles reloads)
       window.addEventListener('DOMContentLoaded', () => {
         try {
           if (localStorage.getItem(FLAG)) {
-            // Clear flag and show thanks
             localStorage.removeItem(FLAG);
-            card.style.display = 'none';
+            mainCard.style.display = 'none';
             thanks.classList.add('show');
           }
-        } catch (e) { /* ignore */ }
+        } catch(e) {}
       });
 
-      // Close modal on Esc
+      // close modal on ESC
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) {
           overlay.classList.remove('show');
@@ -388,13 +394,15 @@
         }
       });
 
-      // Click outside modal to close
+      // click outside to close
       overlay.addEventListener('click', (ev) => {
         if (ev.target === overlay) {
           overlay.classList.remove('show');
           overlay.setAttribute('aria-hidden', 'true');
         }
       });
+
+      // footer madeby click handled by normal link (opens new tab). no extra logic needed.
     })();
   </script>
 </body>
