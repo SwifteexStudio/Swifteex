@@ -6,103 +6,131 @@
   <title>BOLT 1.40</title>
   <link rel="icon" href="assets/boltlogo.ico" type="image/x-icon" />
   <style>
+    /* ---------- design tokens ---------- */
     :root{
-      /* color tokens */
       --red-500: #ff4b4b;
       --auth-gray: #9aa0a6;
       --accent: #1e90ff;
       --sky: #38bdf8;
-      --bg-light: #f6fbff;
-      --panel-light: #ffffff;
-      --text-dark: #0b2a3a;
-      --muted: #6b7c86;
-      --glass: rgba(255,255,255,0.6);
-      --shadow: 0 10px 35px rgba(12,18,24,0.08);
       --radius: 14px;
+      --shadow-soft: 0 10px 30px rgba(10,20,30,0.06);
+      --shadow-deep: 0 18px 60px rgba(2,8,20,0.35);
+
+      /* typography */
+      --fs-h1: 34px;
+      --fs-body: 15px;
+      --line: 1.45;
+      --gap: 20px;
     }
 
-    /* dark theme tokens (applied with .dark on <html>) */
-    html.dark {
-      --bg-light: #071227;
-      --panel-light: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      --text-dark: #e6f7ff;
-      --muted: #9aa6b2;
-      --glass: rgba(255,255,255,0.03);
-      --shadow: 0 10px 35px rgba(0,0,0,0.6);
+    /* ---------- theme: soft (default) ---------- */
+    :root {
+      --bg: linear-gradient(180deg,#eef6fa,#f7fbfe);
+      --panel: linear-gradient(180deg,#ffffff,#f6fafc);
+      --text: #072033;
+      --muted: #4d6b75;
+      --panel-border: rgba(10,20,30,0.04);
+      --logo-shadow: rgba(30,144,255,0.08);
     }
 
-    /* Reset + body */
+    /* ---------- theme: light ---------- */
+    html.theme-light {
+      --bg: linear-gradient(180deg,#fbfcfe,#ffffff);
+      --panel: linear-gradient(180deg,#ffffff,#ffffff);
+      --text: #072033;
+      --muted: #556b73;
+      --panel-border: rgba(10,20,30,0.06);
+      --logo-shadow: rgba(30,144,255,0.09);
+    }
+
+    /* ---------- theme: dark (contrast but friendly) ---------- */
+    html.theme-dark {
+      --bg: linear-gradient(180deg,#071226,#041726);
+      --panel: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --text: #e6f8ff;
+      --muted: #9fb4c0;
+      --panel-border: rgba(255,255,255,0.03);
+      --logo-shadow: rgba(30,144,255,0.12);
+    }
+
+    /* ---------- base ---------- */
     * { box-sizing: border-box; }
-    html,body { height:100%; margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    html,body { height:100%; margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
     body {
-      background: radial-gradient(800px 400px at 10% 8%, rgba(56,189,248,0.06), transparent),
-                  linear-gradient(180deg,var(--bg-light), rgba(236,249,255,0));
-      color:var(--text-dark);
+      background: var(--bg);
+      color: var(--text);
       display:flex;
       align-items:center;
       justify-content:center;
       min-height:100vh;
-      padding:28px;
+      padding:32px;
+      line-height:var(--line);
+      -webkit-font-smoothing:antialiased;
     }
 
-    /* Container centered */
+    /* ---------- layout centered ---------- */
     .container {
       width:100%;
-      max-width:860px;
+      max-width:920px;
       text-align:center;
-    }
-
-    /* Card */
-    .card {
-      border-radius:var(--radius);
-      background: var(--panel-light);
-      box-shadow: var(--shadow);
-      padding:34px;
       display:flex;
-      gap:28px;
       align-items:center;
       justify-content:center;
       flex-direction:column;
-      transition:transform .18s ease, box-shadow .18s ease;
+      gap:18px;
     }
 
-    .card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(12,18,24,0.12); }
+    /* ---------- main card ---------- */
+    .card {
+      width:100%;
+      border-radius:var(--radius);
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      box-shadow: var(--shadow-soft);
+      padding:36px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:18px;
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .card:focus-within { transform: translateY(-4px); box-shadow: var(--shadow-deep); }
 
-    /* Logo */
+    /* ---------- logo ---------- */
     .logo {
-      width:120px;
-      height:120px;
-      border-radius:20px;
+      width:116px;
+      height:116px;
+      border-radius:18px;
       background-image: url('assets/boltlogo.ico');
       background-size:cover;
       background-position:center;
-      margin:0 auto 14px;
-      box-shadow: 0 12px 30px rgba(30,144,255,0.08);
+      box-shadow: 0 12px 30px var(--logo-shadow);
       transform-origin:center;
-      animation: float 4s ease-in-out infinite;
+      animation: float 4.5s ease-in-out infinite;
     }
     @keyframes float {
-      0% { transform: translateY(0) rotate(-1deg); }
-      50% { transform: translateY(-8px) rotate(1.2deg); }
-      100% { transform: translateY(0) rotate(-1deg); }
+      0% { transform: translateY(0) rotate(-0.8deg); }
+      50% { transform: translateY(-8px) rotate(0.9deg); }
+      100% { transform: translateY(0) rotate(-0.8deg); }
     }
 
+    /* ---------- title ---------- */
     h1 {
-      margin:6px 0 6px;
-      font-size:34px;
-      letter-spacing:0.6px;
-      font-weight:700;
+      margin:6px 0 0;
+      font-size:var(--fs-h1);
+      letter-spacing:0.4px;
+      font-weight:800;
+      line-height:1.05;
     }
-
     .subtitle {
-      margin:0 0 20px;
+      margin:6px 0 0;
       color:var(--muted);
-      font-size:15px;
-      max-width:780px;
+      font-size:var(--fs-body);
+      max-width:760px;
     }
 
-    /* Actions */
-    .actions { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
+    /* ---------- actions ---------- */
+    .actions { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:8px; }
 
     .btn {
       display:inline-flex;
@@ -125,25 +153,25 @@
       box-shadow: 0 8px 26px rgba(30,144,255,0.14);
     }
 
-    .btn-outline {
-      background:transparent;
-      color:var(--text-dark);
-      border:1px solid rgba(0,0,0,0.06);
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(0,0,0,0.06);
       padding:10px 14px;
       border-radius:10px;
     }
 
-    .btn-primary:active { transform:translateY(1px); }
     .btn-primary:hover { transform: translateY(-3px); }
+    .btn:active { transform: translateY(1px); }
 
-    /* Modal overlay */
+    /* ---------- modal ---------- */
     .overlay {
       position:fixed;
       inset:0;
       display:none;
       align-items:center;
       justify-content:center;
-      background: rgba(8,15,20,0.45);
+      background: rgba(6,10,14,0.45);
       z-index:1400;
       padding:20px;
     }
@@ -152,15 +180,15 @@
     .modal {
       width:100%;
       max-width:520px;
-      background: linear-gradient(180deg,#ffffff,#fbfeff);
       border-radius:12px;
+      background: linear-gradient(180deg,#ffffff,#fbfeff);
       padding:18px;
-      box-shadow: 0 22px 70px rgba(10,20,30,0.18);
+      box-shadow: var(--shadow-deep);
+      border: 1px solid rgba(14,56,88,0.04);
       text-align:left;
-      border:1px solid rgba(14,56,88,0.04);
     }
-    .modal h3 { margin:0 0 8px; font-size:18px; color:var(--text-dark); }
-    .modal p { margin:0 0 14px; color:var(--muted); font-size:13px; }
+    .modal h3 { margin:0 0 6px; font-size:18px; color:var(--text); }
+    .modal p { margin:0 0 12px; color:var(--muted); font-size:13px; }
 
     .asset {
       background: rgba(56,189,248,0.04);
@@ -168,59 +196,62 @@
       border-radius:8px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
       font-size:13px;
-      color:var(--text-dark);
+      color:var(--text);
       margin-bottom:14px;
     }
 
     .modal .controls { display:flex; gap:10px; justify-content:flex-end; align-items:center; }
 
-    /* Thank you state */
+    /* ---------- thanks ---------- */
     .thanks {
       display:none;
-      padding:28px 14px;
+      padding:22px;
       text-align:center;
+      max-width:760px;
     }
     .thanks.show { display:block; }
-    .thanks h2 { margin:0 0 6px; font-size:26px; color:var(--text-dark); }
+    .thanks h2 { margin:0 0 8px; font-size:26px; color:var(--text); }
     .thanks p { margin:0; color:var(--muted); }
 
-    /* Footer center bottom */
+    /* ---------- footer (center bottom) ---------- */
     .footer {
-      margin-top:18px;
+      margin-top:14px;
       text-align:center;
       font-size:13px;
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:10px;
+      gap:8px;
       flex-direction:column;
     }
 
     .madeby {
-      padding:6px 12px;
+      padding:8px 14px;
       border-radius:999px;
-      font-weight:700;
+      font-weight:800;
       cursor:pointer;
       background: linear-gradient(90deg, var(--red-500), var(--auth-gray));
       color:#fff;
-      font-size:12px;
+      font-size:13px;
       display:inline-block;
       text-decoration:none;
+      box-shadow: 0 8px 22px rgba(255,75,75,0.08);
     }
 
     .support {
       color:var(--muted);
-      font-size:13px;
+      font-weight:600;
     }
+    .support a { color: inherit; text-decoration: none; border-bottom: 1px dashed rgba(0,0,0,0.06); padding-bottom:2px; }
 
-    /* theme toggle corner */
+    /* ---------- theme toggle corner ---------- */
     .theme-toggle {
       position:fixed;
-      top:18px;
-      right:18px;
-      background:var(--panel-light);
+      top:16px;
+      right:16px;
+      background: var(--panel);
       border-radius:999px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-soft);
       padding:8px;
       display:flex;
       align-items:center;
@@ -228,39 +259,41 @@
       width:46px;
       height:46px;
       cursor:pointer;
-      border:1px solid rgba(0,0,0,0.04);
+      border:1px solid var(--panel-border);
       z-index:1500;
     }
-    .theme-toggle svg { width:20px; height:20px; display:block; }
+    .theme-toggle svg { width:20px; height:20px; display:block; color:var(--text); }
 
-    /* center everything for small screens */
-    @media (max-width:680px){
-      .card { padding:22px; }
-      h1 { font-size:26px; }
-      .logo { width:96px; height:96px; border-radius:14px; }
+    /* ---------- responsive ---------- */
+    @media (max-width:720px){
+      .card { padding:20px; gap:12px; }
+      h1 { font-size:28px; }
+      .logo { width:92px; height:92px; border-radius:12px; }
+      .madeby { padding:6px 10px; font-size:12px; }
     }
+
+    /* small accessible focus rings */
+    .btn:focus, .madeby:focus, .theme-toggle:focus, a:focus { outline: 3px solid rgba(30,144,255,0.14); outline-offset: 3px; border-radius:8px; }
   </style>
 </head>
 <body>
   <!-- theme toggle -->
-  <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
-    <!-- icon will be swapped by JS -->
-    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <button id="themeToggle" class="theme-toggle" aria-label="Cycle theme" title="Cycle theme">
+    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
     </svg>
   </button>
 
-  <div class="container" role="main" aria-labelledby="title">
-    <div class="card" id="mainCard" role="region" aria-label="Bolt download panel">
+  <main class="container" role="main" aria-labelledby="title">
+    <section class="card" id="mainCard" aria-label="Bolt download panel">
       <div class="logo" aria-hidden="true"></div>
 
       <h1 id="title">BOLT 1.40</h1>
-      <p class="subtitle">Official installer. fast,secure and powerful .</p>
+      <p class="subtitle">Official installer — fast, secure, and reliable.</p>
 
       <div class="actions" role="group" aria-label="Download actions">
         <button id="openDownload" class="btn btn-primary" aria-haspopup="dialog" aria-controls="downloadModal">
-          <!-- white text on sky/blue -->
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
             <path d="M12 3v12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M8 11l4 4 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M21 21H3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -271,29 +304,29 @@
 
       <div class="footer" aria-hidden="true">
         <a id="madeBy" class="madeby" href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener noreferrer">made by Swifteex Studio</a>
-        <div class="support">Support: <a href="mailto:swifteexstudio@gmail.com" class="support" style="text-decoration:none;color:inherit;">swifteexstudio@gmail.com</a></div>
+        <div class="support">Support: <a href="mailto:swifteexstudio@gmail.com">swifteexstudio@gmail.com</a></div>
       </div>
-    </div>
+    </section>
 
     <!-- Thank you view (hidden) -->
     <div id="thanks" class="thanks" aria-live="polite">
-      <h2>Thank you for downloading!</h2>
-      <p class="muted">Your download has started.We appreciate you. If you need help, email <a href="mailto:swifteexstudio@gmail.com">swifteexstudio@gmail.com</a>.</p>
+      <h2>Thank you</h2>
+      <p class="muted">Your download has started. If you need assistance, email <a href="mailto:swifteexstudio@gmail.com">swifteexstudio@gmail.com</a>.</p>
     </div>
-  </div>
+  </main>
 
-  <!-- Modal overlay (simple confirmation, no extra text) -->
+  <!-- Modal overlay -->
   <div id="downloadModal" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="modalTitle">
-      <h3 id="modalTitle">download BOLT</h3>
-      <p class="muted">Begin the official installer download.</p>
+      <h3 id="modalTitle">Start download</h3>
+      <p class="muted">Click to begin the official installer.</p>
 
       <div class="asset">boltsetupmanager.exe</div>
 
       <div class="controls" style="margin-top:6px;">
-        <button id="cancel" class="btn btn-outline">Cancel</button>
+        <button id="cancel" class="btn btn-ghost">Cancel</button>
 
-        <!-- final download anchor: normal link (no visible GitHub references on page) -->
+        <!-- final download: anchor (browser handles download) -->
         <a id="final" class="btn btn-primary"
            href="https://github.com/SwifteexStudio/Swifteex/releases/download/BOLT/boltsetupmanager.exe"
            target="_blank" rel="noopener noreferrer" aria-label="Download installer">
@@ -305,76 +338,82 @@
 
   <script>
     (function(){
-      // Elements
+      // elements
       const openBtn = document.getElementById('openDownload');
       const overlay = document.getElementById('downloadModal');
       const cancelBtn = document.getElementById('cancel');
       const finalLink = document.getElementById('final');
       const thanks = document.getElementById('thanks');
       const mainCard = document.getElementById('mainCard');
-      const FLAG = 'bolt_1_40_started_v2';
+      const FLAG = 'bolt_1_40_started_v3';
 
-      // Theme toggle logic
+      // theme handling: three states -> soft(default) / dark / light
+      const htmlEl = document.documentElement;
       const themeToggle = document.getElementById('themeToggle');
       const themeIcon = document.getElementById('themeIcon');
-      const htmlEl = document.documentElement;
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const THEME_KEY = 'ui_theme_three_state_v1';
+      const themes = ['soft','dark','light']; // cycle order: soft -> dark -> light -> soft
 
-      function applyTheme(theme) {
-        if (theme === 'dark') {
-          htmlEl.classList.add('dark');
-          // moon icon
+      function setTheme(name) {
+        htmlEl.classList.remove('theme-dark','theme-light');
+        if (name === 'dark') htmlEl.classList.add('theme-dark');
+        if (name === 'light') htmlEl.classList.add('theme-light');
+        // update icon (soft = half-sun, dark = moon, light = sun)
+        if (name === 'soft') {
+          themeIcon.innerHTML = '<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path><circle cx="12" cy="12" r="3"></circle>';
+        } else if (name === 'dark') {
           themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>';
         } else {
-          htmlEl.classList.remove('dark');
-          // sun icon
-          themeIcon.innerHTML = '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>';
+          themeIcon.innerHTML = '<circle cx="12" cy="12" r="4"></circle>';
         }
+        try { localStorage.setItem(THEME_KEY, name); } catch(e) {}
       }
 
-      // initialize theme from localStorage or system
-      const saved = localStorage.getItem('ui_theme_pref_v1');
-      if (saved) applyTheme(saved);
-      else applyTheme(prefersDark ? 'dark' : 'light');
+      // init theme: prefer saved else prefers-color-scheme else soft
+      let saved = null;
+      try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved && themes.includes(saved)) setTheme(saved);
+      else setTheme(prefersDark ? 'dark' : 'soft');
 
       themeToggle.addEventListener('click', () => {
-        const current = htmlEl.classList.contains('dark') ? 'dark' : 'light';
-        const next = current === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-        try { localStorage.setItem('ui_theme_pref_v1', next); } catch(e) {}
+        // cycle
+        const current = (function(){
+          if (htmlEl.classList.contains('theme-dark')) return 'dark';
+          if (htmlEl.classList.contains('theme-light')) return 'light';
+          return 'soft';
+        })();
+        const idx = themes.indexOf(current);
+        const next = themes[(idx + 1) % themes.length];
+        setTheme(next);
       });
 
       // open modal
       openBtn.addEventListener('click', () => {
         overlay.classList.add('show');
-        overlay.setAttribute('aria-hidden', 'false');
+        overlay.setAttribute('aria-hidden','false');
         finalLink.focus();
       });
 
-      // cancel
+      // cancel modal
       cancelBtn.addEventListener('click', () => {
         overlay.classList.remove('show');
-        overlay.setAttribute('aria-hidden', 'true');
+        overlay.setAttribute('aria-hidden','true');
         openBtn.focus();
       });
 
-      // final download clicked
+      // final download clicked: mark flag, close modal, show thanks
       finalLink.addEventListener('click', () => {
         try { localStorage.setItem(FLAG, Date.now().toString()); } catch(e) {}
-        // close modal
         overlay.classList.remove('show');
-        overlay.setAttribute('aria-hidden', 'true');
+        overlay.setAttribute('aria-hidden','true');
 
-        // show thanks view locally after a short delay (user will get download in new tab/window)
         setTimeout(() => {
-          try {
-            mainCard.style.display = 'none';
-            thanks.classList.add('show');
-          } catch(e) {}
+          try { mainCard.style.display = 'none'; thanks.classList.add('show'); } catch(e) {}
         }, 600);
       });
 
-      // on load, if flag present, show thank-you (handles reloads)
+      // on load, if flag present show thanks (handles reloads)
       window.addEventListener('DOMContentLoaded', () => {
         try {
           if (localStorage.getItem(FLAG)) {
@@ -389,7 +428,7 @@
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) {
           overlay.classList.remove('show');
-          overlay.setAttribute('aria-hidden', 'true');
+          overlay.setAttribute('aria-hidden','true');
           openBtn.focus();
         }
       });
@@ -398,11 +437,9 @@
       overlay.addEventListener('click', (ev) => {
         if (ev.target === overlay) {
           overlay.classList.remove('show');
-          overlay.setAttribute('aria-hidden', 'true');
+          overlay.setAttribute('aria-hidden','true');
         }
       });
-
-      // footer madeby click handled by normal link (opens new tab). no extra logic needed.
     })();
   </script>
 </body>
