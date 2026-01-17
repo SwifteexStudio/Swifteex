@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BOLT 1.40</title>
+  <link rel="icon" href="assets/boltlogo.ico" type="image/x-icon" />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1724;
+      --white:#ffffff;
+      --sky:#87CEEB; /* sky blue */
+      --muted:#9aa6b2;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #061028 0%, #071428 50%, #0b1220 100%);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px;
+      box-sizing:border-box;
+    }
+
+    .hero {
+      text-align:center;
+      max-width:900px;
+      width:100%;
+      padding:48px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .logo-row {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:16px;
+      margin-bottom:12px;
+    }
+
+    .logo {
+      width:56px;
+      height:56px;
+      border-radius:10px;
+      background:transparent;
+      display:inline-block;
+      background-image: url('assets/boltlogo.ico');
+      background-size:contain;
+      background-repeat:no-repeat;
+      background-position:center;
+    }
+
+    h1{
+      margin:8px 0 18px;
+      font-size:44px;
+      letter-spacing:2px;
+      color:var(--white);
+    }
+
+    p.lead{
+      margin:0 0 28px;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .btn {
+      display:inline-block;
+      cursor:pointer;
+      border:0;
+      padding:12px 22px;
+      border-radius:10px;
+      font-weight:600;
+      font-size:15px;
+      transition:transform .12s ease, box-shadow .12s ease;
+      user-select:none;
+    }
+
+    .btn:active { transform:translateY(1px); }
+
+    .btn-sky {
+      background:var(--sky);
+      color:var(--white);
+      box-shadow: 0 8px 18px rgba(135,206,235,0.12), inset 0 -2px 0 rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .btn-ghost {
+      background:transparent;
+      color:var(--sky);
+      border:1px solid rgba(135,206,235,0.12);
+    }
+
+    /* Modal / Menu */
+    .overlay {
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background: rgba(2,6,23,0.6);
+      z-index:1200;
+      padding:24px;
+      box-sizing:border-box;
+    }
+
+    .overlay.show { display:flex; }
+
+    .modal {
+      width:100%;
+      max-width:520px;
+      background: linear-gradient(180deg, #071026, #081226);
+      border-radius:12px;
+      padding:22px;
+      box-shadow: 0 18px 50px rgba(2,6,23,0.7);
+      border:1px solid rgba(255,255,255,0.03);
+      color:var(--white);
+    }
+
+    .modal h2 {
+      margin:0 0 10px;
+      font-size:20px;
+      letter-spacing:1px;
+    }
+
+    .modal p { margin:0 0 16px; color:var(--muted); font-size:13px; }
+
+    .details {
+      background: rgba(255,255,255,0.02);
+      padding:12px;
+      border-radius:8px;
+      font-family:monospace;
+      color: #d7e9f6;
+      font-size:13px;
+      margin-bottom:14px;
+      word-break:break-all;
+    }
+
+    .row {
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .small {
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* Thank you message */
+    .thanks-wrap {
+      display:none;
+      text-align:center;
+      padding:40px;
+    }
+    .thanks-wrap.show { display:block; }
+
+    @media (max-width:520px){
+      h1 { font-size:34px; }
+      .hero { padding:28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero" id="mainHero" role="main" aria-labelledby="titleHero">
+      <div class="logo-row">
+        <div class="logo" aria-hidden="true"></div>
+      </div>
+
+      <h1 id="titleHero">BOLT 1.40</h1>
+      <p class="lead">Ready to install the latest BOLT manager. Click the button below to begin the download process.</p>
+
+      <div>
+        <button id="openDownloadMenu" class="btn btn-sky" aria-haspopup="dialog" aria-controls="downloadMenu">Download BOLT</button>
+      </div>
+    </div>
+
+    <!-- Thank you / appreciation box (hidden by default) -->
+    <div class="thanks-wrap" id="thanksBox" aria-live="polite">
+      <h1>Thank you!</h1>
+      <p class="small" style="max-width:720px;margin:12px auto 0;">
+        We appreciate you downloading BOLT — your support helps the project grow. If you run into issues, please check the release notes or contact the maintainers.
+      </p>
+    </div>
+  </div>
+
+  <!-- Modal overlay for download menu -->
+  <div class="overlay" id="downloadMenu" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <h2>BOLT DOWNLOAD 1.40.</h2>
+      <p class="small">You're about to download the installer. SHA-256 is shown below for verification.</p>
+
+      <div class="details" id="shaBlock">
+        File: Boltinstallmanager.exe<br/>
+        SHA-256: <strong>478daeb6676b1a8d487be64796f8b0ac37aeea15b8bb19782fb7cdda92fb6e4f</strong>
+      </div>
+
+      <p class="small">If your browser blocks automatic download, use the manual link below.</p>
+
+      <div class="row" style="margin-top:8px;">
+        <button id="cancelDownload" class="btn btn-ghost">Cancel</button>
+        <button id="finalDownload" class="btn btn-sky">Final Download</button>
+      </div>
+
+      <div style="margin-top:12px;color:var(--muted);font-size:12px;">
+        <a id="manualLink" href="#" style="color:var(--sky);text-decoration:none;">Manual download link</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      // CONFIG - adjust only these if necessary
+      const DOWNLOAD_URL = "https://github.com/HypercloudAI/HypercloudAI/releases/download/v1.40/Boltinstallmanager.exe";
+      const SHA256 = "478daeb6676b1a8d487be64796f8b0ac37aeea15b8bb19782fb7cdda92fb6e4f";
+      const LOCAL_FLAG = "bolt_download_started_v1_40";
+
+      // Elements
+      const openBtn = document.getElementById('openDownloadMenu');
+      const overlay = document.getElementById('downloadMenu');
+      const cancelBtn = document.getElementById('cancelDownload');
+      const finalBtn = document.getElementById('finalDownload');
+      const manualLink = document.getElementById('manualLink');
+      const thanksBox = document.getElementById('thanksBox');
+      const mainHero = document.getElementById('mainHero');
+
+      // Set manual link href and sha display (in case config changed)
+      manualLink.href = DOWNLOAD_URL;
+      document.getElementById('shaBlock').innerHTML = "File: Boltinstallmanager.exe<br/>SHA-256: <strong>" + SHA256 + "</strong>";
+
+      // Show overlay
+      openBtn.addEventListener('click', function(){
+        overlay.classList.add('show');
+        overlay.setAttribute('aria-hidden', 'false');
+        // focus final download for accessibility
+        finalBtn.focus();
+      });
+
+      // Cancel
+      cancelBtn.addEventListener('click', function(){
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
+        openBtn.focus();
+      });
+
+      // Final download action
+      finalBtn.addEventListener('click', function(){
+        // Create a temporary anchor and click it to trigger download
+        try {
+          const a = document.createElement('a');
+          a.href = DOWNLOAD_URL;
+          // leave a.download unset so the browser tries to download the remote filename
+          a.rel = 'noopener noreferrer';
+          a.target = '_self';
+          // append, click, remove
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch (err) {
+          // fallback: open in new tab/window
+          window.open(DOWNLOAD_URL, '_blank', 'noopener');
+        }
+
+        // Mark that download started, then refresh the page quickly to show the thank-you state
+        try {
+          localStorage.setItem(LOCAL_FLAG, Date.now().toString());
+        } catch (e) {
+          // If localStorage is not available, do nothing
+        }
+
+        // Small delay to ensure the click event has a chance to start
+        setTimeout(function(){
+          // Reload the page to show the thank-you message after download started
+          window.location.reload();
+        }, 450);
+      });
+
+      // On load: if the download flag is present, show the thank-you box
+      window.addEventListener('DOMContentLoaded', function(){
+        try {
+          const started = localStorage.getItem(LOCAL_FLAG);
+          if (started) {
+            // Remove the main hero and show thanks
+            if (mainHero) mainHero.style.display = 'none';
+            thanksBox.classList.add('show');
+
+            // Clear the flag so it doesn't show on future visits
+            localStorage.removeItem(LOCAL_FLAG);
+          }
+        } catch (e) {
+          // ignore localStorage errors
+        }
+      });
+
+      // Accessibility: close modal on Escape
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && overlay.classList.contains('show')) {
+          overlay.classList.remove('show');
+          overlay.setAttribute('aria-hidden', 'true');
+          openBtn.focus();
+        }
+      });
+
+      // Prevent focus trap issues (basic)
+      overlay.addEventListener('click', function(ev){
+        if (ev.target === overlay) {
+          overlay.classList.remove('show');
+          overlay.setAttribute('aria-hidden', 'true');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
