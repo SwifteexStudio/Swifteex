@@ -7,307 +7,380 @@
   <link rel="icon" href="assets/boltlogo.ico" type="image/x-icon" />
   <style>
     :root{
-      --bg:#0b1220;
-      --card:#0f1724;
-      --white:#ffffff;
-      --sky:#87CEEB; /* sky blue */
-      --muted:#9aa6b2;
+      --bg1: #f6fbff;
+      --bg2: #e6f7ff;
+      --card: #ffffff;
+      --text: #0b2a3a;
+      --muted: #6b7c86;
+      --sky: #38bdf8; /* sky blue */
+      --accent: #1e90ff;
+      --happy: #ffdd57;
+      --shadow: 0 8px 30px rgba(16, 24, 40, 0.08);
+      --footer-gradient: linear-gradient(90deg,#ff4b4b,#9aa0a6);
+      --glass: rgba(255,255,255,0.7);
     }
+
     html,body{
       height:100%;
       margin:0;
       font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, #061028 0%, #071428 50%, #0b1220 100%);
-      color:var(--white);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(56,189,248,0.08), transparent),
+                  linear-gradient(180deg,var(--bg1), var(--bg2));
+      color:var(--text);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      -webkit-tap-highlight-color: transparent;
     }
 
+    /* Layout */
     .wrap{
       min-height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:40px;
+      padding:48px;
       box-sizing:border-box;
     }
 
-    .hero {
-      text-align:center;
-      max-width:900px;
+    .card {
       width:100%;
-      padding:48px;
-      border-radius:12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      border: 1px solid rgba(255,255,255,0.03);
+      max-width:920px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      border-radius:14px;
+      padding:40px;
+      box-shadow: var(--shadow);
+      display:flex;
+      gap:28px;
+      align-items:center;
+      overflow:hidden;
+      position:relative;
     }
 
-    .logo-row {
+    /* Friendly illustration-ish blob */
+    .left {
+      flex:0 0 220px;
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:16px;
-      margin-bottom:12px;
     }
 
     .logo {
-      width:56px;
-      height:56px;
-      border-radius:10px;
-      background:transparent;
-      display:inline-block;
+      width:140px;
+      height:140px;
+      border-radius:22px;
       background-image: url('assets/boltlogo.ico');
-      background-size:contain;
-      background-repeat:no-repeat;
+      background-size:cover;
       background-position:center;
+      box-shadow: 0 10px 30px rgba(30,144,255,0.12);
+      transform-origin:center;
+      animation: float 4s ease-in-out infinite;
     }
 
-    h1{
-      margin:8px 0 18px;
-      font-size:44px;
-      letter-spacing:2px;
-      color:var(--white);
+    @keyframes float {
+      0% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+      100% { transform: translateY(0) rotate(-2deg); }
     }
 
-    p.lead{
-      margin:0 0 28px;
+    .right {
+      flex:1;
+      min-width:0;
+    }
+
+    h1 {
+      margin:0 0 8px;
+      font-size:40px;
+      color:var(--text);
+      letter-spacing:1px;
+    }
+
+    .subtitle {
+      margin:0 0 20px;
       color:var(--muted);
       font-size:15px;
     }
 
+    /* Download button */
+    .actions { display:flex; gap:12px; align-items:center; }
+
     .btn {
-      display:inline-block;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
       cursor:pointer;
       border:0;
-      padding:12px 22px;
-      border-radius:10px;
-      font-weight:600;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:700;
       font-size:15px;
-      transition:transform .12s ease, box-shadow .12s ease;
+      text-decoration:none;
       user-select:none;
+      transition: transform .14s cubic-bezier(.2,.9,.2,1), box-shadow .14s;
     }
 
-    .btn:active { transform:translateY(1px); }
+    .btn:active { transform: translateY(1px); }
 
-    .btn-sky {
-      background:var(--sky);
-      color:var(--white);
-      box-shadow: 0 8px 18px rgba(135,206,235,0.12), inset 0 -2px 0 rgba(0,0,0,0.05);
-      border: 1px solid rgba(255,255,255,0.06);
+    .btn-primary {
+      background: linear-gradient(180deg, var(--sky), var(--accent));
+      color:white;
+      box-shadow: 0 8px 22px rgba(56,189,248,0.18);
+      border: 1px solid rgba(255,255,255,0.2);
     }
 
     .btn-ghost {
       background:transparent;
-      color:var(--sky);
-      border:1px solid rgba(135,206,235,0.12);
+      border:1px solid rgba(13,45,62,0.06);
+      color:var(--text);
+      font-weight:600;
+      padding:10px 14px;
+      border-radius:10px;
     }
 
-    /* Modal / Menu */
+    /* Tiny happy badge */
+    .badge {
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background: linear-gradient(90deg,#fff0b8,#ffd86b);
+      color:#6a4f00;
+      font-weight:700;
+      font-size:13px;
+      box-shadow: 0 6px 18px rgba(255,221,87,0.12);
+    }
+
+    /* Modal */
     .overlay {
       position:fixed;
       inset:0;
       display:none;
       align-items:center;
       justify-content:center;
-      background: rgba(2,6,23,0.6);
+      background: rgba(8,15,20,0.45);
       z-index:1200;
-      padding:24px;
-      box-sizing:border-box;
+      padding:20px;
+      backdrop-filter: blur(6px) saturate(120%);
     }
-
     .overlay.show { display:flex; }
 
     .modal {
       width:100%;
       max-width:520px;
-      background: linear-gradient(180deg, #071026, #081226);
       border-radius:12px;
-      padding:22px;
-      box-shadow: 0 18px 50px rgba(2,6,23,0.7);
-      border:1px solid rgba(255,255,255,0.03);
-      color:var(--white);
+      background: linear-gradient(180deg,#ffffff,#fbfeff);
+      padding:20px;
+      box-shadow: 0 18px 60px rgba(20,30,40,0.16);
+      text-align:left;
+      transform-origin:center;
+      animation: pop .16s ease;
+      border:1px solid rgba(14,56,88,0.04);
     }
+    @keyframes pop { from { transform: translateY(8px) scale(.995); opacity:0 } to { transform:none; opacity:1 } }
 
     .modal h2 {
-      margin:0 0 10px;
-      font-size:20px;
-      letter-spacing:1px;
+      margin:0 0 6px;
+      font-size:18px;
+      color:var(--text);
     }
+    .modal p { margin:0 0 14px; color:var(--muted); font-size:13px; }
 
-    .modal p { margin:0 0 16px; color:var(--muted); font-size:13px; }
-
-    .details {
-      background: rgba(255,255,255,0.02);
-      padding:12px;
-      border-radius:8px;
-      font-family:monospace;
-      color: #d7e9f6;
+    .asset {
+      background: linear-gradient(90deg, rgba(56,189,248,0.06), rgba(30,144,255,0.02));
+      padding:10px 12px;
+      border-radius:10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
       font-size:13px;
-      margin-bottom:14px;
-      word-break:break-all;
+      color:var(--text);
+      margin-bottom:12px;
     }
 
-    .row {
-      display:flex;
-      gap:10px;
-      justify-content:flex-end;
-      align-items:center;
-    }
+    .modal .row { display:flex; gap:10px; justify-content:flex-end; }
 
-    .small {
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    /* Thank you message */
-    .thanks-wrap {
+    /* Thank you view */
+    .thanks {
       display:none;
       text-align:center;
       padding:40px;
     }
-    .thanks-wrap.show { display:block; }
+    .thanks.show {
+      display:block;
+    }
+    .thanks h2 { margin:0 0 8px; font-size:28px; color:var(--text); }
+    .thanks p { margin:0; color:var(--muted); }
 
-    @media (max-width:520px){
-      h1 { font-size:34px; }
-      .hero { padding:28px; }
+    /* Footer small gradient text */
+    .footer {
+      width:100%;
+      text-align:center;
+      margin-top:18px;
+      font-size:12px;
+      letter-spacing:.2px;
+    }
+    .madeby {
+      display:inline-block;
+      font-weight:700;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      background:linear-gradient(90deg,#ff4b4b,#9aa0a6);
+      color:#fff;
+      opacity:0.95;
+      transform:translateY(0);
+    }
+    /* gradient text alternative (small) */
+    .madeby-text {
+      display:block;
+      margin-top:8px;
+      font-size:12px;
+      font-weight:600;
+      background: var(--footer-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color:transparent;
+    }
+
+    /* Small helpers */
+    .muted { color:var(--muted); font-size:13px; }
+    a.inline { color:var(--accent); text-decoration:none; }
+
+    @media (max-width:720px){
+      .card { padding:20px; gap:18px; flex-direction:column; align-items:flex-start; }
+      .left { flex:0 0 auto; }
+      h1{ font-size:28px; }
+      .logo { width:108px; height:108px; border-radius:16px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="hero" id="mainHero" role="main" aria-labelledby="titleHero">
-      <div class="logo-row">
-        <div class="logo" aria-hidden="true"></div>
+    <div class="card" role="main" aria-labelledby="title">
+      <div class="left" aria-hidden="true">
+        <div class="logo" title="BOLT logo"></div>
       </div>
 
-      <h1 id="titleHero">BOLT 1.40</h1>
-      <p class="lead">Ready to install the latest BOLT manager. Click the button below to begin the download process.</p>
+      <div class="right">
+        <h1 id="title">BOLT 1.40</h1>
+        <p class="subtitle">Fast, focused, and friendly — install the official BOLT runtime.</p>
 
-      <div>
-        <button id="openDownloadMenu" class="btn btn-sky" aria-haspopup="dialog" aria-controls="downloadMenu">Download BOLT</button>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+          <div class="badge" aria-hidden="true">Stable</div>
+          <div class="muted">Build 14100 • Released Jan 17</div>
+        </div>
+
+        <div class="actions">
+          <!-- Primary button opens modal -->
+          <button id="openBtn" class="btn btn-primary" aria-haspopup="dialog" aria-controls="downloadModal">
+            <!-- white text on sky blue button -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 11l4 4 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 21H3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Download BOLT
+          </button>
+
+          <a class="btn btn-ghost" href="https://github.com/SwifteexStudio/Swifteex" target="_blank" rel="noopener">Repository</a>
+        </div>
+
+        <div class="footer" aria-hidden="true">
+          <span class="madeby-text">made by Swifteex Stdio</span>
+        </div>
       </div>
     </div>
 
-    <!-- Thank you / appreciation box (hidden by default) -->
-    <div class="thanks-wrap" id="thanksBox" aria-live="polite">
-      <h1>Thank you!</h1>
-      <p class="small" style="max-width:720px;margin:12px auto 0;">
-        We appreciate you downloading BOLT — your support helps the project grow. If you run into issues, please check the release notes or contact the maintainers.
-      </p>
+    <!-- Thank-you view (hidden, shown after download) -->
+    <div id="thanks" class="thanks" aria-live="polite">
+      <h2>Thank you!</h2>
+      <p class="muted">Your download has started — we appreciate your support.</p>
     </div>
   </div>
 
-  <!-- Modal overlay for download menu -->
-  <div class="overlay" id="downloadMenu" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <h2>BOLT DOWNLOAD 1.40.</h2>
-      <p class="small">You're about to download the installer. SHA-256 is shown below for verification.</p>
+  <!-- Modal overlay -->
+  <div id="downloadModal" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">BOLT DOWNLOAD 1.40</h2>
+      <p class="muted">Click the button below to start the official installer. This action will open the GitHub-hosted download.</p>
 
-      <div class="details" id="shaBlock">
-        File: Boltinstallmanager.exe<br/>
-        SHA-256: <strong>478daeb6676b1a8d487be64796f8b0ac37aeea15b8bb19782fb7cdda92fb6e4f</strong>
+      <div class="asset" aria-hidden="false">
+        boltsetupmanager.exe
       </div>
 
-      <p class="small">If your browser blocks automatic download, use the manual link below.</p>
+      <div style="display:flex;gap:10px;justify-content:flex-end;align-items:center;">
+        <button id="closeModal" class="btn btn-ghost">Cancel</button>
 
-      <div class="row" style="margin-top:8px;">
-        <button id="cancelDownload" class="btn btn-ghost">Cancel</button>
-        <button id="finalDownload" class="btn btn-sky">Final Download</button>
-      </div>
-
-      <div style="margin-top:12px;color:var(--muted);font-size:12px;">
-        <a id="manualLink" href="#" style="color:var(--sky);text-decoration:none;">Manual download link</a>
+        <!-- FINAL DOWNLOAD: normal anchor so browser treats as real user click -->
+        <a id="finalDownload"
+           class="btn btn-primary"
+           href="https://github.com/SwifteexStudio/Swifteex/releases/download/BOLT/boltsetupmanager.exe"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="Download boltsetupmanager.exe from GitHub">
+          Final Download
+        </a>
       </div>
     </div>
   </div>
 
   <script>
     (function(){
-      // CONFIG - adjust only these if necessary
-      const DOWNLOAD_URL = "https://github.com/HypercloudAI/HypercloudAI/releases/download/v1.40/Boltinstallmanager.exe";
-      const SHA256 = "478daeb6676b1a8d487be64796f8b0ac37aeea15b8bb19782fb7cdda92fb6e4f";
-      const LOCAL_FLAG = "bolt_download_started_v1_40";
-
       // Elements
-      const openBtn = document.getElementById('openDownloadMenu');
-      const overlay = document.getElementById('downloadMenu');
-      const cancelBtn = document.getElementById('cancelDownload');
-      const finalBtn = document.getElementById('finalDownload');
-      const manualLink = document.getElementById('manualLink');
-      const thanksBox = document.getElementById('thanksBox');
-      const mainHero = document.getElementById('mainHero');
+      const openBtn = document.getElementById('openBtn');
+      const overlay = document.getElementById('downloadModal');
+      const closeModal = document.getElementById('closeModal');
+      const finalDownload = document.getElementById('finalDownload');
+      const thanks = document.getElementById('thanks');
+      const card = document.querySelector('.card');
 
-      // Set manual link href and sha display (in case config changed)
-      manualLink.href = DOWNLOAD_URL;
-      document.getElementById('shaBlock').innerHTML = "File: Boltinstallmanager.exe<br/>SHA-256: <strong>" + SHA256 + "</strong>";
+      const FLAG = 'bolt_bolt_v1_40_started';
 
-      // Show overlay
-      openBtn.addEventListener('click', function(){
+      // Open modal
+      openBtn.addEventListener('click', () => {
         overlay.classList.add('show');
         overlay.setAttribute('aria-hidden', 'false');
-        // focus final download for accessibility
-        finalBtn.focus();
+        // focus final download for keyboard users
+        finalDownload.focus();
       });
 
-      // Cancel
-      cancelBtn.addEventListener('click', function(){
+      // Close modal
+      closeModal.addEventListener('click', () => {
         overlay.classList.remove('show');
         overlay.setAttribute('aria-hidden', 'true');
         openBtn.focus();
       });
 
-      // Final download action
-      finalBtn.addEventListener('click', function(){
-        // Create a temporary anchor and click it to trigger download
+      // If user clicks the Final Download anchor: set local flag and then show thank-you on reload
+      finalDownload.addEventListener('click', (ev) => {
         try {
-          const a = document.createElement('a');
-          a.href = DOWNLOAD_URL;
-          // leave a.download unset so the browser tries to download the remote filename
-          a.rel = 'noopener noreferrer';
-          a.target = '_self';
-          // append, click, remove
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        } catch (err) {
-          // fallback: open in new tab/window
-          window.open(DOWNLOAD_URL, '_blank', 'noopener');
-        }
+          localStorage.setItem(FLAG, Date.now().toString());
+        } catch (e) { /* ignore */ }
 
-        // Mark that download started, then refresh the page quickly to show the thank-you state
-        try {
-          localStorage.setItem(LOCAL_FLAG, Date.now().toString());
-        } catch (e) {
-          // If localStorage is not available, do nothing
-        }
+        // Let the browser start the download (anchor opens in new tab/window) then close modal
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
 
-        // Small delay to ensure the click event has a chance to start
-        setTimeout(function(){
-          // Reload the page to show the thank-you message after download started
-          window.location.reload();
-        }, 450);
+        // After a short delay show the thank you state in this page
+        setTimeout(() => {
+          // Hide main card and show thanks message inline
+          try {
+            card.style.display = 'none';
+            thanks.classList.add('show');
+          } catch (e) { /* ignore */ }
+        }, 700);
       });
 
-      // On load: if the download flag is present, show the thank-you box
-      window.addEventListener('DOMContentLoaded', function(){
+      // On page load, if flag exists show thanks (handles reloads)
+      window.addEventListener('DOMContentLoaded', () => {
         try {
-          const started = localStorage.getItem(LOCAL_FLAG);
-          if (started) {
-            // Remove the main hero and show thanks
-            if (mainHero) mainHero.style.display = 'none';
-            thanksBox.classList.add('show');
-
-            // Clear the flag so it doesn't show on future visits
-            localStorage.removeItem(LOCAL_FLAG);
+          if (localStorage.getItem(FLAG)) {
+            // Clear flag and show thanks
+            localStorage.removeItem(FLAG);
+            card.style.display = 'none';
+            thanks.classList.add('show');
           }
-        } catch (e) {
-          // ignore localStorage errors
-        }
+        } catch (e) { /* ignore */ }
       });
 
-      // Accessibility: close modal on Escape
-      document.addEventListener('keydown', function(e){
+      // Close modal on Esc
+      document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) {
           overlay.classList.remove('show');
           overlay.setAttribute('aria-hidden', 'true');
@@ -315,8 +388,8 @@
         }
       });
 
-      // Prevent focus trap issues (basic)
-      overlay.addEventListener('click', function(ev){
+      // Click outside modal to close
+      overlay.addEventListener('click', (ev) => {
         if (ev.target === overlay) {
           overlay.classList.remove('show');
           overlay.setAttribute('aria-hidden', 'true');
