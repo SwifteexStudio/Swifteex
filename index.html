@@ -6,62 +6,38 @@
   <title>Swifteex Studio</title>
 
   <style>
+    /* ---------------- design tokens ---------------- */
     :root{
       --bg:#0d0f13;
       --card:#14161b;
-      --muted:rgba(234,234,234,0.75);
+      --muted:rgba(234,234,234,0.78);
+      --muted-2:rgba(234,234,234,0.58);
       --accent-start:#b11226;
       --accent-end:#1b1e24;
       --accent-text:#fff;
       --nav-bg:#0f1216;
+      --glass: rgba(255,255,255,0.02);
+      --radius:14px;
+      --gap:18px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+      --max-width:980px;
     }
+
+    /* ---------- base ---------- */
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:var(--bg);color:#eaeaea;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    html,body{height:100%;margin:0;background:var(--bg);color:#eaeaea;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
     a{color:inherit;text-decoration:none}
     main{min-height:100vh;display:flex;flex-direction:column}
+    img{max-width:100%;height:auto;display:block}
 
-    /* HERO: slides down from above into middle of viewport */
-    .hero-wrap{position:relative;height:100vh;overflow:hidden}
-    .hero{
-      position:absolute;
-      left:50%;
-      top:-120vh;               /* start off-screen above */
-      transform:translateX(-50%);
-      width:min(980px,94%);
-      max-width:980px;
-      height:52vh;
-      border-radius:14px;
-      padding:36px 40px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      text-align:center;
-      gap:12px;
-      color:var(--accent-text);
-      background:linear-gradient(180deg,var(--accent-start),var(--accent-end));
-      box-shadow:0 30px 60px rgba(0,0,0,0.6), 0 6px 18px rgba(0,0,0,0.45);
-      animation:hero-slide 850ms cubic-bezier(.2,.9,.2,1) forwards;
-    }
-    @keyframes hero-slide{
-      to{ top: 16vh; } /* lands roughly near middle on most viewports */
-    }
-
-    .hero h1{font-size:clamp(28px,4.5vw,44px); margin:0; letter-spacing:0.6px;}
-    .hero .tag{opacity:0.92;font-weight:500;color:rgba(255,255,255,0.92)}
-    .hero .sub{opacity:0.9;color:rgba(255,255,255,0.9);max-width:800px;margin:0 auto}
-
-    .partners-preview{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
-    .pill{padding:7px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.02);font-size:0.92rem}
-
-    /* fixed top-right hamburger + nav */
+    /* ---------- topbar / nav ---------- */
     .topbar{position:fixed;right:20px;top:18px;z-index:1400;display:flex;align-items:center;gap:12px}
-    .hamburger{width:36px;height:28px;display:inline-flex;flex-direction:column;justify-content:center;gap:5px;padding:6px;border-radius:8px;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,0.04)}
+    .hamburger{width:44px;height:40px;display:inline-flex;flex-direction:column;justify-content:center;gap:6px;padding:8px;border-radius:10px;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,0.04)}
     .hamburger .bar{height:3px;background:#fff;border-radius:2px;transition:transform .28s, opacity .28s}
     .hamburger[aria-expanded="true"] .bar:nth-child(1){transform:translateY(6px) rotate(45deg)}
     .hamburger[aria-expanded="true"] .bar:nth-child(2){opacity:0}
     .hamburger[aria-expanded="true"] .bar:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 
-    /* slide-in nav panel */
     .nav-panel{
       position:fixed;
       right:-320px;
@@ -71,38 +47,87 @@
       background:linear-gradient(180deg,var(--nav-bg),#121316);
       box-shadow:-24px 0 40px rgba(0,0,0,0.6);
       padding:72px 18px;
-      transition:right .32s cubic-bezier(.2,.9,.2,1);
+      transition:right .32s var(--ease);
       z-index:1300;
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
     }
     .nav-panel.open{ right:0; }
-    .nav-panel a{display:block;padding:12px 14px;border-radius:8px;color:#e9eef8;font-weight:600}
+    .nav-panel a{display:block;padding:12px 14px;border-radius:10px;color:#e9eef8;font-weight:700}
     .nav-panel a:hover{background:rgba(255,255,255,0.03)}
-    .nav-panel .small{font-size:0.86rem;color:var(--muted);font-weight:500;padding:6px 14px;margin-top:10px}
+    .nav-panel .small{font-size:0.92rem;color:var(--muted);font-weight:600;padding:6px 14px;margin-top:8px}
 
-    /* content area below hero */
-    .content{max-width:980px;margin:28vh auto 80px;padding:0 20px;display:grid;gap:28px}
-    .card{background:var(--card);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(0,0,0,0.45)}
-    h2{color:#ff6b78;margin:0 0 10px 0;font-size:1.2rem}
+    /* ---------- hero ---------- */
+    .hero-wrap{position:relative;height:100vh;overflow:hidden}
+    .hero{
+      position:absolute;
+      left:50%;
+      top:-120vh;               /* start off-screen above */
+      transform:translateX(-50%);
+      width:min(var(--max-width),94%);
+      max-width:var(--max-width);
+      height:52vh;
+      border-radius:var(--radius);
+      padding:36px 40px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      text-align:center;
+      gap:10px;
+      color:var(--accent-text);
+      background: linear-gradient(180deg,var(--accent-start), var(--accent-end));
+      box-shadow:0 30px 60px rgba(0,0,0,0.6), 0 6px 18px rgba(0,0,0,0.45);
+      animation:hero-slide 850ms var(--ease) forwards;
+    }
+    @keyframes hero-slide{ to{ top: 16vh; } }
+
+    .hero h1{font-size:clamp(28px,4.5vw,44px); margin:0; letter-spacing:0.4px}
+    .hero .tag{opacity:0.95;font-weight:600;color:rgba(255,255,255,0.95)}
+    .hero .sub{opacity:0.95;color:rgba(255,255,255,0.92);max-width:840px;margin:0 auto;font-size:15px}
+    .hero .cta-row{display:flex;gap:10px;justify-content:center;margin-top:12px}
+
+    .pill{padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);font-size:0.94rem;font-weight:700}
+
+    /* ---------- content ---------- */
+    .content{max-width:var(--max-width);margin:28vh auto 80px;padding:0 20px;display:grid;gap:24px}
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:22px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 8px 24px rgba(0,0,0,0.45);
+      transform-origin:center;
+      opacity:0;
+      transform: translateY(12px);
+      transition: transform .6s var(--ease), opacity .6s var(--ease);
+    }
+    .card.revealed { opacity:1; transform:none; }
+
+    h2{color:#ff6b78;margin:0 0 10px 0;font-size:1.1rem}
     p,li{color:var(--muted);line-height:1.5}
     ul{padding-left:18px}
 
-    /* partnerships list */
+    /* ---------- partner / SJ ---------- */
     .partner{display:flex;gap:12px;align-items:flex-start}
     .partner .meta{flex:1}
-    .partner .meta a{color:#a6d3ff;font-weight:600}
+    .partner .meta a{color:#a6d3ff;font-weight:700}
     .partner .meta p{margin-top:6px;margin-bottom:0;color:var(--muted);font-size:0.95rem}
 
-    footer{margin:40px 0 60px;text-align:center;color:rgba(234,234,234,0.5);font-size:0.9rem}
+    /* ---------- footer ---------- */
+    footer{margin:40px 0 60px;text-align:center;color:rgba(234,234,234,0.5);font-size:0.95rem}
 
-    /* responsive tweaks */
+    /* ---------- small helpers ---------- */
+    .kicker{font-weight:700;color:#ffd7dc;background:rgba(0,0,0,0.06);display:inline-block;padding:6px 10px;border-radius:999px;margin-bottom:8px}
+    .muted-2{color:var(--muted-2)}
+
+    /* ---------- responsive ---------- */
     @media (max-width:720px){
       .hero{width:92%;height:60vh;padding:28px}
       .nav-panel{width:100%;right:-100%}
       .nav-panel.open{right:0}
       .content{margin-top:66vh}
+      .card{padding:16px}
     }
   </style>
 </head>
@@ -121,76 +146,83 @@
     <div class="hero-wrap" role="region" aria-label="Swifteex Studio introduction">
       <div class="hero" id="hero">
         <h1>Swifteex Studio</h1>
-        <div class="tag">A management layer owned by Hypercloud</div>
-        <p class="sub">Swifteex is the platform that manages product portfolios and web properties under Hypercloud. We focus on stability, curated tooling, and long-term stewardship of software like BOLT.</p>
+        <div class="tag">Product stewardship & secure tooling</div>
+        <p class="sub">We manage focused products and web properties with an emphasis on reliability, security, and long-term maintenance. Explore current projects and partners below.</p>
 
-        <div class="partners-preview" aria-hidden="false" role="list">
-          <span class="pill" role="listitem">Hypercloud</span>
+        <div class="cta-row" aria-hidden="false" role="list">
           <span class="pill" role="listitem">BOLT</span>
-          <span class="pill" role="listitem">SJ Team</span>
+          <span class="pill" role="listitem">SJ Consultation</span>
         </div>
       </div>
     </div>
 
-    <!-- sliding nav panel -->
-    <nav id="navPanel" class="nav-panel" aria-hidden="true" aria-label="Primary">
-      <a href="#about" data-action="scroll">About Us</a>
+    <!-- slide-in nav panel -->
+    <nav id="navPanel" class="nav-panel" aria-hidden="true" aria-label="Primary navigation">
+      <a href="#about" data-action="scroll">About</a>
       <a href="bolt.html" id="boltLink" title="Open BOLT (opens bolt.html)">BOLT</a>
-      <a href="#partners" data-action="scroll">Partnerships</a>
+      <a href="#partners" data-action="scroll">Partners</a>
 
-      <div class="small">Quick links</div>
-      <a href="https://github.com/HypercloudAI/HypercloudAI" target="_blank" rel="noopener">Hypercloud (repo)</a>
-      <div style="height:8px"></div>
-      <div class="small">Tip: press Esc to close the menu</div>
+      <div class="small">Contact</div>
+      <a href="mailto:swifteexstudio@gmail.com" title="Email support">swifteexstudio@gmail.com</a>
     </nav>
 
     <!-- page content -->
-    <div class="content" id="content">
+    <div class="content" id="content" aria-live="polite">
       <section id="about" class="card" aria-labelledby="about-title">
-        <h2 id="about-title">About Us</h2>
-        <p>Swifteex Studio is a platform & management studio owned by <strong>Hypercloud</strong>. We manage a focused set of internal products and websites, ensuring long-term reliability and proper operational ownership. Our approach favors maintainability and minimalism over flash — we build tools to last.</p>
+        <div class="kicker">About</div>
+        <h2 id="about-title">About Swifteex Studio</h2>
+        <p>Swifteex Studio is the management studio operating under Hypercloud that curates product portfolios and web services. We prioritize security, stability, and maintainability so teams can rely on tools like BOLT in production-grade environments.</p>
       </section>
 
       <section id="bolt" class="card" aria-labelledby="bolt-title">
+        <div class="kicker">Project</div>
         <h2 id="bolt-title">BOLT</h2>
-        <p><strong>BOLT</strong> is a flagship, system-level tool managed under Swifteex. It emphasizes speed, small footprint, and straightforward integration. <a href="bolt.html" id="bolt-link-inline">Open BOLT (bolt.html)</a></p>
+        <p><strong>BOLT</strong> is a system-level runtime and manager built for speed and low friction integration. Open the BOLT dashboard or installer page to proceed: <a href="bolt.html" id="bolt-link-inline">Open BOLT</a>.</p>
       </section>
 
       <section id="partners" class="card" aria-labelledby="partners-title">
+        <div class="kicker">Partners</div>
         <h2 id="partners-title">Partnerships</h2>
 
         <div class="partner" style="margin-bottom:14px">
           <div class="meta">
-            <div style="font-weight:700">SJ Team</div>
-            <div style="margin-top:6px"><a href="https://sj-consultation.github.io/SJteam" target="_blank" rel="noopener">https://sj-consultation.github.io/SJteam</a></div>
-            <p>Short description: SJ Team provides consultation and development collaboration on web projects. Their public page (linked above) lists team details, project samples, and contact pathways.</p>
+            <div style="font-weight:700">SJ Consultation</div>
+            <div style="margin-top:6px"><a href="https://sj-consultation.github.io/SJteam" target="_blank" rel="noopener">sj-consultation.github.io/SJteam</a></div>
+            <p><strong>SJ Consultation</strong> is a security consultation team providing audit, hardening, and incident-prep services. For more information and contact details, visit their website.</p>
           </div>
         </div>
 
         <div class="partner">
           <div class="meta">
             <div style="font-weight:700">Hypercloud</div>
-            <p>Parent organization and infrastructure owner. Hypercloud handles broader strategy, governance, and platform-level hosting for Swifteex and its products.</p>
+            <p>Parent organization and platform owner for Swifteex Studio. Hypercloud provides hosting, governance, and infrastructure support for our products.</p>
           </div>
         </div>
-
       </section>
 
-      <footer role="contentinfo">© Hypercloud · Swifteex Studio</footer>
+      <footer role="contentinfo" class="card" style="text-align:center">
+        <div style="font-weight:700">© Hypercloud · Swifteex Studio</div>
+        <div class="muted-2" style="margin-top:8px">Built for reliability and maintainability — contact <a href="mailto:swifteexstudio@gmail.com">swifteexstudio@gmail.com</a></div>
+      </footer>
     </div>
   </main>
 
   <script>
     (function(){
+      // elements
       const hamburger = document.getElementById('hamburger');
       const navPanel = document.getElementById('navPanel');
 
+      // open/close nav
       function openNav(){
         navPanel.classList.add('open');
         navPanel.setAttribute('aria-hidden','false');
         hamburger.setAttribute('aria-expanded','true');
         document.addEventListener('click', outsideClick);
         document.addEventListener('keydown', onKey);
+        // move focus into panel for keyboard users
+        const first = navPanel.querySelector('a');
+        if(first) first.focus();
       }
       function closeNav(){
         navPanel.classList.remove('open');
@@ -198,26 +230,19 @@
         hamburger.setAttribute('aria-expanded','false');
         document.removeEventListener('click', outsideClick);
         document.removeEventListener('keydown', onKey);
+        hamburger.focus();
       }
-
-      function toggleNav(){
-        if(navPanel.classList.contains('open')) closeNav(); else openNav();
-      }
+      function toggleNav(){ navPanel.classList.contains('open') ? closeNav() : openNav(); }
 
       function outsideClick(e){
         if(!navPanel.contains(e.target) && !hamburger.contains(e.target)) closeNav();
       }
+      function onKey(e){ if(e.key === 'Escape') closeNav(); }
 
-      function onKey(e){
-        if(e.key === 'Escape') closeNav();
-      }
+      hamburger.addEventListener('click', ev => { ev.stopPropagation(); toggleNav(); });
+      hamburger.addEventListener('keydown', ev => { if(ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggleNav(); } });
 
-      hamburger.addEventListener('click', (ev)=>{
-        ev.stopPropagation();
-        toggleNav();
-      });
-
-      // Smooth scroll for internal anchors inside nav
+      // smooth scroll for internal anchors
       document.querySelectorAll('a[data-action="scroll"]').forEach(a=>{
         a.addEventListener('click', function(ev){
           ev.preventDefault();
@@ -225,21 +250,38 @@
           const href = this.getAttribute('href');
           const el = document.querySelector(href);
           if(el){
-            const top = el.getBoundingClientRect().top + window.scrollY - 36;
+            const top = el.getBoundingClientRect().top + window.scrollY - 32;
             window.scrollTo({top,behavior:'smooth'});
           }
         });
       });
 
-      // bolt links: keep regular anchor so it navigates to bolt.html; also support programmatic navigation if needed
-      // (no extra code required; anchors will redirect naturally)
+      // reveal cards on scroll (explorable feel)
+      const cards = document.querySelectorAll('.card');
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(ent => {
+          if(ent.isIntersecting) {
+            ent.target.classList.add('revealed');
+            // once revealed, unobserve to avoid repeated work
+            io.unobserve(ent.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      cards.forEach(c => io.observe(c));
 
-      // Accessibility: focus trap minimal (focus first link when opening)
-      hamburger.addEventListener('keydown', (ev)=>{
-        if(ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggleNav(); }
+      // keyboard-friendly: jump to main content on 'S' key for quick exploration
+      document.addEventListener('keydown', (e) => {
+        if(e.key.toLowerCase() === 's' && document.activeElement.tagName === 'BODY') {
+          const first = document.querySelector('.card');
+          if(first){
+            first.scrollIntoView({behavior:'smooth', block:'center'});
+            first.focus({preventScroll:true});
+          }
+        }
       });
 
-      // ensure hero animation only once on load; nothing else needed
+      // small accessibility touch: ensure bolt link works normally (no JS needed)
+      // nothing else required
     })();
   </script>
 </body>
