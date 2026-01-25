@@ -9,18 +9,27 @@
     /* ---------------- design tokens ---------------- */
     :root{
       --bg:#0d0f13;
-      --card:#14161b;
+      --card:#121317;
       --muted:rgba(234,234,234,0.78);
       --muted-2:rgba(234,234,234,0.58);
-      --accent-start:#b11226;
+      --accent-start:#b11226; /* red */
       --accent-end:#1b1e24;
+      --bolt-grad-start:#b11226; /* red */
+      --bolt-grad-end:#1b6bf0;   /* blue */
       --accent-text:#fff;
       --nav-bg:#0f1216;
       --glass: rgba(255,255,255,0.02);
       --radius:14px;
-      --gap:18px;
+      --gap:14px;
       --ease: cubic-bezier(.2,.9,.2,1);
       --max-width:980px;
+
+      --ambient-duration: 22s;
+      --tilt-max: 6deg;
+      --card-tilt-max: 5deg;
+      --ripple-duration: 520ms;
+      --status-blink: 1200ms;
+      --touch-size: 48px;
     }
 
     /* ---------- base ---------- */
@@ -29,20 +38,23 @@
     a{color:inherit;text-decoration:none}
     main{min-height:100vh;display:flex;flex-direction:column}
     img{max-width:100%;height:auto;display:block}
+    button{font:inherit}
+    :focus{outline-offset:4px}
 
     /* ---------- topbar / nav ---------- */
-    .topbar{position:fixed;right:20px;top:18px;z-index:1400;display:flex;align-items:center;gap:12px}
-    .hamburger{width:44px;height:40px;display:inline-flex;flex-direction:column;justify-content:center;gap:6px;padding:8px;border-radius:10px;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,0.04)}
+    .topbar{position:fixed;right:16px;top:12px;z-index:1400;display:flex;align-items:center;gap:12px}
+    .hamburger{width:44px;height:44px;display:inline-flex;flex-direction:column;justify-content:center;gap:6px;padding:8px;border-radius:10px;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,0.04);position:relative;overflow:hidden}
     .hamburger .bar{height:3px;background:#fff;border-radius:2px;transition:transform .28s, opacity .28s}
     .hamburger[aria-expanded="true"] .bar:nth-child(1){transform:translateY(6px) rotate(45deg)}
     .hamburger[aria-expanded="true"] .bar:nth-child(2){opacity:0}
     .hamburger[aria-expanded="true"] .bar:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    .hamburger .ripple{position:absolute;border-radius:999px;transform:scale(0);opacity:.18;pointer-events:none}
 
     .nav-panel{
       position:fixed;
-      right:-320px;
+      right:-100%;
       top:0;
-      width:300px;
+      width:320px;
       height:100%;
       background:linear-gradient(180deg,var(--nav-bg),#121316);
       box-shadow:-24px 0 40px rgba(0,0,0,0.6);
@@ -58,18 +70,42 @@
     .nav-panel a:hover{background:rgba(255,255,255,0.03)}
     .nav-panel .small{font-size:0.92rem;color:var(--muted);font-weight:600;padding:6px 14px;margin-top:8px}
 
-    /* ---------- hero ---------- */
-    .hero-wrap{position:relative;height:100vh;overflow:hidden}
+    /* ---------- hero & ambient (NO extra gap) ---------- */
+    .hero-wrap{
+      position:relative;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:12vh 16px 6vh;
+      min-height:48vh;
+      perspective:900px;
+      overflow:visible;
+    }
+
+    .hero-wrap::before{
+      content:'';
+      position:absolute;inset:0;z-index:0;
+      background:
+        radial-gradient(800px 260px at 10% 18%, rgba(177,18,38,0.12), transparent 12%),
+        radial-gradient(600px 220px at 92% 80%, rgba(27,107,240,0.08), transparent 12%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%);
+      animation:ambient-move var(--ambient-duration) linear infinite;
+      pointer-events:none;
+      mix-blend-mode:overlay;
+    }
+    @keyframes ambient-move {
+      0%{ transform: translate3d(0,0,0) }
+      50%{ transform: translate3d(-6px,-8px,0) }
+      100%{ transform: translate3d(0,0,0) }
+    }
+
     .hero{
-      position:absolute;
-      left:50%;
-      top:-120vh;               /* start off-screen above */
-      transform:translateX(-50%);
-      width:min(var(--max-width),94%);
+      position:relative;
+      width:min(var(--max-width),96%);
       max-width:var(--max-width);
-      height:52vh;
       border-radius:var(--radius);
-      padding:36px 40px;
+      padding:30px 28px;
       display:flex;
       flex-direction:column;
       justify-content:center;
@@ -77,57 +113,98 @@
       gap:10px;
       color:var(--accent-text);
       background: linear-gradient(180deg,var(--accent-start), var(--accent-end));
-      box-shadow:0 30px 60px rgba(0,0,0,0.6), 0 6px 18px rgba(0,0,0,0.45);
-      animation:hero-slide 850ms var(--ease) forwards;
+      box-shadow:0 28px 56px rgba(0,0,0,0.6), 0 6px 18px rgba(0,0,0,0.45);
+      transform:translateY(-8px);
+      opacity:0;
+      animation:hero-entrance 700ms var(--ease) forwards;
+      z-index:2;
     }
-    @keyframes hero-slide{ to{ top: 16vh; } }
+    @keyframes hero-entrance { to{ transform:translateY(0); opacity:1 } }
 
-    .hero h1{font-size:clamp(28px,4.5vw,44px); margin:0; letter-spacing:0.4px}
-    .hero .tag{opacity:0.95;font-weight:600;color:rgba(255,255,255,0.95)}
+    .hero h1{font-size:clamp(24px,4.5vw,40px); margin:0; letter-spacing:0.3px}
+    .hero .greeting{font-weight:600;color:rgba(255,255,255,0.95);font-size:0.95rem}
     .hero .sub{opacity:0.95;color:rgba(255,255,255,0.92);max-width:840px;margin:0 auto;font-size:15px}
-    .hero .cta-row{display:flex;gap:10px;justify-content:center;margin-top:12px}
+    .cta-row{display:flex;gap:10px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+    .pill{padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);font-size:0.95rem;font-weight:800;cursor:pointer;min-height:var(--touch-size);display:inline-flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .pill:active{transform:translateY(1px)}
+    .pill:focus{outline:3px solid rgba(255,255,255,0.06);outline-offset:3px}
 
-    .pill{padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);font-size:0.94rem;font-weight:700}
+    /* BOLT highlight: red + blue gradient */
+    .pill#pill-bolt { background: linear-gradient(90deg, var(--bolt-grad-start), var(--bolt-grad-end)); border:1px solid rgba(255,255,255,0.08); color:#fff; box-shadow: 0 8px 30px rgba(27,107,240,0.12), inset 0 -4px 18px rgba(0,0,0,0.12); }
+    .card#bolt { background: linear-gradient(180deg, rgba(177,18,38,0.06), rgba(27,107,240,0.03)), var(--card); border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 18px 56px rgba(11,13,17,0.65), 0 6px 20px rgba(27,107,240,0.06); position:relative; overflow:visible; }
+
+    /* small edge glow for bolt title */
+    .bolt-accent {
+      display:inline-block;padding:6px 10px;border-radius:8px;font-weight:800;background:linear-gradient(90deg,var(--bolt-grad-start),var(--bolt-grad-end));
+      color:#fff; box-shadow:0 10px 30px rgba(177,18,38,0.12);
+    }
 
     /* ---------- content ---------- */
-    .content{max-width:var(--max-width);margin:28vh auto 80px;padding:0 20px;display:grid;gap:24px}
+    .content{max-width:var(--max-width);margin:18px auto 80px;padding:0 18px;display:grid;gap:18px;position:relative;z-index:2}
     .card{
       background:var(--card);
       border-radius:12px;
-      padding:22px;
+      padding:18px;
       border:1px solid rgba(255,255,255,0.03);
       box-shadow:0 8px 24px rgba(0,0,0,0.45);
       transform-origin:center;
       opacity:0;
-      transform: translateY(12px);
-      transition: transform .6s var(--ease), opacity .6s var(--ease);
+      transform: translateY(12px) rotateX(0deg);
+      transition: transform .45s var(--ease), opacity .45s var(--ease), box-shadow .3s var(--ease);
+      position:relative;
     }
     .card.revealed { opacity:1; transform:none; }
+    .card h2{color:#ff6b78;margin:0 0 6px 0;font-size:1.02rem}
+    .card p,li{color:var(--muted);line-height:1.5;margin:0}
+    .card .meta a{color:#a6d3ff}
+    .expand-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:10px;color:var(--accent-text);font-weight:700;cursor:pointer;min-height:40px}
+    .expandable{max-height:0;overflow:hidden;transition:max-height .46s var(--ease), padding .36s var(--ease);padding:0}
 
-    h2{color:#ff6b78;margin:0 0 10px 0;font-size:1.1rem}
-    p,li{color:var(--muted);line-height:1.5}
-    ul{padding-left:18px}
+    /* tilt hint removed (unnecessary text removed) */
 
-    /* ---------- partner / SJ ---------- */
-    .partner{display:flex;gap:12px;align-items:flex-start}
-    .partner .meta{flex:1}
-    .partner .meta a{color:#a6d3ff;font-weight:700}
-    .partner .meta p{margin-top:6px;margin-bottom:0;color:var(--muted);font-size:0.95rem}
+    /* ---------- system status widget ---------- */
+    .status-widget{
+      position:fixed;left:14px;bottom:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;padding:10px 12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(0,0,0,0.5);z-index:1500;font-weight:700;font-size:0.88rem;
+      display:flex;gap:12px;align-items:center;backdrop-filter:blur(6px)
+    }
+    .status-item{display:flex;gap:8px;align-items:center;color:var(--muted);font-weight:600}
+    .status-dot{width:10px;height:10px;border-radius:50%;background:#2ecc71;box-shadow:0 0 6px rgba(46,204,113,0.28);animation:blink var(--status-blink) infinite}
+    @keyframes blink{0%{opacity:1}50%{opacity:.35}100%{opacity:1}}
 
-    /* ---------- footer ---------- */
-    footer{margin:40px 0 60px;text-align:center;color:rgba(234,234,234,0.5);font-size:0.95rem}
-
-    /* ---------- small helpers ---------- */
-    .kicker{font-weight:700;color:#ffd7dc;background:rgba(0,0,0,0.06);display:inline-block;padding:6px 10px;border-radius:999px;margin-bottom:8px}
-    .muted-2{color:var(--muted-2)}
+    /* ---------- feedback / ripple ---------- */
+    .ripple{
+      position:absolute;border-radius:999px;transform:scale(0);opacity:.18;pointer-events:none;
+      background:rgba(255,255,255,0.12);
+      animation:ripple-grow var(--ripple-duration) cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    @keyframes ripple-grow { to{ transform:scale(2.6); opacity:0; } }
 
     /* ---------- responsive ---------- */
+    @media (max-width:920px){
+      .hero-wrap{padding:10vh 14px 6vh; min-height:44vh}
+      .hero{padding:22px 18px}
+      .pill{min-width:120px;padding:12px 14px}
+      :root{--card-tilt-max:4deg; --tilt-max:4deg}
+    }
     @media (max-width:720px){
-      .hero{width:92%;height:60vh;padding:28px}
+      .hero-wrap{padding:8vh 12px 4vh; min-height:40vh}
+      .hero{padding:18px 14px;border-radius:12px}
       .nav-panel{width:100%;right:-100%}
       .nav-panel.open{right:0}
-      .content{margin-top:66vh}
-      .card{padding:16px}
+      .content{margin-top:8px;padding:0 12px}
+      .status-widget{left:10px;bottom:10px;font-size:0.82rem;padding:8px 10px}
+      .pill{min-width:110px;padding:12px 12px}
+      .card{padding:14px}
+    }
+
+    /* accessibility focus */
+    a:focus, button:focus { outline: 3px solid rgba(255,255,255,0.06); outline-offset:4px }
+
+    /* reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      * { animation-duration: 2s !important; transition-duration: 0s !important; }
+      .hero-wrap::before { animation: none !important; }
     }
   </style>
 </head>
@@ -135,23 +212,26 @@
   <main>
     <!-- top-right control -->
     <div class="topbar" aria-hidden="false">
-      <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu">
+      <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false" title="Menu" aria-controls="navPanel">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </button>
     </div>
 
-    <!-- slide-in hero -->
+    <!-- slide-in hero (no big gap) -->
     <div class="hero-wrap" role="region" aria-label="Swifteex Studio introduction">
-      <div class="hero" id="hero">
-        <h1>Swifteex Studio</h1>
-        <div class="tag">Product stewardship & secure tooling</div>
-        <p class="sub">We manage focused products and web properties with an emphasis on reliability, security, and long-term maintenance. Explore current projects and partners below.</p>
+      <div class="hero" id="hero" tabindex="-1">
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+          <h1>Swifteex Studio</h1>
+          <div class="greeting" id="greeting">Product stewardship & secure tooling</div>
+        </div>
+
+        <p class="sub" id="hero-sub">Reliable products, secure tooling, built for teams.</p>
 
         <div class="cta-row" aria-hidden="false" role="list">
-          <span class="pill" role="listitem">BOLT</span>
-          <span class="pill" role="listitem">SJ Consultation</span>
+          <button class="pill" id="pill-bolt" role="listitem" aria-expanded="false" aria-controls="bolt">BOLT</button>
+          <button class="pill" id="pill-sj" role="listitem">SJ Consultation</button>
         </div>
       </div>
     </div>
@@ -166,44 +246,82 @@
       <a href="mailto:swifteexstudio@gmail.com" title="Email support">swifteexstudio@gmail.com</a>
     </nav>
 
-    <!-- page content -->
+    <!-- page content (tight, mobile-friendly) -->
     <div class="content" id="content" aria-live="polite">
-      <section id="about" class="card" aria-labelledby="about-title">
-        <div class="kicker">About</div>
-        <h2 id="about-title">About Swifteex Studio</h2>
-        <p>Swifteex Studio is the management studio operating under Hypercloud that curates product portfolios and web services. We prioritize security, stability, and maintainability so teams can rely on tools like BOLT in production-grade environments.</p>
+      <section id="about" class="card" aria-labelledby="about-title" tabindex="0">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px">
+          <div>
+            <div class="kicker">About</div>
+            <h2 id="about-title">Swifteex Studio</h2>
+          </div>
+          <div><button class="expand-btn" data-target="about-expand" aria-expanded="false">Details</button></div>
+        </div>
+
+        <p>We curate product portfolios and web services with a focus on security, stability, and maintainability.</p>
+
+        <div id="about-expand" class="expandable" aria-hidden="true">
+          <p style="margin-top:12px">Secure defaults, observable operations, and reversible changes guide how we build and operate.</p>
+        </div>
       </section>
 
-      <section id="bolt" class="card" aria-labelledby="bolt-title">
-        <div class="kicker">Project</div>
-        <h2 id="bolt-title">BOLT</h2>
-        <p><strong>BOLT</strong> is a system-level runtime and manager built for speed and low friction integration. Open the BOLT dashboard or installer page to proceed: <a href="bolt.html" id="bolt-link-inline">Open BOLT</a>.</p>
+      <section id="bolt" class="card" aria-labelledby="bolt-title" tabindex="0">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px">
+          <div>
+            <div class="kicker">Project</div>
+            <h2 id="bolt-title"><span class="bolt-accent">BOLT</span></h2>
+            <div style="font-size:0.92rem;color:var(--muted)">A fast, low-friction runtime and manager.</div>
+          </div>
+          <div><button class="expand-btn" data-target="bolt-expand" aria-expanded="false">Preview</button></div>
+        </div>
+
+        <p><strong>BOLT</strong> is built for speed and plug-in integrations. <a href="bolt.html" id="bolt-link-inline">Open dashboard</a>.</p>
+
+        <div id="bolt-expand" class="expandable" aria-hidden="true">
+          <ul style="margin-top:12px;padding-left:18px">
+            <li>Low memory overhead</li>
+            <li>Plugin lifecycle hooks</li>
+            <li>Secure sandboxing</li>
+          </ul>
+        </div>
       </section>
 
-      <section id="partners" class="card" aria-labelledby="partners-title">
-        <div class="kicker">Partners</div>
-        <h2 id="partners-title">Partnerships</h2>
+      <section id="partners" class="card" aria-labelledby="partners-title" tabindex="0">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px">
+          <div>
+            <div class="kicker">Partners</div>
+            <h2 id="partners-title">Partnerships</h2>
+          </div>
+          <div><button class="expand-btn" data-target="partners-expand" aria-expanded="false">View</button></div>
+        </div>
 
-        <div class="partner" style="margin-bottom:14px">
-          <div class="meta">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
             <div style="font-weight:700">SJ Consultation</div>
             <div style="margin-top:6px"><a href="https://sj-consultation.github.io/SJteam" target="_blank" rel="noopener">sj-consultation.github.io/SJteam</a></div>
-            <p><strong>SJ Consultation</strong> is a security consultation team providing audit, hardening, and incident-prep services. For more information and contact details, visit their website.</p>
+            <p style="margin-top:6px;color:var(--muted)">Security audit, hardening, and incident prep.</p>
+          </div>
+
+          <div>
+            <div style="font-weight:700">Hypercloud</div>
+            <p style="margin-top:6px;color:var(--muted)">Platform owner and infrastructure support.</p>
           </div>
         </div>
 
-        <div class="partner">
-          <div class="meta">
-            <div style="font-weight:700">Hypercloud</div>
-            <p>Parent organization and platform owner for Swifteex Studio. Hypercloud provides hosting, governance, and infrastructure support for our products.</p>
-          </div>
+        <div id="partners-expand" class="expandable" aria-hidden="true">
+          <p style="margin-top:12px">Partner integrations are sandboxed and audited regularly.</p>
         </div>
       </section>
 
-      <footer role="contentinfo" class="card" style="text-align:center">
+      <footer role="contentinfo" class="card" id="footer" style="text-align:center" tabindex="0">
         <div style="font-weight:700">© Hypercloud · Swifteex Studio</div>
-        <div class="muted-2" style="margin-top:8px">Built for reliability and maintainability — contact <a href="mailto:swifteexstudio@gmail.com">swifteexstudio@gmail.com</a></div>
+        <div class="muted-2" style="margin-top:8px">Contact <a href="mailto:swifteexstudio@gmail.com">swifteexstudio@gmail.com</a></div>
       </footer>
+    </div>
+
+    <!-- system status widget -->
+    <div class="status-widget" role="status" aria-live="polite" aria-label="System status">
+      <div class="status-item"><span class="status-dot" id="statusDot" aria-hidden="true"></span><span id="statusText">Operational</span></div>
+      <div style="font-size:0.82rem;color:var(--muted);margin-left:6px" id="statusTS"></div>
     </div>
   </main>
 
@@ -212,17 +330,24 @@
       // elements
       const hamburger = document.getElementById('hamburger');
       const navPanel = document.getElementById('navPanel');
+      const hero = document.getElementById('hero');
+      const heroWrap = document.querySelector('.hero-wrap');
+      const cards = document.querySelectorAll('.card');
+      const expandBtns = document.querySelectorAll('.expand-btn');
+      const statusText = document.getElementById('statusText');
+      const statusTS = document.getElementById('statusTS');
+      const pillBolt = document.getElementById('pill-bolt');
+      const pillSj = document.getElementById('pill-sj');
+      const boltCard = document.getElementById('bolt');
 
-      // open/close nav
+      // nav open/close
       function openNav(){
         navPanel.classList.add('open');
         navPanel.setAttribute('aria-hidden','false');
         hamburger.setAttribute('aria-expanded','true');
         document.addEventListener('click', outsideClick);
         document.addEventListener('keydown', onKey);
-        // move focus into panel for keyboard users
-        const first = navPanel.querySelector('a');
-        if(first) first.focus();
+        navPanel.querySelector('a')?.focus();
       }
       function closeNav(){
         navPanel.classList.remove('open');
@@ -233,16 +358,13 @@
         hamburger.focus();
       }
       function toggleNav(){ navPanel.classList.contains('open') ? closeNav() : openNav(); }
-
-      function outsideClick(e){
-        if(!navPanel.contains(e.target) && !hamburger.contains(e.target)) closeNav();
-      }
+      function outsideClick(e){ if(!navPanel.contains(e.target) && !hamburger.contains(e.target)) closeNav(); }
       function onKey(e){ if(e.key === 'Escape') closeNav(); }
 
-      hamburger.addEventListener('click', ev => { ev.stopPropagation(); toggleNav(); });
+      hamburger.addEventListener('click', ev => { ev.stopPropagation(); rippleEffect(ev.currentTarget, ev); toggleNav(); });
       hamburger.addEventListener('keydown', ev => { if(ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggleNav(); } });
 
-      // smooth scroll for internal anchors
+      // smooth scroll for anchors
       document.querySelectorAll('a[data-action="scroll"]').forEach(a=>{
         a.addEventListener('click', function(ev){
           ev.preventDefault();
@@ -250,26 +372,24 @@
           const href = this.getAttribute('href');
           const el = document.querySelector(href);
           if(el){
-            const top = el.getBoundingClientRect().top + window.scrollY - 32;
+            const top = el.getBoundingClientRect().top + window.scrollY - 24;
             window.scrollTo({top,behavior:'smooth'});
           }
         });
       });
 
-      // reveal cards on scroll (explorable feel)
-      const cards = document.querySelectorAll('.card');
+      // reveal cards on scroll
       const io = new IntersectionObserver((entries)=>{
         entries.forEach(ent => {
           if(ent.isIntersecting) {
             ent.target.classList.add('revealed');
-            // once revealed, unobserve to avoid repeated work
             io.unobserve(ent.target);
           }
         });
       }, { threshold: 0.12 });
       cards.forEach(c => io.observe(c));
 
-      // keyboard-friendly: jump to main content on 'S' key for quick exploration
+      // keyboard: 's' to jump to first card
       document.addEventListener('keydown', (e) => {
         if(e.key.toLowerCase() === 's' && document.activeElement.tagName === 'BODY') {
           const first = document.querySelector('.card');
@@ -280,8 +400,154 @@
         }
       });
 
-      // small accessibility touch: ensure bolt link works normally (no JS needed)
-      // nothing else required
+      // Expandable sections (progressive disclosure)
+      expandBtns.forEach(btn => {
+        const target = document.getElementById(btn.dataset.target);
+        btn.addEventListener('click', (ev) => {
+          const isOpen = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', (!isOpen).toString());
+          rippleEffect(btn, ev);
+          if(!isOpen){
+            target.style.maxHeight = target.scrollHeight + 28 + 'px';
+            target.style.padding = '12px 0';
+            target.setAttribute('aria-hidden','false');
+          } else {
+            target.style.maxHeight = '0';
+            target.style.padding = '0 0';
+            target.setAttribute('aria-hidden','true');
+          }
+        });
+      });
+
+      // hero parallax (subtle) & card tilt
+      heroWrap.addEventListener('mousemove', (e) => {
+        const rect = heroWrap.getBoundingClientRect();
+        const cx = rect.left + rect.width/2;
+        const cy = rect.top + rect.height/2;
+        const dx = (e.clientX - cx) / rect.width;
+        const dy = (e.clientY - cy) / rect.height;
+        const rx = (-dy) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tilt-max'));
+        const ry = (dx) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tilt-max'));
+        hero.style.transform = `translateY(0) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+        hero.style.transition = 'transform .12s linear';
+      });
+      heroWrap.addEventListener('mouseleave', ()=> {
+        hero.style.transform = 'translateY(0) translateZ(0)';
+        hero.style.transition = 'transform .5s var(--ease)';
+      });
+
+      cards.forEach(card=>{
+        card.addEventListener('mousemove', (e)=>{
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          const rx = (-y) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-tilt-max'));
+          const ry = (x) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-tilt-max'));
+          card.style.transform = `translateY(-6px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+          card.style.boxShadow = '0 28px 64px rgba(0,0,0,0.56)';
+        });
+        card.addEventListener('mouseleave', ()=>{
+          card.style.transform = '';
+          card.style.boxShadow = '';
+        });
+        card.addEventListener('focus', ()=> card.classList.add('revealed'));
+      });
+
+      // Ripple helper
+      function rippleEffect(target, ev){
+        const rect = target.getBoundingClientRect();
+        const r = document.createElement('span');
+        r.className = 'ripple';
+        const size = Math.max(rect.width, rect.height) * 1.2;
+        r.style.width = r.style.height = size + 'px';
+        const x = (ev.clientX || rect.left + rect.width/2) - rect.left - size/2;
+        const y = (ev.clientY || rect.top + rect.height/2) - rect.top - size/2;
+        r.style.left = x + 'px';
+        r.style.top = y + 'px';
+        target.appendChild(r);
+        setTimeout(()=> r.remove(), 700);
+      }
+      document.addEventListener('click', (e)=>{
+        const t = e.target.closest('.pill, .expand-btn, a, button');
+        if(t && (t.classList.contains('pill') || t.classList.contains('expand-btn') || t === hamburger)) {
+          rippleEffect(t, e);
+        }
+      });
+
+      // Pill interactions
+      pillBolt.addEventListener('click', ()=>{
+        boltCard.scrollIntoView({behavior:'smooth', block:'center'});
+        boltCard.classList.add('pulse');
+        setTimeout(()=> boltCard.classList.remove('pulse'), 600);
+      });
+      pillSj.addEventListener('click', ()=>{
+        document.getElementById('partners').scrollIntoView({behavior:'smooth', block:'center'});
+      });
+
+      // Simulated system status
+      function updateStatusText(state){
+        statusText.textContent = state;
+        const now = new Date();
+        statusTS.textContent = now.toLocaleTimeString();
+        const dot = document.getElementById('statusDot');
+        if(state.toLowerCase().includes('oper')) {
+          dot.style.background = '#2ecc71';
+          dot.style.boxShadow = '0 0 8px rgba(46,204,113,0.28)';
+        } else {
+          dot.style.background = '#e67e22';
+          dot.style.boxShadow = '0 0 6px rgba(230,126,34,0.28)';
+        }
+      }
+      updateStatusText('Operational');
+
+      // Greeting/time awareness
+      function computeGreeting(){
+        const now = new Date();
+        const hr = now.getHours();
+        if(hr >= 5 && hr < 12) return 'Good morning';
+        if(hr >= 12 && hr < 17) return 'Good afternoon';
+        if(hr >= 17 && hr < 22) return 'Good evening';
+        return 'Hello';
+      }
+      document.getElementById('greeting').textContent = computeGreeting();
+
+      // Konami / bolt-typing Easter egg (keeps it playful)
+      let typed = '';
+      const konami = [ 'ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a' ];
+      let konamiIndex = 0;
+      document.addEventListener('keydown', (e)=>{
+        typed += e.key.toLowerCase();
+        if(typed.length > 8) typed = typed.slice(-8);
+        if(typed.endsWith('bolt')){
+          boltCard.classList.add('pulse');
+          setTimeout(()=> boltCard.classList.remove('pulse'), 700);
+          typed = '';
+        }
+        const expected = konami[konamiIndex];
+        if(e.key === expected || (expected.length === 1 && e.key.toLowerCase() === expected)) {
+          konamiIndex++;
+          if(konamiIndex === konami.length) {
+            document.body.classList.toggle('dev-mode');
+            konamiIndex = 0;
+          }
+        } else {
+          konamiIndex = (e.key === konami[0]) ? 1 : 0;
+        }
+      });
+
+      // Initial states for expandables
+      document.querySelectorAll('.expandable').forEach(e => {
+        e.style.maxHeight = '0';
+        e.setAttribute('aria-hidden','true');
+      });
+
+      // Respect reduced motion
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if(mq.matches){
+        document.documentElement.style.setProperty('--ambient-duration','120s');
+        document.querySelectorAll('.ripple').forEach(r => r.style.display = 'none');
+      }
+
     })();
   </script>
 </body>
