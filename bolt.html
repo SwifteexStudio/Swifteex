@@ -622,6 +622,24 @@
           }
         }
       });
+// HyperClouD Footer Announcement Script
+(function() {
+    const footer = document.createElement('div');
+    footer.textContent = "NEW VERSION OF BOLT AND BOLTWEB ARE COMING I FEB 5TH.";
+    footer.style.position = "fixed";
+    footer.style.bottom = "10px";
+    footer.style.left = "50%";
+    footer.style.transform = "translateX(-50%)";
+    footer.style.fontSize = "12px";
+    footer.style.color = "#555";
+    footer.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+    footer.style.padding = "4px 8px";
+    footer.style.borderRadius = "4px";
+    footer.style.boxShadow = "0 0 5px rgba(0,0,0,0.1)";
+    footer.style.zIndex = "9999";
+    footer.style.fontFamily = "Arial, sans-serif";
+    document.body.appendChild(footer);
+})();
 
       // ensure links with #download behavior trigger the modal if referenced via hash
       if (location.hash === '#download') {
