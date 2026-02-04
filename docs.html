@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bolt Runtime Engine v1.6.0 — Documentation</title>
+  <link rel="icon" href="assets/boltlogo.ico" type="image/x-icon" />
+  <meta name="description" content="Bolt Runtime Engine v1.6.0 — official documentation, install guide, CLI reference and tutorials."/>
+  <style>
+    /* ========= Design tokens ========= */
+    :root{
+      --bg: #061025;             /* page background */
+      --panel: #071629;          /* panel background */
+      --panel-2: #0b2136;        /* secondary panel */
+      --muted: #9fb8c9;          /* muted text */
+      --text: #e6f8ff;           /* main text */
+      --accent: #1b6bf0;         /* primary accent */
+      --accent-2: #0ea5ff;       /* accent 2 */
+      --success: #22c55e;
+      --radius: 12px;
+      --max-width: 980px;
+      --font-system: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+      --focus: 3px solid rgba(14,165,233,0.12);
+      --gap: 14px;
+    }
+
+    /* light theme */
+    body.light{
+      --bg: #f6fafc;
+      --panel: #ffffff;
+      --panel-2: #fbfdff;
+      --muted: #486b78;
+      --text: #072033;
+      --accent: #1158f0;
+      --accent-2: #ff4b4b;
+    }
+
+    /* ========= Base ========= */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:var(--font-system);-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;background:var(--bg);color:var(--text);font-size:16px;line-height:1.5}
+    a{color:inherit}
+    main{width:100%;max-width:var(--max-width);margin:20px auto;padding:16px}
+    img[alt="logo"]{display:block}
+
+    /* ========= Header ========= */
+    header{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+    .logo{width:58px;height:58px;border-radius:8px;background-image:url('assets/boltlogo.ico');background-size:cover;background-position:center;flex:0 0 auto;box-shadow:0 8px 22px rgba(0,0,0,0.16)}
+    .title-wrap{min-width:0}
+    h1{margin:0;font-size:18px;font-weight:900;letter-spacing:-0.01em}
+    .subtitle{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    /* ========= Card ========= */
+    .card{margin-top:12px;background:linear-gradient(180deg,var(--panel),var(--panel-2));border-radius:var(--radius);padding:16px;border:1px solid rgba(255,255,255,0.03)}
+    .card .lead{color:var(--muted);font-size:14px;margin-top:8px}
+
+    /* ========= Top actions ========= */
+    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;font-weight:800;cursor:pointer;border:0;text-decoration:none}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 10px 30px rgba(11,50,120,0.12)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:8px 12px}
+
+    /* ========= Layout - single column mobile-first ========= */
+    .toc-row{margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .toc-summary{color:var(--muted);font-size:13px}
+    details{background:transparent;border-radius:8px}
+    summary{list-style:none;cursor:pointer;padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:800}
+    .nav-inline{display:flex;gap:8px;flex-wrap:wrap}
+    .nav-inline a{padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:8px;color:var(--muted);text-decoration:none;font-weight:700}
+
+    /* ========= Article / sections ========= */
+    article{margin-top:16px}
+    section {background:rgba(255,255,255,0.02);padding:14px;border-radius:10px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)}
+    h2{margin:0 0 8px 0;font-size:17px}
+    h3{margin:12px 0 6px 0;font-size:15px}
+    p{margin:8px 0;color:var(--muted);font-size:14px}
+
+    /* ========= Code blocks ========= */
+    .code-toolbar{display:flex;justify-content:flex-end;margin-bottom:6px}
+    .copy-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;color:var(--muted);cursor:pointer;font-weight:800}
+    pre{background:#021426;color:#dff7ff;padding:12px;border-radius:8px;overflow:auto;font-family:var(--mono);font-size:13px;border:1px solid rgba(255,255,255,0.03)}
+    code.inline{background:rgba(255,255,255,0.02);padding:3px 6px;border-radius:6px;font-family:var(--mono);font-size:13px}
+
+    /* diminished visual weight for mobile */
+    @media (max-width:920px){
+      header{padding:10px}
+      .card{padding:12px}
+      .logo{width:52px;height:52px}
+      h1{font-size:16px}
+      .btn{padding:8px 10px;font-size:14px}
+      section{padding:12px}
+      pre{font-size:13px}
+    }
+
+    /* larger screens: show TOC sidebar for convenience */
+    @media (min-width:920px){
+      .layout-grid{display:grid;grid-template-columns:260px 1fr;gap:18px}
+      aside.toc{position:sticky;top:20px;align-self:start;padding:12px;background:rgba(255,255,255,0.01);border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+      .nav-inline{flex-direction:column}
+      details{display:none} /* hide mobile details on wide screens */
+      .toc-row{display:none}
+    }
+
+    /* focus and accessibility */
+    :focus{outline:var(--focus);outline-offset:2px}
+    .muted-block{background:rgba(255,255,255,0.01);padding:10px;border-radius:8px;color:var(--muted);font-size:14px;border:1px solid rgba(255,255,255,0.02)}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center;padding:10px}
+  </style>
+</head>
+<body>
+  <main>
+    <header aria-labelledby="docTitle">
+      <div class="logo" role="img" aria-label="Bolt logo"></div>
+      <div class="title-wrap">
+        <h1 id="docTitle">Bolt Runtime Engine <small style="font-weight:800;margin-left:8px;background:transparent;color:var(--muted);font-size:12px">v1.6.0 — Docs</small></h1>
+        <div class="subtitle">Fast. Safe. Document-first distribution — read before you install.</div>
+      </div>
+    </header>
+
+    <div class="card" role="region" aria-label="Documentation card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <div class="lead">This page contains installation, CLI reference, language highlights and short tutorials. Mobile-friendly and streamlined for quick scanning.</div>
+        </div>
+
+        <div class="actions" role="toolbar" aria-label="primary actions">
+          <a class="btn btn-primary" href="downloadbolt.html" role="button" aria-label="Download page">Download packages</a>
+          <a class="btn btn-ghost" href="index.html" role="button" aria-label="Back to home">Back to home</a>
+        </div>
+      </div>
+
+      <!-- Mobile compact TOC -->
+      <div class="toc-row">
+        <details>
+          <summary>Contents</summary>
+          <nav class="nav-inline" aria-label="Table of contents">
+            <a href="#install">Installation</a>
+            <a href="#cli">CLI</a>
+            <a href="#langref">Language</a>
+            <a href="#tutorials">Tutorials</a>
+            <a href="#examples">Examples</a>
+            <a href="#legal">Legal</a>
+          </nav>
+        </details>
+      </div>
+
+      <div class="layout-grid" aria-live="polite">
+        <!-- Sidebar for wide screens -->
+        <aside class="toc" aria-label="On-page navigation">
+          <nav style="display:flex;flex-direction:column;gap:8px">
+            <a href="#install" style="font-weight:900;color:var(--text)">1. Installation</a>
+            <a href="#cli" style="font-weight:900;color:var(--text)">2. CLI</a>
+            <a href="#langref" style="font-weight:900;color:var(--text)">3. Language</a>
+            <a href="#tutorials" style="font-weight:900;color:var(--text)">4. Tutorials</a>
+            <a href="#examples" style="font-weight:900;color:var(--text)">5. Examples</a>
+            <a href="#legal" style="font-weight:900;color:var(--text)">Legal</a>
+          </nav>
+        </aside>
+
+        <article>
+          <!-- 1. Installation -->
+          <section id="install" aria-labelledby="installTitle">
+            <h2 id="installTitle">1. Installation and Verification</h2>
+            <p>Download Bolt from the official portal (docs-first distribution). The Download page lists signed artifacts and checksums you should verify.</p>
+            <p><a href="https://swifteexstudio.github.io/Swifteex/downloadbolt.html" target="_blank" rel="noopener">swifteexstudio.github.io/Swifteex/downloadbolt.html</a></p>
+
+            <h3>Verify installation</h3>
+            <p class="muted-block">After installing, check the runtime version to confirm the binary is accessible and to view build info.</p>
+
+            <div class="code-toolbar" aria-hidden="true">
+              <button class="copy-btn" data-target="cmd-version">Copy</button>
+            </div>
+            <pre id="cmd-version"><code>bolt --version</code></pre>
+
+            <p>If <code class="inline">bolt</code> is not recognized, run it directly from the download folder. On Windows, open the folder, type <span style="font-family:var(--mono);background:rgba(255,255,255,0.02);padding:2px 6px;border-radius:6px">cmd</span> in the File Explorer address bar and run the version command there.</p>
+          </section>
+
+          <!-- 2. CLI -->
+          <section id="cli" aria-labelledby="cliTitle">
+            <h2 id="cliTitle">2. Command Line Interface (CLI)</h2>
+            <p class="muted-block">Key runtime flags. Combine them for the desired behavior.</p>
+
+            <ul>
+              <li><strong><code class="inline">--run [files...]</code></strong> — execute one or more <code class="inline">.blt</code> files.</li>
+              <li><strong><code class="inline">--exec-string "&lt;source&gt;"</code></strong> — run a code string from the shell.</li>
+              <li><strong><code class="inline">--cmd</code></strong> — quick single-line interactive mode.</li>
+              <li><strong><code class="inline">--safe</code></strong> — sandbox mode: disables unsafe built-ins (e.g. <code class="inline">input</code>, <code class="inline">sleep</code>).</li>
+              <li><strong><code class="inline">--debug</code></strong> — verbose logging with full tracebacks.</li>
+              <li><strong><code class="inline">--inspect-ast</code></strong> — print AST before execution (diagnostics).</li>
+              <li><strong><code class="inline">--json-errors</code></strong> — format errors as JSON for automation.</li>
+              <li><strong><code class="inline">--no-type-warn</code></strong> — suppress type-related warnings at runtime.</li>
+            </ul>
+
+            <div class="code-toolbar">
+              <button class="copy-btn" data-target="cmd-run-safe">Copy</button>
+            </div>
+            <pre id="cmd-run-safe"><code>bolt --safe --debug --run myscript.blt</code></pre>
+
+            <p style="margin-top:8px">Tip: use <code class="inline">--json-errors</code> when integrating Bolt into CI pipelines or automated tooling so parsing is reliable.</p>
+          </section>
+
+          <!-- 3. Language reference -->
+          <section id="langref" aria-labelledby="langTitle">
+            <h2 id="langTitle">3. Language Reference — highlights</h2>
+            <p class="muted-block">Core keywords and frequently-used built-ins. See full spec on the distribution portal for the complete API.</p>
+
+            <h3>Keywords</h3>
+            <p>Compact aliases are available for productivity:</p>
+            <ul>
+              <li><strong>Functions:</strong> <code class="inline">fn</code>, <code class="inline">ret</code></li>
+              <li><strong>Conditionals:</strong> <code class="inline">if</code>, <code class="inline">el</code>, <code class="inline">esl</code></li>
+              <li><strong>Loops:</strong> <code class="inline">wh</code>/<code class="inline">whl</code> (while), <code class="inline">fr</code>/<code class="inline">for</code>, <code class="inline">br</code> (break), <code class="inline">nx</code> (next)</li>
+              <li><strong>Logic:</strong> <code class="inline">not</code>, <code class="inline">and</code>, <code class="inline">or</code></li>
+            </ul>
+	      <div class="muted-block" style="border-left:4px solid var(--accent);background:rgba(27,107,240,0.05);margin-bottom:12px;">
+  ⚠️ <strong>Notice:</strong> Some parts of the language examples may not work properly in Bolt. We are actively fixing it.
+</div>
+
+            <h3>Built-ins (common)</h3>
+            <ul>
+              <li><strong>IO:</strong> <code class="inline">print</code>, <code class="inline">prnt</code>, <code class="inline">input</code> (disabled in <code class="inline">--safe</code>).</li>
+              <li><strong>Memory:</strong> <code class="inline">alloc(size)</code>, <code class="inline">free(ref)</code>, <code class="inline">memcpy(dst, src, n)</code>, <code class="inline">memset(dst, val, n)</code>, <code class="inline">heap_view()</code>.</li>
+              <li><strong>Math & Time:</strong> <code class="inline">sin</code>, <code class="inline">cos</code>, <code class="inline">sqrt</code>, <code class="inline">pow</code>, <code class="inline">rand</code>, <code class="inline">randint</code>, <code class="inline">time</code>, <code class="inline">sleep</code> (sleep disabled in safe mode).</li>
+              <li><strong>Collections:</strong> <code class="inline">len</code>, <code class="inline">range</code>, <code class="inline">list</code>, <code class="inline">dict</code>, <code class="inline">uniq</code>.</li>
+            </ul>
+          </section>
+
+          <!-- 4. Tutorials -->
+          <section id="tutorials" aria-labelledby="tutTitle">
+            <h2 id="tutTitle">4. Tutorials (copy-ready)</h2>
+            <p class="muted-block">Small, focused examples. Copy each snippet with the button provided. <strong>Note:</strong> `let.userinput` and `let.call` are CORE-only features — they exist only in Bolt CORE builds. If you are running the stable (non-CORE) runtime, use the standard `input()` or `bolt` interactive features shown in the fallback examples below.</p>
+
+            <h3>CORE-only: interactive function example (corrected)</h3>
+            <div class="code-toolbar"><button class="copy-btn" data-target="core-hi">Copy</button></div>
+            <pre id="core-hi"><code>/* CORE-only: uses let.userinput and let.call */
+fn hi() ;;
+  name = let.userinput("name: ");
+  prnt("hi there, " + name + "!");
+  age = let.userinput("age: ");
+  prnt("you are " + age + " years old!");
+  favfood = let.userinput("what is your favourite food? ");
+  prnt("hi there, " + name + ". You are " + age + " years old and you like " + favfood + ".");
+  ret;
+;;;
+
+let.call hi();
+</code></pre>
+
+            <p style="margin-top:8px">Explanation (CORE):</p>
+            <ul>
+              <li><strong>fn ... ;; ... ;;;</strong> — function definition with the `;;`/`;;;` block markers used in examples elsewhere in this docset.</li>
+              <li><strong>let.userinput(prompt)</strong> — CORE-only input helper that returns the entered string. Use only on CORE builds.</li>
+              <li><strong>let.call fnName()</strong> — CORE-only function-invocation helper (invokes a previously defined function).</li>
+              <li><strong>prnt(...)</strong> — shorthand print (alias for the standard print built-in).</li>
+            </ul>
+
+            <h3>CORE-only: a guarded price example</h3>
+            <div class="code-toolbar"><button class="copy-btn" data-target="core-price">Copy</button></div>
+            <pre id="core-price"><code>/* CORE-only: simple decision using let.userinput */
+fn price() ;;
+  pizza = 100;
+  burger = 500;
+  choice = let.userinput("eat (pizza/burger): ");
+  if (choice == "pizza") {
+    prnt("that will be " + pizza + " dollar");
+  } else if (choice == "burger") {
+    prnt("that will be " + burger + " dollar");
+  } else {
+    prnt("unknown option: " + choice);
+  }
+  ret;
+;;;
+
+let.call price();
+</code></pre>
+
+            <h3>Non-CORE fallback (stable runtime)</h3>
+            <div class="code-toolbar"><button class="copy-btn" data-target="fallback-hi">Copy</button></div>
+            <pre id="fallback-hi"><code>/* Stable (non-CORE) fallback using built-in input() and direct calls */
+fn hi() ;;
+  name = input("name: ");
+  prnt("hi there, " + name + "!");
+  age = input("age: ");
+  prnt("you are " + age + " years old!");
+  favfood = input("what is your favourite food? ");
+  prnt("hi there, " + name + ". You are " + age + " years old and you like " + favfood + ".");
+  ret;
+;;;
+
+/* Call the function directly in stable builds */
+hi();
+</code></pre>
+
+            <p style="margin-top:8px">Honest notes:</p>
+            <ul>
+              <li>If you intend to ship interactive scripts to users who may run stable (non-CORE) Bolt, include both paths (CORE and fallback) or detect the runtime and choose the supported API at runtime. CORE-only helpers will fail on stable builds.</li>
+              <li>Prefer explicit validation of user inputs (e.g., check that age parses as a number) before using them in production scripts.</li>
+              <li>Function markers in examples (`;;` / `;;;`) are used consistently in this docset — keep them when authoring Bolt source files to match the examples shown here.</li>
+            </ul>
+          </section>
+
+          <!-- 5. Examples -->
+          <section id="examples" aria-labelledby="examplesTitle">
+            <h2 id="examplesTitle">5. Additional examples</h2>
+            <p class="muted-block">Small patterns you may reuse.</p>
+
+            <div class="code-toolbar"><button class="copy-btn" data-target="example-loop">Copy</button></div>
+            <pre id="example-loop"><code>i = 0;
+wh (i < 5) {
+  prnt("count: " + i);
+  i = i + 1;
+}
+</code></pre>
+
+            <div class="code-toolbar"><button class="copy-btn" data-target="example-ast">Copy</button></div>
+            <pre id="example-ast"><code>bolt --inspect-ast --exec-string "prnt(1+2)"
+</code></pre>
+
+            <h3 style="margin-top:14px">Runtime version — sample verification</h3>
+            <p class="muted-block">If you run the CORE build named <code class="inline">boltcr</code> the version output should look like the sample below. This verifies you are running the CORE variant and shows licensing/build metadata.</p>
+
+            <div class="code-toolbar"><button class="copy-btn" data-target="sample-version">Copy</button></div>
+            <pre id="sample-version"><code>C:\Users\user>boltcr --version
+Bolt Runtime Engine v1.6.0+1 (V: offical=false/core) . licensed commercial use only
+Copyright © 2026 Swifteex (a HyperClouD Softwares company). All rights reserved.
+2026-01-28
+
+C:\Users\user&gt;
+</code></pre>
+
+            <p style="margin-top:8px">Note: The "core" marker in the version string is the primary signal your binary is a CORE build. Stable Bolt builds will omit the <code>(.../core)</code> marker or display a different official flag.</p>
+          </section>
+
+          <!-- Legal -->
+          <section id="legal" aria-labelledby="legalTitle">
+            <h2 id="legalTitle">Legal & credits</h2>
+            <p>© 2026 Swifteex (a HyperClouD Softwares company). All rights reserved. Always verify downloadable artifacts with the signed checksums on the Download page.</p>
+          </section>
+
+          <footer>
+            <div style="display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap">
+              <a class="btn btn-ghost" href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener">Swifteex Studio</a>
+              <a class="btn btn-ghost" href="mailto:swifteexstudio@gmail.com">support</a>
+            </div>
+            <div style="margin-top:10px;color:var(--muted)">Documentation-first • Read before you install</div>
+          </footer>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    /* ---------------- Copy to clipboard for code snippets ---------------- */
+    (function(){
+      function copyText(text){
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function(resolve, reject){
+          try{
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            resolve();
+          } catch(e){ reject(e); }
+        });
+      }
+
+      document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var id = btn.getAttribute('data-target');
+          var el = document.getElementById(id);
+          if(!el) return;
+          var text = el.innerText;
+          copyText(text).then(function(){
+            var orig = btn.innerText;
+            btn.innerText = 'Copied';
+            btn.disabled = true;
+            setTimeout(function(){ btn.innerText = orig; btn.disabled = false; }, 1200);
+          }).catch(function(){
+            alert('Copy failed. Please select and copy manually.');
+          });
+        });
+      });
+
+      /* small keyboard accessibility: open details with Enter on summary */
+      document.querySelectorAll('summary').forEach(function(s){
+        s.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            s.click();
+          }
+        });
+      });
+
+      /* keyboard hint: toggle light theme with Ctrl+D (optional) */
+      document.addEventListener('keydown', function(e){
+        if(e.ctrlKey && (e.key === 'd' || e.key === 'D')){
+          document.body.classList.toggle('light');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
