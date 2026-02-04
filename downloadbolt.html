@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BOLT 1.60 — Official Installer</title>
+  <link rel="icon" href="assets/boltlogoM.ico" type="image/x-icon" />
+  <style>
+    /* design tokens (default = light) */
+    :root{
+      --bg-overlay: rgba(3,8,12,0.48);
+      --page-bg: #071226;
+      --panel-bg: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,251,0.98));
+      --modal-bg: linear-gradient(180deg,#ffffff,#fbfeff);
+      --text-dark: #072033;
+      --muted: #4d6b75;
+      --muted-weak: rgba(77,107,117,0.9);
+      --radius: 14px;
+      --shadow-soft: 0 10px 30px rgba(10,20,30,0.06);
+      --shadow-deep: 0 18px 60px rgba(2,8,20,0.35);
+
+      --bolt-grad-1: #ff4b4b; /* red */
+      --bolt-grad-2: #1b6bf0; /* blue */
+      --download-grad-1: #ffb84b; /* yellow orange */
+      --download-grad-2: #ff4b4b; /* red */
+      --accent-sky: #38bdf8;
+
+      --max-width: 980px;
+      --gap: 18px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+
+      --nav-width: 320px;
+      --ui-font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif;
+      --focus-ring: 4px solid rgba(56,189,248,0.14);
+    }
+
+    /* dark theme overrides (applied to body.dark) */
+    body.dark{
+      --page-bg: #05070b;
+      --bg-overlay: rgba(2,6,10,0.64);
+      --panel-bg: linear-gradient(180deg, rgba(6,12,18,0.96), rgba(6,12,18,0.96));
+      --modal-bg: linear-gradient(180deg, rgba(8,14,22,0.96), rgba(8,14,22,0.96));
+      --text-dark: #e6f8ff;
+      --muted: #95b8c9;
+      --muted-weak: rgba(149,184,201,0.9);
+      --shadow-soft: 0 10px 30px rgba(2,8,16,0.35);
+      --shadow-deep: 0 20px 70px rgba(0,0,0,0.7);
+    }
+
+    /* base and background image */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:var(--ui-font);-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+    body{
+      background-color:var(--page-bg);
+      color:var(--text-dark);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      padding:28px;
+      background-image: url('assets/coding.jpg');
+      background-position:center;
+      background-size:cover;
+      background-repeat:no-repeat;
+      position:relative;
+      transition:background-color .18s var(--ease), color .18s var(--ease);
+      font-size:16px;
+      line-height:1.45;
+    }
+    /* soft overlay to keep text legible */
+    body::before{
+      content:'';
+      position:fixed;inset:0;
+      background:var(--bg-overlay);
+      z-index:0;
+      pointer-events:none;
+    }
+
+    main{position:relative;z-index:2;width:100%;max-width:var(--max-width);display:flex;flex-direction:column;align-items:center;gap:18px;padding:12px}
+
+    /* main card */
+    .card{
+      width:100%;
+      border-radius:var(--radius);
+      background:var(--panel-bg);
+      padding:32px;
+      box-shadow:var(--shadow-soft);
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      align-items:center;
+      text-align:center;
+      transition:transform .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease), color .18s var(--ease);
+    }
+
+    .header-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;width:100%}
+
+    .logo{
+      width:110px;height:110px;border-radius:14px;background-image:url('assets/boltlogoM.ico');background-size:cover;background-position:center;box-shadow:0 14px 34px rgba(27,107,240,0.12);flex:0 0 auto;animation:float 4.5s ease-in-out infinite;
+    }
+    @keyframes float{0%{transform:translateY(0) rotate(-0.6deg)}50%{transform:translateY(-8px) rotate(0.8deg)}100%{transform:translateY(0) rotate(-0.6deg)}}
+
+    h1{margin:0;font-weight:900;font-size:34px;line-height:1.02;color:var(--text-dark)}
+    .subtitle{margin:6px 0 0;color:var(--muted);font-size:15px;font-weight:700}
+    .hero-title{font-family:var(--ui-font);font-weight:800;font-size:22px;margin-top:6px;color:var(--text-dark)}
+    .hero-quote{margin:6px 0 0;color:var(--muted);font-size:15px}
+
+    /* hero rich text */
+    .hero-rich{
+      margin-top:12px;padding:18px;border-radius:12px;width:100%;max-width:820px;background:rgba(255,255,255,0.02);color:var(--text-dark);
+      box-shadow:0 12px 40px rgba(2,8,20,0.06);text-align:left;
+      border:1px solid rgba(2,8,20,0.04);
+      backdrop-filter: blur(4px);
+    }
+    .hero-rich h2{margin:0;font-size:20px;font-weight:900;color:var(--text-dark)}
+    .hero-rich p{margin:8px 0 0;color:var(--muted);font-size:15px}
+    .hero-description{margin-top:12px;color:var(--muted);font-size:15px;}
+
+    .points{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+    .point{flex:1;min-width:180px;background:transparent;padding:14px;border-radius:10px;border:1px solid rgba(2,8,20,0.04);display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+    .point strong{display:block;font-weight:800;color:var(--text-dark)}
+    .point span{color:var(--muted);font-size:14px}
+
+    /* bolt pill and bolt card accent */
+    .bolt-pill{
+      padding:10px 16px;border-radius:999px;font-weight:900;background:linear-gradient(90deg,var(--bolt-grad-1),var(--bolt-grad-2));color:white;border:none;box-shadow:0 10px 30px rgba(27,107,240,0.12);cursor:pointer
+    }
+    .bolt-card-accent{background:linear-gradient(180deg, rgba(255,75,75,0.06), rgba(27,107,240,0.04));border:1px solid rgba(255,255,255,0.04);box-shadow:0 18px 56px rgba(11,13,17,0.12);padding:14px;border-radius:10px}
+
+    /* actions */
+    .actions{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;border:0;outline:none;text-decoration:none}
+    .btn-primary{background:linear-gradient(90deg,var(--download-grad-1),var(--download-grad-2));color:white;box-shadow:0 12px 36px rgba(255,75,75,0.16)}
+    .btn-ghost{background:transparent;color:var(--muted);border:1px solid rgba(2,8,20,0.04);padding:10px 14px;border-radius:10px}
+    .btn:active{transform:translateY(1px)}
+    .btn:focus{box-shadow:var(--focus-ring)}
+    .btn-icon{display:inline-flex;align-items:center;gap:8px}
+
+    /* more readable small text */
+    .footer{margin-top:10px;text-align:center;font-size:13px;color:var(--muted);display:flex;gap:12px;align-items:center;flex-direction:column}
+    .brand-pill{padding:8px 12px;border-radius:999px;font-weight:800;background:linear-gradient(90deg,#ff4b4b,#9aa0a6);color:white;text-decoration:none}
+
+    /* nav panel style */
+    .hamburger{
+      position:fixed;top:18px;right:18px;width:56px;height:56px;border-radius:12px;background:var(--panel-bg);box-shadow:var(--shadow-soft);display:flex;align-items:center;justify-content:center;z-index:70;border:1px solid rgba(2,8,20,0.04);cursor:pointer
+    }
+    .hamburger svg{width:24px;height:24px;color:var(--text-dark)}
+    .nav-drawer{
+      position:fixed;top:0;right:0;height:100vh;width:var(--nav-width);background:var(--modal-bg);box-shadow:-20px 0 50px rgba(2,8,20,0.12);
+      transform:translateX(110%);transition:transform .28s var(--ease);z-index:70;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:auto;
+    }
+    .nav-drawer.show{transform:translateX(0)}
+    .nav-drawer a{display:block;padding:12px;border-radius:10px;text-decoration:none;color:var(--text-dark);font-weight:800;border:1px solid rgba(2,8,20,0.04);margin-bottom:6px}
+    .nav-drawer a:hover{box-shadow:0 10px 30px rgba(27,107,240,0.06)}
+    .nav-drawer .current{box-shadow:0 10px 30px rgba(27,107,240,0.08);border-color:rgba(27,107,240,0.08)}
+
+    /* theme toggle button */
+    .theme-toggle { background:transparent;border:1px solid rgba(2,8,20,0.04);padding:8px 10px;border-radius:10px;font-weight:800;cursor:pointer; }
+
+    /* download modal */
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(2,6,10,0.6);display:none;align-items:center;justify-content:center;z-index:120;
+    }
+    .modal-backdrop.show{display:flex}
+    .modal{
+      width:100%;max-width:760px;border-radius:14px;background:var(--modal-bg);padding:22px;box-shadow:var(--shadow-deep);color:var(--text-dark);
+      transform:translateY(10px);transition:transform .18s var(--ease), opacity .18s var(--ease);
+    }
+    .modal h3{margin:0;font-size:20px;font-weight:900}
+    .modal .muted{color:var(--muted);margin-top:8px;font-size:14px}
+    .versions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+    .version-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+      border-radius:12px;padding:14px;border:1px solid rgba(2,8,20,0.04);min-width:180px;flex:1;cursor:pointer;user-select:none;
+      transition:box-shadow .12s var(--ease), transform .12s var(--ease);
+      display:flex;flex-direction:column;gap:8px;
+    }
+    .version-card.selected{box-shadow:0 18px 50px rgba(27,107,240,0.08);transform:translateY(-4px);border-color:rgba(27,107,240,0.08)}
+    .version-title{font-weight:900;font-size:16px}
+    .version-desc{color:var(--muted);font-size:13px}
+
+    .controls{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
+    .controls-left{display:flex;gap:12px;align-items:center}
+    .checkbox-inline{display:flex;gap:10px;align-items:center}
+    .checkbox-inline input{width:18px;height:18px}
+
+    .warning{
+      margin-top:12px;padding:12px;border-radius:10px;background:#ffea5b;color:#000;font-weight:700;border:1px solid rgba(0,0,0,0.08);
+      display:none;
+    }
+    .warning.show{display:block}
+
+    .ide-option{margin-top:10px;display:none;align-items:center;gap:10px}
+    .ide-option.show{display:flex}
+
+    .modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:18px}
+    .btn-cancel{background:transparent;border:1px solid rgba(2,8,20,0.06);padding:10px 14px;border-radius:10px;font-weight:800}
+    .toast{
+      margin-top:12px;font-size:14px;color:var(--muted);
+      display:flex;align-items:center;gap:10px;justify-content:center;
+    }
+    .progress{
+      margin-top:12px;height:10px;background:rgba(2,8,20,0.04);border-radius:6px;overflow:hidden;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+    .progress > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--download-grad-1),var(--download-grad-2));transition:width .45s var(--ease)}
+
+    @media (max-width:720px){
+      .card{padding:20px}
+      .hero-rich{padding:14px}
+      .logo{width:90px;height:90px}
+      h1{font-size:28px}
+      .version-card{min-width:140px}
+      .nav-drawer{width:88%}
+      .header-row{align-items:flex-start}
+      .actions{justify-content:center}
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .logo, .card, .hero-rich { animation: none; transition: none }
+    }
+
+    /* small utility for better keyboard focus outlines for accessibility */
+    :focus{outline:3px solid rgba(56,189,248,0.12);outline-offset:2px}
+  </style>
+</head>
+<body>
+  <!-- hamburger control -->
+  <button class="hamburger" id="hamburger" aria-haspopup="true" aria-controls="navDrawer" aria-expanded="false" title="Menu" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 7h18"></path>
+      <path d="M3 12h18"></path>
+      <path d="M3 17h18"></path>
+    </svg>
+  </button>
+
+  <nav id="navDrawer" class="nav-drawer" aria-hidden="true" role="navigation" aria-label="Main menu">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong style="font-size:16px">Menu</strong>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Toggle theme">Theme</button>
+        <button id="navClose" title="Close" style="background:transparent;border:0;cursor:pointer;font-weight:800">Close</button>
+      </div>
+    </div>
+
+    <a id="navHome" class="current" href="#main" role="menuitem" tabindex="0">Home</a>
+    <a id="navDocs" href="docs.html" role="menuitem" tabindex="0">Documentation</a>
+    <!-- Download triggers an in-page polished modal -->
+    <a id="navDownload" href="#download" role="menuitem" tabindex="0">Download</a>
+    <a id="navAbout" href="aboutbolt.html" role="menuitem" tabindex="0">About</a>
+  </nav>
+
+  <main id="main" role="main" aria-labelledby="pageTitle">
+    <section class="card" id="mainCard" role="region" aria-label="Bolt installer">
+      <div class="header-row">
+        <div class="logo" aria-hidden="true" role="img" aria-label="Bolt logo"></div>
+        <div class="header-text" style="max-width:640px">
+          <h1 id="pageTitle">BOLT 1.60</h1>
+          <p class="subtitle">Official installer — documentation-forward distribution</p>
+
+          <div class="hero-rich" id="heroRich" role="region" aria-label="About bolt">
+            <h2>Bolt runtime environment</h2>
+            <p class="hero-quote">Fast. Safe. Powerful.</p>
+            <p class="hero-description">Bolt is a production-ready runtime designed for teams who need high performance, predictable startup time, and secure extensibility. The distribution is docs-first — see the documentation before downloading so you know what you're installing.</p>
+
+            <div class="points" aria-hidden="false">
+              <div class="point" aria-label="Fast">
+                <strong>Fast</strong>
+                <span>Low overhead runtime with C-like startup characteristics and optimized memory usage.</span>
+              </div>
+              <div class="point bolt-card-accent" aria-label="Easy to use">
+                <strong>Easy to adopt</strong>
+                <span>Clear interfaces, robust CLI tooling, and concise examples in the documentation.</span>
+              </div>
+              <div class="point" aria-label="Powerful">
+                <strong>Secure & Extensible</strong>
+                <span>Sandboxed plugin model and observability built in for safe production workflows.</span>
+              </div>
+            </div>
+
+            <p style="margin-top:12px;color:var(--muted);font-size:14px">
+              Before downloading, open the documentation to review system requirements, release notes, security model, and install guidance. If you're ready after reviewing, use the Download menu to choose a release.
+            </p>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="actions" role="group" aria-label="Primary actions">
+        <a id="learnMore" class="btn btn-primary btn-icon" href="docs.html" role="button" aria-label="Open documentation">
+          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M4 4.5A2.5 2.5 0 0 1 6.5 7H20v13"></path>
+          </svg>
+          Learn documentation
+        </a>
+
+        <a id="learnMoreGhost" class="btn btn-ghost" href="aboutbolt.html" role="button" aria-label="About BOLT" rel="noopener">About BOLT</a>
+
+        <button id="boltPill" class="bolt-pill" title="BOLT" aria-label="View product highlights">BOLT</button>
+      </div>
+
+      <div class="footer" role="contentinfo">
+        <a class="brand-pill" href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener">made by Swifteex Studio</a>
+        <div style="color:var(--muted)">Support <a href="mailto:swifteexstudio@gmail.com" style="color:inherit;text-decoration:none">swifteexstudio@gmail.com</a></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Download modal (polished, production grade) -->
+  <div id="downloadModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="downloadTitle" aria-hidden="true">
+    <div class="modal" role="document">
+      <h3 id="downloadTitle">Choose your version</h3>
+      <div class="muted">Select the Bolt release you want to install.</div>
+
+      <div class="versions" role="list" aria-label="Available versions">
+        <div class="version-card" role="listitem" data-version="1.40" tabindex="0">
+          <div class="version-title">Bolt 1.40</div>
+          <div class="version-desc">Stable — recommended for production.</div>
+        </div>
+
+        <div class="version-card selected" role="listitem" data-version="1.60" tabindex="0">
+          <div class="version-title">Bolt 1.60</div>
+          <div class="version-desc">Latest stable build with performance improvements.</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="controls-left">
+          <label class="checkbox-inline" title="Enable CORE version">
+            <input id="enableCore" type="checkbox" aria-checked="false">
+            <span style="font-weight:800">Enable CORE version?</span>
+          </label>
+
+          <div class="checkbox-inline">
+            <input id="downloadNowInline" type="checkbox" checked aria-checked="true">
+            <label for="downloadNowInline" style="font-weight:700;color:var(--muted)">Download now</label>
+          </div>
+        </div>
+
+        <div style="text-align:right">
+          <div style="font-size:13px;color:var(--muted)">Selected:
+            <span id="selectedLabel" style="font-weight:900;margin-left:8px">Bolt 1.60</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="warning" id="coreWarning" role="status" aria-live="polite">
+        CORE VERSION IS AN ALPHA RELEASE FOR FUTURE BOLT RELEASES. IT MAY BE MORE POWERFUL THAN THE STABLE VERSION BUT IT MIGHT BE BUGGY.
+      </div>
+
+      <div class="ide-option" id="ideOption">
+        <label class="checkbox-inline">
+          <input id="includeIDE" type="checkbox" aria-checked="false">
+          <span style="font-weight:800">Also download PlutoniumIDE</span>
+        </label>
+        <div style="font-size:13px;color:var(--muted)">Professional IDE bundled with CORE builds.</div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="cancelDownload" class="btn-cancel" aria-label="Cancel">Cancel</button>
+        <button id="startDownload" class="btn btn-primary" aria-label="Start download">Download</button>
+      </div>
+
+      <div class="progress" id="progressBar" aria-hidden="true" style="display:none">
+        <i style="width:0%"></i>
+      </div>
+
+      <div class="toast" id="toast" aria-hidden="true" style="visibility:hidden"></div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      // Elements
+      const hamburger = document.getElementById('hamburger');
+      const navDrawer = document.getElementById('navDrawer');
+      const navClose = document.getElementById('navClose');
+      const navDownload = document.getElementById('navDownload');
+      const navHome = document.getElementById('navHome');
+      const navDocs = document.getElementById('navDocs');
+      const navAbout = document.getElementById('navAbout');
+      const boltPill = document.getElementById('boltPill');
+      const mainCard = document.getElementById('mainCard');
+      const themeToggle = document.getElementById('themeToggle');
+      const learnMore = document.getElementById('learnMore');
+
+      // Modal elements
+      const downloadModal = document.getElementById('downloadModal');
+      const versionCards = Array.from(document.querySelectorAll('.version-card'));
+      const selectedLabel = document.getElementById('selectedLabel');
+      const enableCore = document.getElementById('enableCore');
+      const coreWarning = document.getElementById('coreWarning');
+      const ideOption = document.getElementById('ideOption');
+      const includeIDE = document.getElementById('includeIDE');
+      const startDownload = document.getElementById('startDownload');
+      const cancelDownload = document.getElementById('cancelDownload');
+      const progressBar = document.getElementById('progressBar');
+      const progressFill = progressBar.querySelector('i');
+      const toast = document.getElementById('toast');
+
+      // Files: direct GitHub release download links (uses release tag + asset filenames)
+      const DOWNLOADS = {
+        '1.40': 'https://github.com/SwifteexStudio/Swifteex/releases/download/BOLT/boltinstallmanager140.exe',
+        '1.60': 'https://github.com/SwifteexStudio/Swifteex/releases/download/160/boltinstallmanager160.exe',
+        'CORE': 'https://github.com/SwifteexStudio/Swifteex/releases/download/bolt160cr/boltinstallmanagerCORE.exe',
+        'IDE':  'https://github.com/SwifteexStudio/Swifteex/releases/download/ide1/plutoniumIDE_setup.exe'
+      };
+
+      // Focus trap helper (simple)
+      function trapFocus(container){
+        const focusable = Array.from(container.querySelectorAll('a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])'))
+          .filter(el => el.offsetParent !== null);
+        if(focusable.length === 0) return {release: ()=>{}};
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        function keyHandler(e){
+          if(e.key !== 'Tab') return;
+          if(e.shiftKey && document.activeElement === first){
+            e.preventDefault();
+            last.focus();
+          } else if(!e.shiftKey && document.activeElement === last){
+            e.preventDefault();
+            first.focus();
+          }
+        }
+        document.addEventListener('keydown', keyHandler);
+        return { release: ()=> document.removeEventListener('keydown', keyHandler) };
+      }
+
+      let modalTrap = null;
+      let lastFocusedBeforeModal = null;
+      let toastTimeout = null;
+
+      function openModal(){
+        lastFocusedBeforeModal = document.activeElement;
+        downloadModal.classList.add('show');
+        downloadModal.setAttribute('aria-hidden','false');
+        // set focus to first interactive element
+        const first = downloadModal.querySelector('.version-card');
+        if(first) first.focus();
+        modalTrap = trapFocus(downloadModal);
+      }
+      function closeModal(){
+        downloadModal.classList.remove('show');
+        downloadModal.setAttribute('aria-hidden','true');
+        if(modalTrap) modalTrap.release();
+        if(lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') lastFocusedBeforeModal.focus();
+        // reset transient UI
+        hideProgress();
+        toastMessage('', true);
+        // also reset CORE/IDE UI if necessary
+      }
+
+      // Navigation open/close with accessibility
+      function openNav(){
+        navDrawer.classList.add('show');
+        hamburger.setAttribute('aria-expanded', 'true');
+        navDrawer.setAttribute('aria-hidden', 'false');
+        document.documentElement.style.overflow = 'hidden';
+        const firstLink = navDrawer.querySelector('a');
+        if(firstLink) firstLink.focus();
+      }
+      function closeNav(){
+        navDrawer.classList.remove('show');
+        hamburger.setAttribute('aria-expanded','false');
+        navDrawer.setAttribute('aria-hidden','true');
+        document.documentElement.style.overflow = '';
+      }
+
+      hamburger.addEventListener('click', function(){
+        const open = navDrawer.classList.toggle('show');
+        if(open) openNav(); else closeNav();
+      });
+      navClose.addEventListener('click', closeNav);
+
+      navHome.addEventListener('click', function(ev){
+        ev.preventDefault();
+        closeNav();
+        document.getElementById('mainCard').scrollIntoView({behavior:'smooth', block:'center'});
+      });
+
+      // When Download link is clicked, open polished modal
+      navDownload.addEventListener('click', function(ev){
+        ev.preventDefault();
+        closeNav();
+        setTimeout(openModal, 160);
+      });
+
+      // Version selection interactions
+      versionCards.forEach(card => {
+        card.addEventListener('click', () => selectVersion(card.dataset.version));
+        card.addEventListener('keyup', (e) => { if(e.key === 'Enter' || e.key === ' ') selectVersion(card.dataset.version); });
+      });
+
+      function selectVersion(v){
+        versionCards.forEach(c => c.classList.toggle('selected', c.dataset.version === v));
+        selectedLabel.textContent = 'Bolt ' + v;
+
+        // If user selects 1.40 and CORE was enabled, disallow CORE for 1.40
+        if(v === '1.40' && enableCore.checked){
+          enableCore.checked = false;
+          enableCore.setAttribute('aria-checked', 'false');
+          coreWarning.classList.remove('show');
+          ideOption.classList.remove('show');
+          toastMessage('CORE is not available for Bolt 1.40');
+          // hide toast after a short delay
+          clearTimeout(toastTimeout);
+          toastTimeout = setTimeout(() => toastMessage('', true), 2600);
+        }
+      }
+
+      // Core toggle behavior
+      enableCore.addEventListener('change', function(){
+        const checked = enableCore.checked;
+        const selectedCard = versionCards.find(c => c.classList.contains('selected')) || versionCards[0];
+        const selectedVersion = selectedCard ? selectedCard.dataset.version : '1.60';
+
+        // Prevent enabling CORE for Bolt 1.40 explicitly
+        if(checked && selectedVersion === '1.40'){
+          enableCore.checked = false;
+          enableCore.setAttribute('aria-checked', 'false');
+          toastMessage('CORE is not available for Bolt 1.40');
+          clearTimeout(toastTimeout);
+          toastTimeout = setTimeout(() => toastMessage('', true), 2600);
+          return;
+        }
+
+        enableCore.setAttribute('aria-checked', checked ? 'true' : 'false');
+        coreWarning.classList.toggle('show', checked);
+        ideOption.classList.toggle('show', checked);
+
+        if(checked){
+          selectedLabel.textContent = 'Bolt CORE';
+        } else {
+          const sel = versionCards.find(c => c.classList.contains('selected')) || versionCards[0];
+          selectedLabel.textContent = 'Bolt ' + (sel ? sel.dataset.version : '1.60');
+          // ensure IDE checkbox is cleared if core disabled
+          includeIDE.checked = false;
+        }
+      });
+
+      // Cancel
+      cancelDownload.addEventListener('click', function(){ closeModal(); });
+
+      // Download flow
+      function startDownloadsSequence(targets, callback){
+        if(!targets || targets.length === 0){
+          toastMessage('No downloads selected', false);
+          setTimeout(() => toastMessage('', true), 2000);
+          return;
+        }
+
+        progressBar.style.display = 'block';
+        progressBar.setAttribute('aria-hidden','false');
+        progressFill.style.width = '0%';
+        toastMessage('Preparing downloads...');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {}, 0);
+
+        let i = 0;
+        function step(){
+          if(i >= targets.length){
+            // Completed loop; downloads have already been triggered in the loop below
+            progressFill.style.width = '100%';
+            toastMessage('Downloads started. Check your browser downloads.');
+            if(callback) callback();
+            return;
+          }
+
+          const filename = getFilenameFromPath(targets[i]);
+          const pctBefore = Math.round((i / targets.length) * 100);
+          progressFill.style.width = pctBefore + '%';
+          toastMessage('Starting ' + filename + '...');
+          // Trigger the download for this item (only once)
+          triggerDownload(targets[i]);
+
+          // update progress after a short delay to show movement
+          setTimeout(() => {
+            const pctAfter = Math.min(100, Math.round(((i + 1) / targets.length) * 100));
+            progressFill.style.width = pctAfter + '%';
+            i++;
+            // small spacing between sequential downloads
+            setTimeout(step, 420);
+          }, 520);
+        }
+        // kickoff
+        setTimeout(step, 220);
+      }
+
+      function getFilenameFromPath(path){
+        try{ return path.split('/').pop(); } catch(e){ return path; }
+      }
+
+      function triggerDownload(href){
+        try {
+          const a = document.createElement('a');
+          a.href = href;
+          a.setAttribute('download', '');
+          a.style.display = 'none';
+          // open in new tab for GitHub assets to preserve CORS/redirect behavior where needed
+          a.target = '_blank';
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(()=> { document.body.removeChild(a); }, 1500);
+        } catch (err) {
+          // fallback: open directly
+          try { window.open(href, '_blank'); } catch(e) {}
+        }
+      }
+
+      function hideProgress(){
+        progressBar.style.display = 'none';
+        progressBar.setAttribute('aria-hidden','true');
+        progressFill.style.width = '0%';
+      }
+
+      function toastMessage(msg, hide){
+        if(hide){
+          toast.style.visibility = 'hidden';
+          toast.setAttribute('aria-hidden','true');
+          toast.textContent = '';
+          clearTimeout(toastTimeout);
+          return;
+        }
+        toast.style.visibility = 'visible';
+        toast.setAttribute('aria-hidden','false');
+        toast.textContent = msg;
+      }
+
+      startDownload.addEventListener('click', function(){
+        const core = enableCore.checked;
+        const selectedCard = versionCards.find(c => c.classList.contains('selected')) || versionCards[0];
+        const baseVersion = selectedCard ? selectedCard.dataset.version : '1.60';
+
+        const targets = [];
+
+        // If CORE requested but selected version is 1.40, CORE is not available. Fall back to 1.40 stable.
+        if(core && baseVersion !== '1.40'){
+          // Use CORE binary (only once)
+          targets.push(DOWNLOADS['CORE']);
+        } else {
+          // Use the selected stable version
+          targets.push(DOWNLOADS[baseVersion] || DOWNLOADS['1.60']);
+        }
+
+        // Include IDE only when CORE is actually in use (and not when version is 1.40)
+        const includeIDESelected = includeIDE.checked && core && baseVersion !== '1.40';
+        if(includeIDESelected){
+          targets.push(DOWNLOADS['IDE']);
+        }
+
+        const downloadNow = document.getElementById('downloadNowInline').checked;
+        if(!downloadNow){
+          const w = window.open('', '_blank');
+          if(w){
+            w.document.write('<meta charset="utf-8"><title>Downloads</title><style>body{font-family:Inter,system-ui;margin:28px;background:#f7fbff;color:#072033}</style>');
+            w.document.write('<h2>Ready to download</h2><ul>');
+            targets.forEach(t => w.document.write('<li><a href="' + t + '" target="_blank" rel="noopener">' + getFilenameFromPath(t) + '</a></li>'));
+            w.document.write('</ul>');
+            w.document.close();
+            // Close modal after opening the new tab to show links
+            setTimeout(closeModal, 600);
+          } else {
+            toastMessage('Pop-up blocked. Downloads will start in this tab.');
+            startDownloadsSequence(targets, () => setTimeout(closeModal, 900));
+          }
+          return;
+        }
+
+        // Start the sequential download sequence (each file triggered exactly once)
+        startDownloadsSequence(targets, () => {
+          setTimeout(closeModal, 900);
+        });
+      });
+
+      // Small UX polish: bolt pill scroll
+      boltPill.addEventListener('click', function(){
+        document.getElementById('heroRich').scrollIntoView({behavior:'smooth', block:'center'});
+        boltPill.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration:420, easing:'cubic-bezier(.2,.9,.2,1)' });
+      });
+
+      // THEME: respect system and allow toggle, persist to localStorage
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      function applyTheme(theme){
+        if(theme === 'dark'){
+          document.body.classList.add('dark');
+          themeToggle.setAttribute('aria-pressed','true');
+        } else {
+          document.body.classList.remove('dark');
+          themeToggle.setAttribute('aria-pressed','false');
+        }
+      }
+      let stored = null;
+      try{ stored = localStorage.getItem('bolt_theme'); } catch(e){}
+      if(stored === 'dark' || (stored === null && prefersDark)){
+        applyTheme('dark');
+      } else {
+        applyTheme('light');
+      }
+      themeToggle.addEventListener('click', function(){
+        const isDark = document.body.classList.toggle('dark');
+        applyTheme(isDark ? 'dark' : 'light');
+        try{ localStorage.setItem('bolt_theme', isDark ? 'dark' : 'light'); } catch(e){}
+      });
+
+      // keyboard accessibility for modal (Escape to close)
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){
+          if(downloadModal.classList.contains('show')) closeModal();
+          if(navDrawer.classList.contains('show')) closeNav();
+        }
+      });
+
+      // small focus helpers
+      hamburger.addEventListener('keyup', function(e){ if(e.key === 'Enter') hamburger.click(); });
+      boltPill.addEventListener('keyup', function(e){ if(e.key === 'Enter') boltPill.click(); });
+
+      // ensure the selected label reflects initial selection
+      (function initSelected(){
+        const initial = document.querySelector('.version-card.selected')?.dataset.version || '1.60';
+        selectedLabel.textContent = 'Bolt ' + initial;
+      })();
+
+    })();
+  </script>
+</body>
+</html>
