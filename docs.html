@@ -3,109 +3,69 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bolt Runtime Engine v1.6.0 — Documentation</title>
+  <title>Bolt Runtime Engine v1.6.1 - Documentation (v1.61+ features)</title>
   <link rel="icon" href="assets/boltlogo.ico" type="image/x-icon" />
-  <meta name="description" content="Bolt Runtime Engine v1.6.0 — official documentation, install guide, CLI reference and tutorials."/>
+  <meta name="description" content="Bolt Runtime Engine v1.6.0 - installation, CLI, syntax guide updated for Bolt v1.61+ typed input and control flow, detailed calc example, troubleshooting, and fast search."/>
   <style>
-    /* ========= Design tokens ========= */
     :root{
-      --bg: #061025;             /* page background */
-      --panel: #071629;          /* panel background */
-      --panel-2: #0b2136;        /* secondary panel */
-      --muted: #9fb8c9;          /* muted text */
-      --text: #e6f8ff;           /* main text */
-      --accent: #1b6bf0;         /* primary accent */
-      --accent-2: #0ea5ff;       /* accent 2 */
+      --bg: #061025;
+      --panel: #071629;
+      --panel-2: #0b2136;
+      --muted: #9fb8c9;
+      --text: #e6f8ff;
+      --accent: #1b6bf0;
+      --accent-2: #0ea5ff;
       --success: #22c55e;
       --radius: 12px;
-      --max-width: 980px;
+      --max-width: 1100px;
       --font-system: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
       --focus: 3px solid rgba(14,165,233,0.12);
-      --gap: 14px;
     }
 
-    /* light theme */
-    body.light{
-      --bg: #f6fafc;
-      --panel: #ffffff;
-      --panel-2: #fbfdff;
-      --muted: #486b78;
-      --text: #072033;
-      --accent: #1158f0;
-      --accent-2: #ff4b4b;
-    }
-
-    /* ========= Base ========= */
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:var(--font-system);-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;background:var(--bg);color:var(--text);font-size:16px;line-height:1.5}
-    a{color:inherit}
+    html,body{height:100%;margin:0;font-family:var(--font-system);-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--text);font-size:16px;line-height:1.5}
     main{width:100%;max-width:var(--max-width);margin:20px auto;padding:16px}
-    img[alt="logo"]{display:block}
-
-    /* ========= Header ========= */
     header{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
     .logo{width:58px;height:58px;border-radius:8px;background-image:url('assets/boltlogo.ico');background-size:cover;background-position:center;flex:0 0 auto;box-shadow:0 8px 22px rgba(0,0,0,0.16)}
     .title-wrap{min-width:0}
     h1{margin:0;font-size:18px;font-weight:900;letter-spacing:-0.01em}
-    .subtitle{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .subtitle{margin:6px 0 0 0;color:var(--muted);font-size:13px}
 
-    /* ========= Card ========= */
     .card{margin-top:12px;background:linear-gradient(180deg,var(--panel),var(--panel-2));border-radius:var(--radius);padding:16px;border:1px solid rgba(255,255,255,0.03)}
-    .card .lead{color:var(--muted);font-size:14px;margin-top:8px}
+    .lead{color:var(--muted);font-size:14px;margin-top:8px}
 
-    /* ========= Top actions ========= */
     .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
     .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;font-weight:800;cursor:pointer;border:0;text-decoration:none}
     .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 10px 30px rgba(11,50,120,0.12)}
     .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:8px 12px}
 
-    /* ========= Layout - single column mobile-first ========= */
-    .toc-row{margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .toc-summary{color:var(--muted);font-size:13px}
-    details{background:transparent;border-radius:8px}
-    summary{list-style:none;cursor:pointer;padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:800}
-    .nav-inline{display:flex;gap:8px;flex-wrap:wrap}
-    .nav-inline a{padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:8px;color:var(--muted);text-decoration:none;font-weight:700}
+    nav.toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    nav.toc a{padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:8px;color:var(--muted);text-decoration:none;font-weight:700}
 
-    /* ========= Article / sections ========= */
-    article{margin-top:16px}
-    section {background:rgba(255,255,255,0.02);padding:14px;border-radius:10px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)}
+    section{background:rgba(255,255,255,0.02);padding:14px;border-radius:10px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)}
     h2{margin:0 0 8px 0;font-size:17px}
     h3{margin:12px 0 6px 0;font-size:15px}
     p{margin:8px 0;color:var(--muted);font-size:14px}
 
-    /* ========= Code blocks ========= */
     .code-toolbar{display:flex;justify-content:flex-end;margin-bottom:6px}
     .copy-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;color:var(--muted);cursor:pointer;font-weight:800}
     pre{background:#021426;color:#dff7ff;padding:12px;border-radius:8px;overflow:auto;font-family:var(--mono);font-size:13px;border:1px solid rgba(255,255,255,0.03)}
     code.inline{background:rgba(255,255,255,0.02);padding:3px 6px;border-radius:6px;font-family:var(--mono);font-size:13px}
-
-    /* diminished visual weight for mobile */
-    @media (max-width:920px){
-      header{padding:10px}
-      .card{padding:12px}
-      .logo{width:52px;height:52px}
-      h1{font-size:16px}
-      .btn{padding:8px 10px;font-size:14px}
-      section{padding:12px}
-      pre{font-size:13px}
-    }
-
-    /* larger screens: show TOC sidebar for convenience */
-    @media (min-width:920px){
-      .layout-grid{display:grid;grid-template-columns:260px 1fr;gap:18px}
-      aside.toc{position:sticky;top:20px;align-self:start;padding:12px;background:rgba(255,255,255,0.01);border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
-      .nav-inline{flex-direction:column}
-      details{display:none} /* hide mobile details on wide screens */
-      .toc-row{display:none}
-    }
-
-    /* focus and accessibility */
-    :focus{outline:var(--focus);outline-offset:2px}
     .muted-block{background:rgba(255,255,255,0.01);padding:10px;border-radius:8px;color:var(--muted);font-size:14px;border:1px solid rgba(255,255,255,0.02)}
-
+    .warn{background:rgba(255,165,0,0.06);border-left:4px solid rgba(255,165,0,0.9);padding:8px;border-radius:6px;color:var(--muted)}
+    .fix{background:rgba(34,197,94,0.06);border-left:4px solid rgba(34,197,94,0.9);padding:8px;border-radius:6px;color:var(--muted)}
+    .search-bar{display:flex;gap:8px;align-items:center}
+    .search-input{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:10px;color:var(--text);width:360px}
+    .search-results{position:fixed;left:50%;transform:translateX(-50%);top:110px;width:min(920px,94%);max-height:60vh;overflow:auto;background:linear-gradient(180deg,var(--panel),var(--panel-2));border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 24px 80px rgba(0,0,0,0.6);display:none;z-index:9999}
+    .search-item{padding:10px;border-radius:8px;margin-bottom:6px;border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+    .search-item h4{margin:0;font-size:14px}
+    .search-item p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
+    .kbd{background:rgba(255,255,255,0.02);padding:2px 6px;border-radius:6px;font-family:var(--mono);font-weight:700}
     footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center;padding:10px}
+    @media (max-width:920px){
+      .search-input{width:180px}
+    }
   </style>
 </head>
 <body>
@@ -113,15 +73,15 @@
     <header aria-labelledby="docTitle">
       <div class="logo" role="img" aria-label="Bolt logo"></div>
       <div class="title-wrap">
-        <h1 id="docTitle">Bolt Runtime Engine <small style="font-weight:800;margin-left:8px;background:transparent;color:var(--muted);font-size:12px">v1.6.0 — Docs</small></h1>
-        <div class="subtitle">Fast. Safe. Document-first distribution — read before you install.</div>
+        <h1 id="docTitle">Bolt Runtime Engine v1.6.0 - Documentation</h1>
+        <div class="subtitle">Fast, safe, document-first distribution - read before you install.</div>
       </div>
     </header>
 
     <div class="card" role="region" aria-label="Documentation card">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <div>
-          <div class="lead">This page contains installation, CLI reference, language highlights and short tutorials. Mobile-friendly and streamlined for quick scanning.</div>
+          <div class="lead">Installation, CLI reference, syntax guide updated for Bolt v1.61+ features, deep calc walkthrough, troubleshooting, and fast search.</div>
         </div>
 
         <div class="actions" role="toolbar" aria-label="primary actions">
@@ -130,223 +90,312 @@
         </div>
       </div>
 
-      <!-- Mobile compact TOC -->
-      <div class="toc-row">
-        <details>
-          <summary>Contents</summary>
-          <nav class="nav-inline" aria-label="Table of contents">
-            <a href="#install">Installation</a>
-            <a href="#cli">CLI</a>
-            <a href="#langref">Language</a>
-            <a href="#tutorials">Tutorials</a>
-            <a href="#examples">Examples</a>
-            <a href="#legal">Legal</a>
-          </nav>
-        </details>
+      <nav class="toc" aria-label="Table of contents">
+        <a href="#install">Installation & Verification</a>
+        <a href="#cli">CLI</a>
+        <a href="#syntax">New syntax (v1.61+)</a>
+        <a href="#calc-breakdown">Calc - Detailed Breakdown</a>
+        <a href="#examples">Examples</a>
+        <a href="#articles">Articles</a>
+        <a href="#troubleshoot">Troubleshooting</a>
+        <a href="#legal">Legal & Credits</a>
+      </nav>
+
+      <!-- search UI -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px;gap:8px;align-items:center">
+        <div class="search-bar" role="search" aria-label="Quick search">
+          <input id="searchInput" class="search-input" placeholder="Press Ctrl+K - search the docs" aria-label="Search the documentation" />
+          <button id="searchBtn" class="copy-btn" aria-label="Open search">Search</button>
+        </div>
       </div>
 
-      <div class="layout-grid" aria-live="polite">
-        <!-- Sidebar for wide screens -->
-        <aside class="toc" aria-label="On-page navigation">
-          <nav style="display:flex;flex-direction:column;gap:8px">
-            <a href="#install" style="font-weight:900;color:var(--text)">1. Installation</a>
-            <a href="#cli" style="font-weight:900;color:var(--text)">2. CLI</a>
-            <a href="#langref" style="font-weight:900;color:var(--text)">3. Language</a>
-            <a href="#tutorials" style="font-weight:900;color:var(--text)">4. Tutorials</a>
-            <a href="#examples" style="font-weight:900;color:var(--text)">5. Examples</a>
-            <a href="#legal" style="font-weight:900;color:var(--text)">Legal</a>
-          </nav>
-        </aside>
+      <div id="searchResults" class="search-results" role="listbox" aria-label="Search results"></div>
 
-        <article>
-          <!-- 1. Installation -->
-          <section id="install" aria-labelledby="installTitle">
-            <h2 id="installTitle">1. Installation and Verification</h2>
-            <p>Download Bolt from the official portal (docs-first distribution). The Download page lists signed artifacts and checksums you should verify.</p>
-            <p><a href="https://swifteexstudio.github.io/Swifteex/downloadbolt.html" target="_blank" rel="noopener">swifteexstudio.github.io/Swifteex/downloadbolt.html</a></p>
+      <!-- Sections -->
 
-            <h3>Verify installation</h3>
-            <p class="muted-block">After installing, check the runtime version to confirm the binary is accessible and to view build info.</p>
+      <section id="install" aria-labelledby="installTitle">
+        <h2 id="installTitle">Installation & Verification</h2>
+        <p class="muted-block">Download Bolt from the official distribution and verify signed artifacts before running binaries. After installation confirm the runtime is accessible from your shell.</p>
 
-            <div class="code-toolbar" aria-hidden="true">
-              <button class="copy-btn" data-target="cmd-version">Copy</button>
-            </div>
-            <pre id="cmd-version"><code>bolt --version</code></pre>
+        <h3>Verify installation</h3>
+        <div class="code-toolbar" aria-hidden="true">
+          <button class="copy-btn" data-target="cmd-version">Copy</button>
+        </div>
+        <pre id="cmd-version"><code>bolt --version</code></pre>
 
-            <p>If <code class="inline">bolt</code> is not recognized, run it directly from the download folder. On Windows, open the folder, type <span style="font-family:var(--mono);background:rgba(255,255,255,0.02);padding:2px 6px;border-radius:6px">cmd</span> in the File Explorer address bar and run the version command there.</p>
-          </section>
-
-          <!-- 2. CLI -->
-          <section id="cli" aria-labelledby="cliTitle">
-            <h2 id="cliTitle">2. Command Line Interface (CLI)</h2>
-            <p class="muted-block">Key runtime flags. Combine them for the desired behavior.</p>
-
-            <ul>
-              <li><strong><code class="inline">--run [files...]</code></strong> — execute one or more <code class="inline">.blt</code> files.</li>
-              <li><strong><code class="inline">--exec-string "&lt;source&gt;"</code></strong> — run a code string from the shell.</li>
-              <li><strong><code class="inline">--cmd</code></strong> — quick single-line interactive mode.</li>
-              <li><strong><code class="inline">--safe</code></strong> — sandbox mode: disables unsafe built-ins (e.g. <code class="inline">input</code>, <code class="inline">sleep</code>).</li>
-              <li><strong><code class="inline">--debug</code></strong> — verbose logging with full tracebacks.</li>
-              <li><strong><code class="inline">--inspect-ast</code></strong> — print AST before execution (diagnostics).</li>
-              <li><strong><code class="inline">--json-errors</code></strong> — format errors as JSON for automation.</li>
-              <li><strong><code class="inline">--no-type-warn</code></strong> — suppress type-related warnings at runtime.</li>
-            </ul>
-
-            <div class="code-toolbar">
-              <button class="copy-btn" data-target="cmd-run-safe">Copy</button>
-            </div>
-            <pre id="cmd-run-safe"><code>bolt --safe --debug --run myscript.blt</code></pre>
-
-            <p style="margin-top:8px">Tip: use <code class="inline">--json-errors</code> when integrating Bolt into CI pipelines or automated tooling so parsing is reliable.</p>
-          </section>
-
-          <!-- 3. Language reference -->
-          <section id="langref" aria-labelledby="langTitle">
-            <h2 id="langTitle">3. Language Reference — highlights</h2>
-            <p class="muted-block">Core keywords and frequently-used built-ins. See full spec on the distribution portal for the complete API.</p>
-
-            <h3>Keywords</h3>
-            <p>Compact aliases are available for productivity:</p>
-            <ul>
-              <li><strong>Functions:</strong> <code class="inline">fn</code>, <code class="inline">ret</code></li>
-              <li><strong>Conditionals:</strong> <code class="inline">if</code>, <code class="inline">el</code>, <code class="inline">esl</code></li>
-              <li><strong>Loops:</strong> <code class="inline">wh</code>/<code class="inline">whl</code> (while), <code class="inline">fr</code>/<code class="inline">for</code>, <code class="inline">br</code> (break), <code class="inline">nx</code> (next)</li>
-              <li><strong>Logic:</strong> <code class="inline">not</code>, <code class="inline">and</code>, <code class="inline">or</code></li>
-            </ul>
-	      <div class="muted-block" style="border-left:4px solid var(--accent);background:rgba(27,107,240,0.05);margin-bottom:12px;">
-  ⚠️ <strong>Notice:</strong> Some parts of the language examples may not work properly in Bolt. We are actively fixing it.
-</div>
-
-            <h3>Built-ins (common)</h3>
-            <ul>
-              <li><strong>IO:</strong> <code class="inline">print</code>, <code class="inline">prnt</code>, <code class="inline">input</code> (disabled in <code class="inline">--safe</code>).</li>
-              <li><strong>Memory:</strong> <code class="inline">alloc(size)</code>, <code class="inline">free(ref)</code>, <code class="inline">memcpy(dst, src, n)</code>, <code class="inline">memset(dst, val, n)</code>, <code class="inline">heap_view()</code>.</li>
-              <li><strong>Math & Time:</strong> <code class="inline">sin</code>, <code class="inline">cos</code>, <code class="inline">sqrt</code>, <code class="inline">pow</code>, <code class="inline">rand</code>, <code class="inline">randint</code>, <code class="inline">time</code>, <code class="inline">sleep</code> (sleep disabled in safe mode).</li>
-              <li><strong>Collections:</strong> <code class="inline">len</code>, <code class="inline">range</code>, <code class="inline">list</code>, <code class="inline">dict</code>, <code class="inline">uniq</code>.</li>
-            </ul>
-          </section>
-
-          <!-- 4. Tutorials -->
-          <section id="tutorials" aria-labelledby="tutTitle">
-            <h2 id="tutTitle">4. Tutorials (copy-ready)</h2>
-            <p class="muted-block">Small, focused examples. Copy each snippet with the button provided. <strong>Note:</strong> `let.userinput` and `let.call` are CORE-only features — they exist only in Bolt CORE builds. If you are running the stable (non-CORE) runtime, use the standard `input()` or `bolt` interactive features shown in the fallback examples below.</p>
-
-            <h3>CORE-only: interactive function example (corrected)</h3>
-            <div class="code-toolbar"><button class="copy-btn" data-target="core-hi">Copy</button></div>
-            <pre id="core-hi"><code>/* CORE-only: uses let.userinput and let.call */
-fn hi() ;;
-  name = let.userinput("name: ");
-  prnt("hi there, " + name + "!");
-  age = let.userinput("age: ");
-  prnt("you are " + age + " years old!");
-  favfood = let.userinput("what is your favourite food? ");
-  prnt("hi there, " + name + ". You are " + age + " years old and you like " + favfood + ".");
-  ret;
-;;;
-
-let.call hi();
+        <p>Canonical output sample to expect:</p>
+        <pre><code>Bolt Runtime Engine v1.X.X (V: official=X/X) . Created by Ariyan Ahmed.
+This project is protected by Copyright © 202X Swifteex (a HyperClouD Softwares company). All rights reserved.
+This version was released on 202X-0X-0X
+proudly built by, Ariyan Ahmed, Swifteex Studio.
 </code></pre>
 
-            <p style="margin-top:8px">Explanation (CORE):</p>
-            <ul>
-              <li><strong>fn ... ;; ... ;;;</strong> — function definition with the `;;`/`;;;` block markers used in examples elsewhere in this docset.</li>
-              <li><strong>let.userinput(prompt)</strong> — CORE-only input helper that returns the entered string. Use only on CORE builds.</li>
-              <li><strong>let.call fnName()</strong> — CORE-only function-invocation helper (invokes a previously defined function).</li>
-              <li><strong>prnt(...)</strong> — shorthand print (alias for the standard print built-in).</li>
-            </ul>
+        <p class="muted-block">If your output follows this layout, the binary exposes build metadata and the release date which helps support and automation tools. For features documented here, ensure your Bolt runtime is <strong>v1.61+</strong>.</p>
 
-            <h3>CORE-only: a guarded price example</h3>
-            <div class="code-toolbar"><button class="copy-btn" data-target="core-price">Copy</button></div>
-            <pre id="core-price"><code>/* CORE-only: simple decision using let.userinput */
-fn price() ;;
-  pizza = 100;
-  burger = 500;
-  choice = let.userinput("eat (pizza/burger): ");
-  if (choice == "pizza") {
-    prnt("that will be " + pizza + " dollar");
-  } else if (choice == "burger") {
-    prnt("that will be " + burger + " dollar");
-  } else {
-    prnt("unknown option: " + choice);
-  }
-  ret;
-;;;
+        <p>Support and downloads: <a href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener">https://swifteexstudio.github.io/Swifteex/</a></p>
+      </section>
 
-let.call price();
+      <section id="cli" aria-labelledby="cliTitle">
+        <h2 id="cliTitle">Command Line Interface</h2>
+        <p class="muted-block">Flags and runtime modes in Bolt. Combine them to fit your workflow.</p>
+
+        <ul>
+          <li><code class="inline">--run [files...]</code> - execute <code>.blt</code> files</li>
+          <li><code class="inline">--exec-string "&lt;source&gt;"</code> - run inline source</li>
+          <li><code class="inline">--cmd</code> - single-line interactive mode</li>
+          <li><code class="inline">--safe</code> - sandbox mode (blocks interactive and unsafe built-ins)</li>
+          <li><code class="inline">--debug</code> - verbose logging and tracebacks</li>
+          <li><code class="inline">--inspect-ast</code> - print AST before execution for diagnostics</li>
+          <li><code class="inline">--json-errors</code> - machine-readable error output for CI</li>
+        </ul>
+
+        <div class="code-toolbar">
+          <button class="copy-btn" data-target="cmd-run-safe">Copy</button>
+        </div>
+        <pre id="cmd-run-safe"><code>bolt --safe --debug --run myscript.blt</code></pre>
+      </section>
+
+      <section id="syntax" aria-labelledby="syntaxTitle">
+        <h2 id="syntaxTitle">New Syntax - v1.61+ Quick Reference</h2>
+        <p class="muted-block">This section focuses on syntax and features available from <strong>Bolt v1.61+</strong>. Typed input helpers and modern flow constructs are available in v1.61 and newer.</p>
+
+        <h3 id="printing">Printing - <code>sys.out</code></h3>
+        <p><strong>What it is and what it does</strong>: <code>sys.out</code> writes text or evaluated tokens to standard output. Use forward slashes to expand variables inside output: <code>/var/</code>. Numeric expressions are evaluated when tokens are numeric.</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="print-ex">Copy</button></div>
+        <pre id="print-ex"><code>sys.out'hello, world!'
+name = 'Ariyan'
+sys.out /name/
+
+num1 = 10
+num2 = 15
+sys.out /num1/ + /num2/
+sys.out'the calculation is /num1 + num2/'
+</code></pre>
+        <p class="muted-block">If you see literal tokens such as "/name/" in output, confirm the variable is defined and that you used forward slashes without spaces.</p>
+
+        <h3 id="variables">Variables</h3>
+        <p>Assignment uses equals. Starting with v1.61+ integers and numeric types are available and usable in arithmetic.</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="vars-ex">Copy</button></div>
+        <pre id="vars-ex"><code>myvariable = 'Alice'
+age = 11
+sys.out /myvariable/
+sys.out /age/
+</code></pre>
+        <p class="muted-block">For values coming from user input, prefer the typed input helpers below to ensure numeric types.</p>
+
+        <h3 id="lists">Lists</h3>
+        <p>Create lists with <code>let.list['a' ; 'b']</code>. Index with 0-based notation: <code>mylist[0]</code>.</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="list-ex">Copy</button></div>
+        <pre id="list-ex"><code>mylist = let.list['bob' ; 'john']
+sys.out /mylist[0]/
+sys.out'hi /mylist[0]/!'
+</code></pre>
+        <p class="muted-block">Guard indexes with <code>len()</code> to avoid out-of-range errors as shown below.</p>
+        <pre><code>idx = 0
+if (len(mylist) &gt; idx)
+  sys.out /mylist[idx]/
+else
+  sys.out'index out of range'
+end.if
 </code></pre>
 
-            <h3>Non-CORE fallback (stable runtime)</h3>
-            <div class="code-toolbar"><button class="copy-btn" data-target="fallback-hi">Copy</button></div>
-            <pre id="fallback-hi"><code>/* Stable (non-CORE) fallback using built-in input() and direct calls */
-fn hi() ;;
-  name = input("name: ");
-  prnt("hi there, " + name + "!");
-  age = input("age: ");
-  prnt("you are " + age + " years old!");
-  favfood = input("what is your favourite food? ");
-  prnt("hi there, " + name + ". You are " + age + " years old and you like " + favfood + ".");
-  ret;
-;;;
+        <h3 id="functions">Functions and invocation</h3>
+        <p>Functions are declared with <code>fn name(); ... end</code>. The helper <code>let.call name()</code> is available and standard on v1.61+. Many stable runtimes also allow direct invocation such as <code>name()</code>.</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="fn-ex">Copy</button></div>
+        <pre id="fn-ex"><code>fn greet();
+  sys.out'hello from greet'
+end
 
-/* Call the function directly in stable builds */
-hi();
+let.call greet()
+</code></pre>
+        <p class="muted-block">Make sure functions are defined before invoking them, or call at runtime after the definition section.</p>
+
+        <h3 id="input">Typed input helpers (v1.61+)</h3>
+        <p>In v1.61+ Bolt provides typed input helpers to capture typed values directly: <code>let.userinput.int'prompt'</code> for integers and <code>let.userinput.str'prompt'</code> for strings. These reduce bookkeeping and parsing in common interactive scripts.</p>
+        <pre><code>num = let.userinput.int'enter a number: '
+name = let.userinput.str'enter your name: '
+</code></pre>
+        <p class="muted-block">If you need to support older runtime versions, detect version via <code>bolt --version</code> and fall back to parsing raw input where necessary.</p>
+
+        <h3 id="control-flow">Control flow - <code>if</code>, <code>eif</code>, <code>else</code></h3>
+        <p>v1.61+ includes the familiar conditional ladder: <code>if</code>, <code>eif</code> for else-if, and <code>else</code> for fallback. Use <code>end.if</code> to close the block.</p>
+        <pre><code>if condition
+  sys.out'yes'
+eif other_condition
+  sys.out'other'
+else
+  sys.out'no'
+end.if
+</code></pre>
+        <p class="muted-block">Always validate types when doing numeric comparisons. Use <code>tonumber()</code> or typed input helpers to guarantee numeric comparisons.</p>
+      </section>
+
+      <section id="calc-breakdown" aria-labelledby="calcTitle">
+        <h2 id="calcTitle">Calculator Example - Full Breakdown (v1.61+)</h2>
+
+        <p class="muted-block">The calculator example below assumes Bolt v1.61+ so that typed input helpers and modern control flow are available. The example is split into parts with precise, testable fixes and fallback suggestions for older runtimes.</p>
+
+        <h3>Canonical source</h3>
+        <div class="code-toolbar"><button class="copy-btn" data-target="calc-full">Copy</button></div>
+        <pre id="calc-full"><code>fn calc();
+  sys.out'welcome to calc.'
+  num1 = let.userinput.int'enter number first: '
+  num2 = let.userinput.int'enter number second: '
+  sys.out'1) addition 2) subtraction 3) multiplication 4) division'
+  sys.out'choose 1 to 4'
+  choose = let.userinput'choose: '
+
+  if choose == '1'
+    sys.out /num1/ + /num2/
+  eif choose == '2'
+    sys.out /num1/ - /num2/
+  eif choose == '3'
+    sys.out /num1/ * /num2/
+  eif choose == '4'
+    if /num2/ == 0
+      sys.out'ERROR: divide by zero'
+    else
+      sys.out /num1/ / /num2/
+    end.if
+  else
+    sys.out'INVALID'
+  end.if
+end
+
+let.call calc()
 </code></pre>
 
-            <p style="margin-top:8px">Honest notes:</p>
-            <ul>
-              <li>If you intend to ship interactive scripts to users who may run stable (non-CORE) Bolt, include both paths (CORE and fallback) or detect the runtime and choose the supported API at runtime. CORE-only helpers will fail on stable builds.</li>
-              <li>Prefer explicit validation of user inputs (e.g., check that age parses as a number) before using them in production scripts.</li>
-              <li>Function markers in examples (`;;` / `;;;`) are used consistently in this docset — keep them when authoring Bolt source files to match the examples shown here.</li>
-            </ul>
-          </section>
+        <h3>Part 1 - Function and welcome</h3>
+        <pre><code>fn calc();
+  sys.out'welcome to calc.' </code></pre>
+        <p>Declares function <code>calc</code>. Prints a greeting so the user knows the program started. No issues expected here.</p>
 
-          <!-- 5. Examples -->
-          <section id="examples" aria-labelledby="examplesTitle">
-            <h2 id="examplesTitle">5. Additional examples</h2>
-            <p class="muted-block">Small patterns you may reuse.</p>
+        <h3>Part 2 - Typed numeric input (v1.61+)</h3>
+        <pre><code>  num1 = let.userinput.int'enter number first: '
+  num2 = let.userinput.int'enter number second: '</code></pre>
+        <p>These calls capture integer values directly. On v1.61+ the returned values are numeric types suitable for arithmetic. This avoids manual parsing and reduces errors.</p>
+        <p class="fix">If you must support older runtimes, fallback example:</p>
+        <pre><code>inputs are not support for versions below 1.60 CORE
+</code></pre>
+        <p class="muted-block">Always validate input on user error. For `let.userinput.int`, test entering non-numeric text and ensure your runtime prompts or errors clearly. If the runtime does not auto-validate, implement a simple parse check and re-prompt.</p>
 
-            <div class="code-toolbar"><button class="copy-btn" data-target="example-loop">Copy</button></div>
-            <pre id="example-loop"><code>i = 0;
-wh (i < 5) {
-  prnt("count: " + i);
-  i = i + 1;
-}
+        <h3>Part 3 - Menu and choice</h3>
+        <pre><code>  sys.out'1) addition 2) subtraction 3) multiplication 4) division'
+  sys.out'choose 1 to 4'
+  choose = let.userinput'choose: '</code></pre>
+        <p>Shows options and captures a selection as a string. The code compares string tokens like '1'.</p>
+        <p class="fix">Normalize input by trimming whitespace and lower-casing if needed. Prefer `let.userinput.int` for numeric choices when available: `choose = let.userinput.int'choose: '` then compare numbers.</p>
+
+        <h3>Part 4 - Addition branch</h3>
+        <pre><code>  if choose == '1'
+    sys.out /num1/ + /num2/</code></pre>
+        <p>If the user chose option 1, the code prints the sum. Because `num1` and `num2` were captured via `let.userinput.int`, they are numeric and this prints the arithmetic result.</p>
+        <p class="muted-block">If you used string-based input, convert before arithmetic: <code>num1 = tonumber(num1)</code>.</p>
+
+        <h3>Parts 5 and 6 - Subtraction, multiplication and division guard</h3>
+        <pre><code>  eif choose == '2'
+    sys.out /num1/ - /num2/
+  eif choose == '3'
+    sys.out /num1/ * /num2/
+  eif choose == '4'
+    if /num2/ == 0
+      sys.out'ERROR: divide by zero'
+    else
+      sys.out /num1/ / /num2/
+    end.if</code></pre>
+        <p>The division branch checks the divisor before computing. Important: when comparing to zero ensure the comparison is numeric. With `let.userinput.int` this is automatic. If using parsed input, compare with the parsed numeric value.</p>
+        <p class="fix">If you need floating point division, confirm your runtime supports floats. If only integer division is supported, document that the result may be truncated.</p>
+
+        <h3>Part 7 - Fallback and invocation</h3>
+        <pre><code>  else
+    sys.out'INVALID'
+  end.if
+end
+
+let.call calc()</code></pre>
+        <p>The `else` branch prints INVALID for any other choice. The function finishes and is invoked via <code>let.call calc()</code>, which is supported on v1.61+. If your target runtime prefers direct calls, use <code>calc()</code>.</p>
+
+        <h3>Testing checklist for this example</h3>
+        <ol>
+          <li>Run <code>bolt --version</code> and confirm v1.61 or newer.</li>
+          <li>Enter valid integers and verify arithmetic results match expectations.</li>
+          <li>Try invalid inputs and confirm either the typed helper re-prompts or your parse fallback handles the case.</li>
+          <li>Check division by zero behavior and confirm the guard prints the error message.</li>
+        </ol>
+
+        <p class="muted-block">If issues persist, gather the exact terminal output and the Bolt version and include them in your support request.</p>
+      </section>
+
+      <section id="examples" aria-labelledby="examplesTitle">
+        <h2 id="examplesTitle">Examples</h2>
+        <p class="muted-block">Small, copy-ready samples for quick testing on v1.61+ runtimes.</p>
+
+        <div class="code-toolbar"><button class="copy-btn" data-target="example-save">Copy</button></div>
+        <pre id="example-save"><code># Save as hello.blt */
+sys.out'hello, world!'
 </code></pre>
 
-            <div class="code-toolbar"><button class="copy-btn" data-target="example-ast">Copy</button></div>
-            <pre id="example-ast"><code>bolt --inspect-ast --exec-string "prnt(1+2)"
+        <div class="code-toolbar"><button class="copy-btn" data-target="example-ast">Copy</button></div>
+        <pre id="example-ast"><code>bolt --inspect-ast --exec-string "sys.out'1+2'"
 </code></pre>
+      </section>
 
-            <h3 style="margin-top:14px">Runtime version — sample verification</h3>
-            <p class="muted-block">If you run the CORE build named <code class="inline">boltcr</code> the version output should look like the sample below. This verifies you are running the CORE variant and shows licensing/build metadata.</p>
+      <section id="articles" aria-labelledby="articlesTitle">
+        <h2 id="articlesTitle">Articles</h2>
+        <p class="muted-block">Short articles to help you design scripts for both interactive usage and automation. Each article includes concrete examples and support notes.</p>
 
-            <div class="code-toolbar"><button class="copy-btn" data-target="sample-version">Copy</button></div>
-            <pre id="sample-version"><code>C:\Users\user>boltcr --version
-Bolt Runtime Engine v1.6.0+1 (V: offical=false/core) . licensed commercial use only
-Copyright © 2026 Swifteex (a HyperClouD Softwares company). All rights reserved.
-2026-01-28
-
-C:\Users\user&gt;
-</code></pre>
-
-            <p style="margin-top:8px">Note: The "core" marker in the version string is the primary signal your binary is a CORE build. Stable Bolt builds will omit the <code>(.../core)</code> marker or display a different official flag.</p>
-          </section>
-
-          <!-- Legal -->
-          <section id="legal" aria-labelledby="legalTitle">
-            <h2 id="legalTitle">Legal & credits</h2>
-            <p>© 2026 Swifteex (a HyperClouD Softwares company). All rights reserved. Always verify downloadable artifacts with the signed checksums on the Download page.</p>
-          </section>
-
-          <footer>
-            <div style="display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap">
-              <a class="btn btn-ghost" href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener">Swifteex Studio</a>
-              <a class="btn btn-ghost" href="mailto:swifteexstudio@gmail.com">support</a>
-            </div>
-            <div style="margin-top:10px;color:var(--muted)">Documentation-first • Read before you install</div>
-          </footer>
+        <article style="margin-top:12px">
+          <h3>Safe scripting practices</h3>
+          <p>Detect runtime version with <code>bolt --version</code> and choose typed helpers when v1.61+ is detected. For automation, avoid blocking user prompts; accept flags or environment variables to switch into noninteractive mode.</p>
         </article>
-      </div>
+
+        <article style="margin-top:12px">
+          <h3>Distributing scripts</h3>
+          <p>Include a small header that prints expected runtime version and usage. Provide both typed-helper paths for v1.61+ and fallback parsing code for earlier runtimes so your package runs across environments.</p>
+        </article>
+      </section>
+
+      <section id="troubleshoot" aria-labelledby="troubleshootTitle">
+        <h2 id="troubleshootTitle">Troubleshooting</h2>
+        <p class="muted-block">Concrete steps when Bolt is not recognized or scripts fail. No vague suggestions.</p>
+
+        <h3>Bolt not recognized</h3>
+        <ol>
+          <li>Confirm install folder exists. Windows default: <code class="inline">C:\Program Files\Bolt</code>.</li>
+          <li>Run the executable directly from the folder: open PowerShell in the folder and run <code class="inline">.\bolt --version</code>. If this runs, the binary is fine but not on PATH.</li>
+          <li>Add the install folder to PATH:
+            <ul>
+              <li>Windows: Start → Edit the system environment variables → Environment Variables → under System variables edit <code>Path</code> → Add the Bolt folder → Save → restart terminal.</li>
+            </ul>
+          </li>
+          <li>If the binary is missing or corrupt, re-download the installer from the official page and reinstall. Use the installer-provided uninstall when available before reinstalling.</li>
+        </ol>
+
+        <h3>Script errors or missing helpers</h3>
+        <p>Confirm your runtime version is v1.61+ for typed helpers and modern control flow. If running older versions, include fallback parsing and safe guards. When requesting help provide the Bolt version, the script, and the exact terminal output.</p>
+
+        <h3>Collect logs</h3>
+        <p>Run scripts with <code>bolt --debug --run script.blt</code> or <code>bolt --json-errors --run script.blt</code> to get structured information to attach to a support request.</p>
+      </section>
+
+      <section id="legal" aria-labelledby="legalTitle">
+        <h2 id="legalTitle">Legal & Credits</h2>
+        <p>All rights reserved. Verify downloadable artifacts with the signed checksums on the official download page before installation.</p>
+
+        <p style="margin-top:8px">
+          © 2026 Swifteex Studio (a HyperClouD Softwares company). Documentation and builds assembled by Swifteex Studio with distribution support from Swifteex Studio. Recommended editor: Visual Studio Code.
+        </p>
+
+        <p style="margin-top:12px">Support & downloads: <a href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener">https://swifteexstudio.github.io/Swifteex/</a></p>
+      </section>
+
+      <footer>
+        <div style="display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap">
+          <a class="btn btn-ghost" href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener">Swifteex Studio</a>
+          <a class="btn btn-ghost" href="mailto:swifteexstudio@gmail.com">support</a>
+        </div>
+        <div style="margin-top:10px;color:var(--muted)">Documentation-first - read before you install</div>
+      </footer>
     </div>
   </main>
 
@@ -388,23 +437,117 @@ C:\Users\user&gt;
           });
         });
       });
+    })();
 
-      /* small keyboard accessibility: open details with Enter on summary */
-      document.querySelectorAll('summary').forEach(function(s){
-        s.addEventListener('keydown', function(e){
-          if(e.key === 'Enter' || e.key === ' '){
-            e.preventDefault();
-            s.click();
-          }
+    /* ---------------- Fast client-side search ---------------- */
+    (function(){
+      const input = document.getElementById('searchInput');
+      const btn = document.getElementById('searchBtn');
+      const resultsBox = document.getElementById('searchResults');
+
+      function buildIndex(){
+        const nodes = [];
+        document.querySelectorAll('h2[id], h3[id], section[id], pre[id], nav.toc a').forEach(function(el){
+          const nearestId = el.id || (el.getAttribute('href') ? el.getAttribute('href').replace('#','') : null);
+          const title = el.tagName.toLowerCase() === 'a' ? el.textContent : (el.textContent || '');
+          if(!nearestId) return;
+          nodes.push({
+            id: nearestId,
+            title: title.trim().slice(0,200),
+            text: (el.innerText || '').trim().replace(/\s+/g,' ').slice(0,800)
+          });
         });
+        document.querySelectorAll('section[id]').forEach(function(sec){
+          const id = sec.id;
+          const titleEl = sec.querySelector('h2');
+          const title = titleEl ? titleEl.innerText : id;
+          const text = sec.innerText.replace(/\s+/g,' ').slice(0,1500);
+          nodes.push({id, title, text});
+        });
+        const map = new Map();
+        nodes.forEach(n => {
+          if(!map.has(n.id)) map.set(n.id, n);
+        });
+        return Array.from(map.values());
+      }
+
+      let index = buildIndex();
+
+      function openResults(){ resultsBox.style.display = 'block'; input.focus(); }
+      function closeResults(){ resultsBox.style.display = 'none'; }
+
+      function highlightMatch(text, q){
+        if(!q) return text;
+        const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g,'\\$&') + ')', 'ig');
+        return text.replace(re, '<strong style="background:rgba(14,165,233,0.12);color:var(--text);padding:0 2px;border-radius:4px">$1</strong>');
+      }
+
+      function search(q){
+        if(!q || q.trim().length < 1){
+          resultsBox.innerHTML = '<div class="muted-block">Type to search the documentation</div>';
+          openResults();
+          return;
+        }
+        q = q.trim();
+        const terms = q.split(/\s+/).map(t => t.toLowerCase());
+        const scored = index.map(item => {
+          const hay = (item.title + ' ' + item.text).toLowerCase();
+          let score = 0;
+          for(const t of terms){
+            if(hay.includes(t)) score += 10;
+            if(item.title.toLowerCase().includes(t)) score += 5;
+          }
+          return {item, score};
+        }).filter(r => r.score > 0).sort((a,b) => b.score - a.score).slice(0,25);
+
+        if(scored.length === 0){
+          resultsBox.innerHTML = '<div class="muted-block">No results found. Try different keywords.</div>';
+          openResults();
+          return;
+        }
+
+        resultsBox.innerHTML = '';
+        scored.forEach(r => {
+          const el = document.createElement('div');
+          el.className = 'search-item';
+          el.setAttribute('role','option');
+          const titleHtml = highlightMatch(r.item.title, q);
+          const snippet = r.item.text.slice(0,240);
+          const snippetHtml = highlightMatch(snippet, q);
+          el.innerHTML = '<h4>' + titleHtml + '</h4><p>' + snippetHtml + '</p>';
+          el.addEventListener('click', function(){
+            closeResults();
+            const target = document.getElementById(r.item.id);
+            if(target){
+              target.scrollIntoView({behavior:'smooth', block:'center'});
+              target.style.transition = 'box-shadow 0.4s';
+              const orig = target.style.boxShadow;
+              target.style.boxShadow = '0 0 0 4px rgba(14,165,233,0.12)';
+              setTimeout(()=>{ target.style.boxShadow = orig; },1200);
+            }
+          });
+          resultsBox.appendChild(el);
+        });
+        openResults();
+      }
+
+      btn.addEventListener('click', function(){ search(input.value); });
+      input.addEventListener('keydown', function(e){
+        if(e.key === 'Enter') { search(input.value); }
+        if(e.key === 'Escape') { closeResults(); input.blur(); }
       });
 
-      /* keyboard hint: toggle light theme with Ctrl+D (optional) */
       document.addEventListener('keydown', function(e){
-        if(e.ctrlKey && (e.key === 'd' || e.key === 'D')){
-          document.body.classList.toggle('light');
+        if((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+          e.preventDefault();
+          if(resultsBox.style.display === 'block') { closeResults(); }
+          else { openResults(); input.focus(); input.select(); }
         }
+        if(e.key === 'Escape'){ closeResults(); }
       });
+
+      const observer = new MutationObserver(function(){ index = buildIndex(); });
+      observer.observe(document.body, {childList:true, subtree:true, characterData:false});
     })();
   </script>
 </body>
