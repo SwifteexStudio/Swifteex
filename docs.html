@@ -360,7 +360,7 @@ end
 let.call greet()</code></pre>
 
           <h4>Arguments and returns (pattern)</h4>
-          <p class="muted-block">Bolt v1.61+ does not support formal parameter lists in function header in the same way as other languages. To pass data, assign variables in the calling scope before the call or use global vars as an explicit convention. To return values, write to a known variable. Keep this pattern disciplined and documented in your package header.</p>
+          <p class="muted-block">Bolt v1.61+ DOES support formal parameter lists in function header.</p>
 
           <h4>Recursion and repetition</h4>
           <p class="muted-block">Because Bolt lacks loop keywords (for/while), recursion or repeated calls are the structured way to perform repetition. Use recursion with caution: ensure a clear base case to avoid stack overflow. Example (conceptual):</p>
