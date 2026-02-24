@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BOLT 1.60 — Official Installer</title>
+  <title>BOLT 1.61, Official Installer</title>
   <link rel="icon" href="assets/boltlogoM.ico" type="image/x-icon" />
   <style>
     /* design tokens (default = light) */
@@ -190,9 +190,8 @@
     }
     .warning.show{display:block}
 
-    .ide-option{margin-top:10px;display:none;align-items:center;gap:10px}
-    .ide-option.show{display:flex}
-
+    /* IDE option is now available independently (not CORE-only) */
+    .ide-option{margin-top:10px;display:flex;align-items:center;gap:10px}
     .modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:18px}
     .btn-cancel{background:transparent;border:1px solid rgba(2,8,20,0.06);padding:10px 14px;border-radius:10px;font-weight:800}
     .toast{
@@ -322,7 +321,12 @@
 
         <div class="version-card selected" role="listitem" data-version="1.60" tabindex="0">
           <div class="version-title">Bolt 1.60</div>
-          <div class="version-desc">Latest stable build.</div>
+          <div class="version-desc">Stable build with CORE available.</div>
+        </div>
+
+        <div class="version-card" role="listitem" data-version="1.61" tabindex="0">
+          <div class="version-title">Bolt 1.61</div>
+          <div class="version-desc">Latest stable build. CORE is not available for 1.61.</div>
         </div>
       </div>
 
@@ -350,12 +354,13 @@
         CORE VERSION IS AN ALPHA RELEASE FOR FUTURE BOLT RELEASES. IT MAY BE MORE POWERFUL THAN THE STABLE VERSION BUT IT MIGHT BE BUGGY.
       </div>
 
+      <!-- IDE option is independent and available for any selected version -->
       <div class="ide-option" id="ideOption">
         <label class="checkbox-inline">
           <input id="includeIDE" type="checkbox" aria-checked="false">
           <span style="font-weight:800">Also download PlutoniumIDE</span>
         </label>
-        <div style="font-size:13px;color:var(--muted)">Professional IDE bundled with CORE builds.</div>
+        <div style="font-size:13px;color:var(--muted)">Optional PlutoniumIDE installer (select if you want the IDE).</div>
       </div>
 
       <div class="modal-actions">
@@ -404,8 +409,9 @@
       const DOWNLOADS = {
         '1.40': 'https://github.com/SwifteexStudio/Swifteex/releases/download/BOLT/boltinstallmanager140.exe',
         '1.60': 'https://github.com/SwifteexStudio/Swifteex/releases/download/160/boltinstallmanager160.exe',
+        '1.61': 'https://github.com/SwifteexStudio/Swifteex/releases/download/161/boltinstallmanager161.exe',
         'CORE': 'https://github.com/SwifteexStudio/Swifteex/releases/download/bolt160cr/boltinstallmanagerCORE.exe',
-        'IDE':  'https://github.com/SwifteexStudio/Swifteex/releases/download/ide1/plutoniumIDE_setup.exe'
+        'IDE':  'https://github.com/SwifteexStudio/Swifteex/releases/download/ide2/PlutoniumIDE_Setup.exe'
       };
 
       // Focus trap helper (simple)
@@ -450,7 +456,6 @@
         // reset transient UI
         hideProgress();
         toastMessage('', true);
-        // also reset CORE/IDE UI if necessary
       }
 
       // Navigation open/close with accessibility
@@ -498,30 +503,28 @@
         versionCards.forEach(c => c.classList.toggle('selected', c.dataset.version === v));
         selectedLabel.textContent = 'Bolt ' + v;
 
-        // If user selects 1.40 and CORE was enabled, disallow CORE for 1.40
-        if(v === '1.40' && enableCore.checked){
+        // If user selects a version that does not support CORE (1.61 and 1.40), disallow CORE
+        if((v === '1.61' || v === '1.40') && enableCore.checked){
           enableCore.checked = false;
           enableCore.setAttribute('aria-checked', 'false');
           coreWarning.classList.remove('show');
-          ideOption.classList.remove('show');
-          toastMessage('CORE is not available for Bolt 1.40');
-          // hide toast after a short delay
+          toastMessage('CORE is not available for Bolt ' + v);
           clearTimeout(toastTimeout);
           toastTimeout = setTimeout(() => toastMessage('', true), 2600);
         }
       }
 
-      // Core toggle behavior
+      // Core toggle behavior: CORE is only allowed for 1.60
       enableCore.addEventListener('change', function(){
         const checked = enableCore.checked;
         const selectedCard = versionCards.find(c => c.classList.contains('selected')) || versionCards[0];
         const selectedVersion = selectedCard ? selectedCard.dataset.version : '1.60';
 
-        // Prevent enabling CORE for Bolt 1.40 explicitly
-        if(checked && selectedVersion === '1.40'){
+        // Allow CORE only for 1.60
+        if(checked && selectedVersion !== '1.60'){
           enableCore.checked = false;
           enableCore.setAttribute('aria-checked', 'false');
-          toastMessage('CORE is not available for Bolt 1.40');
+          toastMessage('CORE is only available for Bolt 1.60');
           clearTimeout(toastTimeout);
           toastTimeout = setTimeout(() => toastMessage('', true), 2600);
           return;
@@ -529,15 +532,12 @@
 
         enableCore.setAttribute('aria-checked', checked ? 'true' : 'false');
         coreWarning.classList.toggle('show', checked);
-        ideOption.classList.toggle('show', checked);
 
         if(checked){
           selectedLabel.textContent = 'Bolt CORE';
         } else {
           const sel = versionCards.find(c => c.classList.contains('selected')) || versionCards[0];
           selectedLabel.textContent = 'Bolt ' + (sel ? sel.dataset.version : '1.60');
-          // ensure IDE checkbox is cleared if core disabled
-          includeIDE.checked = false;
         }
       });
 
@@ -562,7 +562,6 @@
         let i = 0;
         function step(){
           if(i >= targets.length){
-            // Completed loop; downloads have already been triggered in the loop below
             progressFill.style.width = '100%';
             toastMessage('Downloads started. Check your browser downloads.');
             if(callback) callback();
@@ -573,19 +572,15 @@
           const pctBefore = Math.round((i / targets.length) * 100);
           progressFill.style.width = pctBefore + '%';
           toastMessage('Starting ' + filename + '...');
-          // Trigger the download for this item (only once)
           triggerDownload(targets[i]);
 
-          // update progress after a short delay to show movement
           setTimeout(() => {
             const pctAfter = Math.min(100, Math.round(((i + 1) / targets.length) * 100));
             progressFill.style.width = pctAfter + '%';
             i++;
-            // small spacing between sequential downloads
             setTimeout(step, 420);
           }, 520);
         }
-        // kickoff
         setTimeout(step, 220);
       }
 
@@ -599,13 +594,11 @@
           a.href = href;
           a.setAttribute('download', '');
           a.style.display = 'none';
-          // open in new tab for GitHub assets to preserve CORS/redirect behavior where needed
           a.target = '_blank';
           document.body.appendChild(a);
           a.click();
           setTimeout(()=> { document.body.removeChild(a); }, 1500);
         } catch (err) {
-          // fallback: open directly
           try { window.open(href, '_blank'); } catch(e) {}
         }
       }
@@ -636,17 +629,15 @@
 
         const targets = [];
 
-        // If CORE requested but selected version is 1.40, CORE is not available. Fall back to 1.40 stable.
-        if(core && baseVersion !== '1.40'){
-          // Use CORE binary (only once)
+        // CORE is only available for 1.60
+        if(core && baseVersion === '1.60'){
           targets.push(DOWNLOADS['CORE']);
         } else {
-          // Use the selected stable version
           targets.push(DOWNLOADS[baseVersion] || DOWNLOADS['1.60']);
         }
 
-        // Include IDE only when CORE is actually in use (and not when version is 1.40)
-        const includeIDESelected = includeIDE.checked && core && baseVersion !== '1.40';
+        // IDE inclusion is independent now (not CORE-only)
+        const includeIDESelected = includeIDE.checked;
         if(includeIDESelected){
           targets.push(DOWNLOADS['IDE']);
         }
@@ -660,7 +651,6 @@
             targets.forEach(t => w.document.write('<li><a href="' + t + '" target="_blank" rel="noopener">' + getFilenameFromPath(t) + '</a></li>'));
             w.document.write('</ul>');
             w.document.close();
-            // Close modal after opening the new tab to show links
             setTimeout(closeModal, 600);
           } else {
             toastMessage('Pop-up blocked. Downloads will start in this tab.');
@@ -669,7 +659,6 @@
           return;
         }
 
-        // Start the sequential download sequence (each file triggered exactly once)
         startDownloadsSequence(targets, () => {
           setTimeout(closeModal, 900);
         });
