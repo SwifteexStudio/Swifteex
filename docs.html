@@ -1,4 +1,4 @@
-    <!doctype html>
+       <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -193,11 +193,11 @@ sys.out /listname[0]/</code></pre>
         <h3 id="functions">Functions and invocation</h3>
         <p>Functions are declared with <code>fn name(); ... end</code>. The helper <code>let.call name()</code> is available and standard on v1.61+. Many stable runtimes also allow direct invocation such as <code>name()</code>.</p>
         <div class="code-toolbar"><button class="copy-btn" data-target="fn-ex">Copy</button></div>
-        <pre id="fn-ex"><code>fn greet();
-  sys.out 'hello from greet'
+        <pre id="fn-ex"><code>fn greet(name);
+  sys.out 'hello /name/!'
 end
 
-let.call greet()</code></pre>
+let.call greet(ariyan)</code></pre>
         <p class="muted-block">Make sure functions are defined before invoking them, or call at runtime after the definition section.</p>
 
         <h3 id="input">Typed input helpers (v1.61+)</h3>
