@@ -1,11 +1,11 @@
-<!doctype html>
+    <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bolt Runtime Engine v1.6.1 - Documentation (v1.61+ features)</title>
+  <title>Bolt Runtime Engine v1.6.1 - Documentation (v1.61+ features & deep syntax)</title>
   <link rel="icon" href="assets/boltlogo.ico" type="image/x-icon" />
-  <meta name="description" content="Bolt Runtime Engine v1.6.0 - installation, CLI, syntax guide updated for Bolt v1.61+ typed input and control flow, detailed calc example, troubleshooting, and fast search."/>
+  <meta name="description" content="Bolt Runtime Engine v1.6.1 - installation, CLI, deep syntax reference for v1.61+, full calculator walkthrough, troubleshooting, and fast search."/>
   <style>
     :root{
       --bg: #061025;
@@ -22,8 +22,7 @@
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
       --focus: 3px solid rgba(14,165,233,0.12);
     }
-
-    *{box-sizing:border-box}
+     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:var(--font-system);-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--text);font-size:16px;line-height:1.5}
     main{width:100%;max-width:var(--max-width);margin:20px auto;padding:16px}
     header{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
@@ -81,7 +80,7 @@
     <div class="card" role="region" aria-label="Documentation card">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <div>
-          <div class="lead">Installation, CLI reference, syntax guide updated for Bolt v1.61+ features, deep calc walkthrough, troubleshooting, and fast search.</div>
+          <div class="lead">Installation, CLI reference, syntax guide updated for Bolt v1.61+ typed input and control flow, deep syntax reference articles, troubleshooting, and fast search.</div>
         </div>
 
         <div class="actions" role="toolbar" aria-label="primary actions">
@@ -94,6 +93,7 @@
         <a href="#install">Installation & Verification</a>
         <a href="#cli">CLI</a>
         <a href="#syntax">New syntax (v1.61+)</a>
+        <a href="#syntax-deep">Syntax - Deep Reference</a>
         <a href="#calc-breakdown">Calc - Detailed Breakdown</a>
         <a href="#examples">Examples</a>
         <a href="#articles">Articles</a>
@@ -124,11 +124,9 @@
         <pre id="cmd-version"><code>bolt --version</code></pre>
 
         <p>Canonical output sample to expect:</p>
-        <pre><code>Bolt Runtime Engine v1.X.X (V: official=X/X) . Created by Ariyan Ahmed.
-This project is protected by Copyright © 202X Swifteex (a HyperClouD Softwares company). All rights reserved.
-This version was released on 202X-0X-0X
-proudly built by, Ariyan Ahmed, Swifteex Studio.
-</code></pre>
+        <pre id="version-sample"><code>Bolt Runtime Engine v1.X.X (V: official=X/X)
+Created by Ariyan Ahmed. This project is protected by Copyright © 202X Swifteex (a HyperClouD Softwares company).
+This version was released on 202X-0X-0X proudly built by Ariyan Ahmed, Swifteex Studio.</code></pre>
 
         <p class="muted-block">If your output follows this layout, the binary exposes build metadata and the release date which helps support and automation tools. For features documented here, ensure your Bolt runtime is <strong>v1.61+</strong>.</p>
 
@@ -157,77 +155,348 @@ proudly built by, Ariyan Ahmed, Swifteex Studio.
 
       <section id="syntax" aria-labelledby="syntaxTitle">
         <h2 id="syntaxTitle">New Syntax - v1.61+ Quick Reference</h2>
-        <p class="muted-block">This section focuses on syntax and features available from <strong>Bolt v1.61+</strong>. Typed input helpers and modern flow constructs are available in v1.61 and newer.</p>
+        <p class="muted-block">This section focuses on syntax and features available from <strong>Bolt v1.61+</strong>. For a thorough, authoritative description see the <a href="#syntax-deep">Syntax - Deep Reference</a> section which expands every entry below into a full how-to, troubleshooting, purpose, and requirements article.</p>
 
         <h3 id="printing">Printing - <code>sys.out</code></h3>
-        <p><strong>What it is and what it does</strong>: <code>sys.out</code> writes text or evaluated tokens to standard output. Use forward slashes to expand variables inside output: <code>/var/</code>. Numeric expressions are evaluated when tokens are numeric.</p>
+        <p><strong>What it is and what it does (short):</strong> <code>sys.out</code> writes text or evaluated tokens to standard output. Use forward slashes to expand variables inside output: <code>/var/</code>.</p>
         <div class="code-toolbar"><button class="copy-btn" data-target="print-ex">Copy</button></div>
-        <pre id="print-ex"><code>sys.out'hello, world!'
+        <pre id="print-ex"><code>sys.out 'hello, world!'
+
 name = 'Ariyan'
 sys.out /name/
 
 num1 = 10
 num2 = 15
 sys.out /num1/ + /num2/
-sys.out'the calculation is /num1 + num2/'
-</code></pre>
-        <p class="muted-block">If you see literal tokens such as "/name/" in output, confirm the variable is defined and that you used forward slashes without spaces.</p>
+
+sys.out 'the calculation is /num1 + num2/'</code></pre>
+        <p class="muted-block">If you see literal tokens such as "/name/" in output, confirm the variable is defined and that you used forward slashes without spaces. For complete guidance and troubleshooting see the deep reference below.</p>
 
         <h3 id="variables">Variables</h3>
         <p>Assignment uses equals. Starting with v1.61+ integers and numeric types are available and usable in arithmetic.</p>
         <div class="code-toolbar"><button class="copy-btn" data-target="vars-ex">Copy</button></div>
         <pre id="vars-ex"><code>myvariable = 'Alice'
 age = 11
+
 sys.out /myvariable/
-sys.out /age/
-</code></pre>
+sys.out /age/</code></pre>
         <p class="muted-block">For values coming from user input, prefer the typed input helpers below to ensure numeric types.</p>
 
         <h3 id="lists">Lists</h3>
-        <p>Create lists with <code>let.list['a' ; 'b']</code>. Index with 0-based notation: <code>mylist[0]</code>.</p>
+        <p>Create lists with <code>let.list['a' ; 'b']</code>. Index with 0-based notation. Example shown uses the strict form requested below.</p>
         <div class="code-toolbar"><button class="copy-btn" data-target="list-ex">Copy</button></div>
-        <pre id="list-ex"><code>mylist = let.list['bob' ; 'john']
-sys.out /mylist[0]/
-sys.out'hi /mylist[0]/!'
-</code></pre>
-        <p class="muted-block">Guard indexes with <code>len()</code> to avoid out-of-range errors as shown below.</p>
-        <pre><code>idx = 0
-if (len(mylist) &gt; idx)
-  sys.out /mylist[idx]/
-else
-  sys.out'index out of range'
-end.if
-</code></pre>
+        <pre id="list-ex"><code>listname = let.list['1' ; '2']
+
+sys.out /listname[0]/</code></pre>
+        <p class="muted-block">Indexes start at 0. Accessing an index outside the valid range is an error; ensure your index is valid before accessing list elements.</p>
 
         <h3 id="functions">Functions and invocation</h3>
         <p>Functions are declared with <code>fn name(); ... end</code>. The helper <code>let.call name()</code> is available and standard on v1.61+. Many stable runtimes also allow direct invocation such as <code>name()</code>.</p>
         <div class="code-toolbar"><button class="copy-btn" data-target="fn-ex">Copy</button></div>
         <pre id="fn-ex"><code>fn greet();
-  sys.out'hello from greet'
+  sys.out 'hello from greet'
 end
 
-let.call greet()
-</code></pre>
+let.call greet()</code></pre>
         <p class="muted-block">Make sure functions are defined before invoking them, or call at runtime after the definition section.</p>
 
         <h3 id="input">Typed input helpers (v1.61+)</h3>
-        <p>In v1.61+ Bolt provides typed input helpers to capture typed values directly: <code>let.userinput.int'prompt'</code> for integers and <code>let.userinput.str'prompt'</code> for strings. These reduce bookkeeping and parsing in common interactive scripts.</p>
-        <pre><code>num = let.userinput.int'enter a number: '
-name = let.userinput.str'enter your name: '
-</code></pre>
+        <p>In v1.61+ Bolt provides typed input helpers to capture typed values directly: <code>let.userinput.int 'prompt'</code> for integers and <code>let.userinput.str 'prompt'</code> for strings. These reduce bookkeeping and parsing in common interactive scripts.</p>
+        <pre id="input-ex"><code>num = let.userinput.int 'enter a number: '
+name = let.userinput.str 'enter your name: '</code></pre>
         <p class="muted-block">If you need to support older runtime versions, detect version via <code>bolt --version</code> and fall back to parsing raw input where necessary.</p>
 
         <h3 id="control-flow">Control flow - <code>if</code>, <code>eif</code>, <code>else</code></h3>
         <p>v1.61+ includes the familiar conditional ladder: <code>if</code>, <code>eif</code> for else-if, and <code>else</code> for fallback. Use <code>end.if</code> to close the block.</p>
-        <pre><code>if condition
-  sys.out'yes'
+        <pre id="control-ex"><code>if condition
+  sys.out 'yes'
 eif other_condition
-  sys.out'other'
+  sys.out 'other'
 else
-  sys.out'no'
-end.if
-</code></pre>
-        <p class="muted-block">Always validate types when doing numeric comparisons. Use <code>tonumber()</code> or typed input helpers to guarantee numeric comparisons.</p>
+  sys.out 'no'
+end.if</code></pre>
+        
+      </section>
+
+      <!-- Deep Reference section -->
+      <section id="syntax-deep" aria-labelledby="syntaxDeepTitle">
+        <h2 id="syntaxDeepTitle">Syntax - Deep Reference (complete how-to, purpose, fixes, requirements)</h2>
+        <p class="muted-block">This section expands each syntax element into a focused article: purpose, exact syntax, usage examples, common failure modes and how to fix them, and runtime/compatibility requirements. These pages are intentionally prescriptive and strict: examples follow Bolt v1.61+ rules and avoid language constructs not present in Bolt (no <code>for</code>/<code>while</code> loops, no Python syntax). If your target runtime is older than v1.61, consult the compatibility notes inside each article.</p>
+
+        <!-- Printing Deep Article -->
+        <article id="deep-printing" style="margin-top:12px">
+          <h3>Printing - <code>sys.out</code> (deep)</h3>
+
+          <h4>Purpose</h4>
+          <p class="muted-block">Provide deterministic output to stdout. It is the primary and only documented mechanism for emitting textual results, diagnostic messages, and computed numeric values to the user or to a capturing process.</p>
+
+          <h4>Exact syntax</h4>
+          <p><code>sys.out 'literal string'</code> - prints the literal string verbatim.<br>
+             <code>sys.out /identifier/</code> - prints the value of a variable named <code>identifier</code>. Forward-slash interpolation is token-based: wrap a single identifier or an expression token between slashes to evaluate and embed it.</p>
+
+          <h4>Variable interpolation rules</h4>
+          <ol>
+            <li>Interpolation tokens are delimited with forward slashes: <code>/.../</code>.</li>
+            <li>Inside an interpolation token place a single variable or a numeric expression built from numeric variables and literal numbers using Bolt operators. Example: <code>/num1 + num2/</code>.</li>
+            <li>If the token is strictly textual (string variable), it expands to the string value. If numeric, it expands to the computed numeric result.</li>
+            <li>Do not include whitespace between the slashes and the token name if you expect expansion; tokens with leading/trailing spaces are treated literally.</li>
+          </ol>
+
+          <h4>Escaping and literal slashes</h4>
+          <p class="muted-block">To emit raw forward-slashes or sequences that look like tokens, break the string into separate sys.out calls or avoid token syntax. Bolt does not provide an escape sequence inside a single-quoted sys.out literal for forward-slash interpolation. Example safe pattern:</p>
+          <pre id="deep-print-escape"><code>sys.out 'path: /usr/bin'
+
+# To show '/name/' literally - avoid token parsing:
+sys.out 'name literal: /name/'</code></pre>
+
+          <h4>Examples</h4>
+          <div class="code-toolbar"><button class="copy-btn" data-target="deep-print-ex">Copy</button></div>
+          <pre id="deep-print-ex"><code>name = 'Ariyan'
+sys.out /name/
+
+a = 5
+b = 7
+sys.out /a/ + /b/
+
+sys.out 'the sum is /a + b/'</code></pre>
+
+          <h4>Common errors & fixes</h4>
+          <ul>
+            <li><strong>Tokens printed verbatim:</strong> If you see <code>/var/</code> in output, confirm the variable is defined and that the token contains only the identifier or a valid expression. Fix: define the variable before printing or correct token content.
+          </ul>
+
+          <h4>Requirements & runtime notes</h4>
+          <p class="muted-block">The interpolation behavior described assumes Bolt v1.61+ (typed inputs and numeric expression evaluation in tokens). Older runtimes may not evaluate expressions inside tokens; prefer explicit arithmetic and concatenation in that case.</p>
+        </article>
+
+        <!-- Variables Deep Article -->
+        <article id="deep-variables" style="margin-top:12px">
+          <h3>Variables - Declaration & Types</h3>
+
+          <h4>Purpose</h4>
+          <p class="muted-block">Hold immutable or mutable values (strings, integers, numeric types, lists). Bolt uses a simple assignment model: the "=" operator binds the right-hand expression to the identifier on the left.</p>
+
+          <h4>Exact syntax and semantics</h4>
+          <p><code>identifier = expression</code></p>
+          <ul>
+            <li>Identifiers must start with a letter and may contain letters, digits, and underscores.</li>
+            <li>Strings are single-quoted: <code>'text'</code>.</li>
+            <li>Numbers are unquoted numeric literals: <code>42</code>.</li>
+            <li>Once assigned, variables are available for interpolation and arithmetic per their type.</li>
+          </ul>
+
+          <h4>Examples</h4>
+          <div class="code-toolbar"><button class="copy-btn" data-target="deep-vars-ex">Copy</button></div>
+          <pre id="deep-vars-ex"><code>username = 'guest'
+count = 3
+total = count + 2
+
+sys.out /username/
+sys.out /total/</code></pre>
+
+          <h4>Type handling & conversion</h4>
+          <p class="muted-block">Bolt v1.61+ supports numeric types; avoid implicit conversions. When reading from untyped sources (raw prompts without typed helpers) convert with <code>tonumber()</code> if available, otherwise validate and re-prompt.</p>
+
+          <h4>Common errors & fixes</h4>
+          <ul>
+            <li><strong>Undefined identifier:</strong> Initialize variables before use. Fix: move assignment above usage.</li>
+            <li><strong>String used in numeric expression:</strong> Convert strings to numbers or use typed input helpers. Fix: use <code>let.userinput.int</code> or <code>tonumber()</code>.</li>
+          </ul>
+
+          <h4>Requirements</h4>
+          <p class="muted-block">Typed numeric operations require v1.61+ to ensure numeric types from <code>let.userinput.int</code>. If you must support older runtimes, include defensive parsing and error messages.</p>
+        </article>
+
+        <!-- Lists Deep Article -->
+        <article id="deep-lists" style="margin-top:12px">
+          <h3>Lists - Creation, Indexing, Length</h3>
+
+          <h4>Purpose</h4>
+          <p class="muted-block">Lists are simple ordered collections providing indexed access using 0-based positions. They are ideal for small tables, argument lists, and configuration arrays.</p>
+
+          <h4>Exact syntax</h4>
+          <p><code>let.list['item1' ; 'item2' ; 'itemN']</code> constructs a list. Index with square brackets: <code>listVar[index]</code>. Example below follows the strict form requested.</p>
+
+          <h4>Examples</h4>
+          <div class="code-toolbar"><button class="copy-btn" data-target="deep-list-ex">Copy</button></div>
+          <pre id="deep-list-ex"><code>listname = let.list['1' ; '2']
+
+sys.out /listname[0]/</code></pre>
+
+          <h4>Indexing rules & safety</h4>
+          <ul>
+            <li>Indexes are integers starting at 0.</li>
+            <li>Accessing an index outside the valid range is an error. Ensure the index value you use is valid before accessing a list element.</li>
+            <li>List contents may be mixed types; be careful when using items in numeric expressions.</li>
+          </ul>
+
+          <h4>Common errors & fixes</h4>
+          <ul>
+            <li><strong>Out-of-range access:</strong> Ensure the index is within the valid range before accessing a list element.</li>
+            <li><strong>Unexpected type inside list:</strong> Validate contents before arithmetic (for example, ensure an item is numeric when used in a calculation).</li>
+          </ul>
+
+          <h4>Requirements & notes</h4>
+          <p class="muted-block">List operations are available in v1.61+ as shown. There are no built-in loop constructs to iterate lists; iterate by index with repeated conditionals or by using function-driven repetition patterns. See "Control Flow" for alternative patterns.</p>
+        </article>
+
+        <!-- Functions Deep Article -->
+        <article id="deep-functions" style="margin-top:12px">
+          <h3>Functions - Declaration, Invocation, Conventions</h3>
+
+          <h4>Purpose</h4>
+          <p class="muted-block">Functions encapsulate logic and allow reuse. Bolt uses a compact declaration and a predictable call model. They are the recommended mechanism for structuring logic, including repetition where no loop constructs exist.</p>
+
+          <h4>Exact syntax</h4>
+          <p>Declare: <code>fn name(); ... end</code><br>
+             Invoke: <code>let.call name()</code> or, on many runtimes, direct invocation <code>name()</code>.</p>
+
+          <h4>Examples</h4>
+          <div class="code-toolbar"><button class="copy-btn" data-target="deep-fn-ex">Copy</button></div>
+          <pre id="deep-fn-ex"><code>fn greet();
+  sys.out 'hello'
+end
+
+let.call greet()</code></pre>
+
+          <h4>Arguments and returns (pattern)</h4>
+          <p class="muted-block">Bolt v1.61+ does not support formal parameter lists in function header in the same way as other languages. To pass data, assign variables in the calling scope before the call or use global vars as an explicit convention. To return values, write to a known variable. Keep this pattern disciplined and documented in your package header.</p>
+
+          <h4>Recursion and repetition</h4>
+          <p class="muted-block">Because Bolt lacks loop keywords (for/while), recursion or repeated calls are the structured way to perform repetition. Use recursion with caution: ensure a clear base case to avoid stack overflow. Example (conceptual):</p>
+          <pre id="deep-fn-recursion"><code># conceptual: use carefully
+fn repeat_once();
+  sys.out 'repeating'
+  # conditionally call again
+end
+
+let.call repeat_once()</code></pre>
+
+          <h4>Common errors & fixes</h4>
+          <ul>
+            <li><strong>Forward reference:</strong> If calling a function before it's defined, prefer <code>let.call</code> after the definition or move definitions earlier.</li>
+            <li><strong>Missing return pattern:</strong> Document and use a named output variable to emulate return values.</li>
+          </ul>
+
+          <h4>Requirements & notes</h4>
+          <p class="muted-block">Function declaration and <code>let.call</code> are standard in v1.61+. The function model is intentionally simple to keep runtime predictable and safe for distribution.</p>
+        </article>
+
+        <!-- Input Deep Article -->
+        <article id="deep-input" style="margin-top:12px">
+          <h3>Typed Input Helpers - <code>let.userinput.int</code> &amp; <code>let.userinput.str</code></h3>
+
+          <h4>Purpose</h4>
+          <p class="muted-block">Capture user-provided values directly as specific types to avoid manual parsing and error-prone conversions. This reduces common input validation bugs.</p>
+
+          <h4>Exact syntax</h4>
+          <p><code>var = let.userinput.int 'prompt'</code> - requests input and returns an integer.<br>
+             <code>var = let.userinput.str 'prompt'</code> - requests input and returns a string.</p>
+
+          <h4>Examples</h4>
+          <div class="code-toolbar"><button class="copy-btn" data-target="deep-input-ex">Copy</button></div>
+          <pre id="deep-input-ex"><code>num = let.userinput.int 'enter a number: '
+name = let.userinput.str 'enter your name: '</code></pre>
+
+          <h4>Validation & failure modes</h4>
+          <ul>
+            <li>If the user enters non-numeric text on <code>let.userinput.int</code>, the runtime should re-prompt or produce a clear error. Test this behavior.</li>
+            <li>If your runtime is older and lacks typed helpers, implement a parsing fallback: read raw input, validate with a numeric check, and re-prompt on failure.</li>
+          </ul>
+
+          <h4>Common errors & fixes</h4>
+          <ul>
+            <li><strong>Non-numeric entry for int helper:</strong> Confirm whether runtime auto-validates; if not, implement a manual check loop using function calls and re-prompts.</li>
+            <li><strong>Blocking prompts in automation:</strong> When using scripts in CI, provide flags or environment variables to bypass interactive prompts. See "Safe scripting practices" article for patterns.</li>
+          </ul>
+
+          <h4>Requirements</h4>
+          <p class="muted-block">Typed helpers require Bolt v1.61+. For automation and installs, detect version via <code>bolt --version</code> and apply fallback logic where necessary.</p>
+        </article>
+
+        <!-- Control Flow Deep Article -->
+        <article id="deep-controlflow" style="margin-top:12px">
+          <h3>Control Flow - <code>if</code> / <code>eif</code> / <code>else</code></h3>
+
+          <h4>Purpose</h4>
+          <p class="muted-block">Model conditional decision points. The control flow ladder is intentionally compact and readable: <code>if</code> begins a branch, <code>eif</code> chains additional conditions, and <code>else</code> handles the fallback. Close with <code>end.if</code>.</p>
+
+          <h4>Exact syntax</h4>
+          <pre id="deep-cf-ex"><code>if condition
+  ...
+eif other_condition
+  ...
+else
+  ...
+end.if</code></pre>
+
+          <h4>Condition rules</h4>
+          <ul>
+            <li>Conditions evaluate to truthy/falsey values per Bolt's runtime semantics. For numeric comparisons use explicit numeric variables and operators.</li>
+            <li>Type-check before numeric comparisons: if a condition mixes types, convert or use typed inputs to ensure correct evaluation.</li>
+            <li>Parentheses may be used for clarity where supported by the runtime.</li>
+          </ul>
+
+          <h4>No looping constructs</h4>
+          <p class="warn">Bolt as documented in this reference does not provide built-in looping keywords (for, while, do/while). Where repetition is required, use function-based patterns and recursion with explicit base-case guards or perform external iteration in the calling environment (scripts that call Bolt multiple times or orchestrate repeated execution).</p>
+
+          <h4>Examples & patterns</h4>
+          <div class="code-toolbar"><button class="copy-btn" data-target="deep-cf-ex2">Copy</button></div>
+          <pre id="deep-cf-ex2"><code>if /score/ >= 90
+  sys.out 'grade: A'
+eif /score/ >= 80
+  sys.out 'grade: B'
+else
+  sys.out 'grade: C or below'
+end.if</code></pre>
+
+          <h4>Common errors & fixes</h4>
+          <ul>
+            <li><strong>Type mismatch in comparison:</strong> Convert or validate operands. Fix: use typed inputs or <code>tonumber()</code>.</li>
+            <li><strong>Missing <code>end.if</code>:</strong> The block must be closed. Fix: add <code>end.if</code> at the correct indentation level.</li>
+          </ul>
+
+          <h4>Requirements & notes</h4>
+          <p class="muted-block">Control flow is robust in v1.61+. Because there are no loop keywords, prefer small, testable functions for repeating behavior; this leads to clearer and more maintainable scripts for distribution.</p>
+        </article>
+
+        <!-- Error handling & diagnostics -->
+        <article id="deep-errors" style="margin-top:12px">
+          <h3>Error handling & diagnostics</h3>
+
+          <h4>Purpose</h4>
+          <p class="muted-block">Provide clear, reproducible failure messages and machine-readable diagnostics for automation and support workflows.</p>
+
+          <h4>Best practices</h4>
+          <ul>
+            <li>Run with <code>--debug</code> for verbose tracebacks during development.</li>
+            <li>Use <code>--json-errors</code> when attaching logs to support tickets or CI systems.</li>
+            <li>When reporting issues, include: Bolt version (<code>bolt --version</code> output), the exact script, the terminal output, and the command-line flags used.</li>
+          </ul>
+
+          <h4>Common diagnostic patterns</h4>
+          <pre id="deep-errors-sample"><code>bolt --debug --run script.blt
+# or for CI:
+bolt --json-errors --run script.blt</code></pre>
+        </article>
+
+        <!-- Compatibility & version detection -->
+        <article id="deep-compat" style="margin-top:12px">
+          <h3>Compatibility & Version Detection</h3>
+
+          <h4>Purpose</h4>
+          <p class="muted-block">Allow scripts to detect runtime capabilities and select typed helpers or fallback logic accordingly.</p>
+
+          <h4>Pattern</h4>
+          <pre id="deep-compat-ex"><code># pattern (conceptual)
+# 1) call `bolt --version` to detect runtime
+# 2) branch in packaging to include fallbacks</code></pre>
+
+          <h4>Packaging recommendation</h4>
+          <p class="muted-block">Distribute a small header in scripts that prints expected runtime and performs a capability check, followed by two code paths: typed-helpers-enabled (v1.61+) and fallback parsing. This keeps packages resilient across environments.</p>
+        </article>
+
+        <p class="fix" style="margin-top:12px">All deep reference code samples follow Bolt v1.61+ conventions. If you require a separate legacy compatibility appendix (v1.50 - v1.60), we can produce a compact fallback appendix that shows explicit parsing and error handling patterns.</p>
       </section>
 
       <section id="calc-breakdown" aria-labelledby="calcTitle">
@@ -238,12 +507,18 @@ end.if
         <h3>Canonical source</h3>
         <div class="code-toolbar"><button class="copy-btn" data-target="calc-full">Copy</button></div>
         <pre id="calc-full"><code>fn calc();
-  sys.out'welcome to calc.'
-  num1 = let.userinput.int'enter number first: '
-  num2 = let.userinput.int'enter number second: '
-  sys.out'1) addition 2) subtraction 3) multiplication 4) division'
-  sys.out'choose 1 to 4'
-  choose = let.userinput'choose: '
+  sys.out 'welcome to calc.'
+
+  num1 = let.userinput.int 'enter number first: '
+  num2 = let.userinput.int 'enter number second: '
+
+  sys.out '1) addition'
+  sys.out '2) subtraction'
+  sys.out '3) multiplication'
+  sys.out '4) division'
+  sys.out 'choose 1 to 4'
+
+  choose = let.userinput 'choose: '
 
   if choose == '1'
     sys.out /num1/ + /num2/
@@ -253,67 +528,16 @@ end.if
     sys.out /num1/ * /num2/
   eif choose == '4'
     if /num2/ == 0
-      sys.out'ERROR: divide by zero'
+      sys.out 'ERROR: divide by zero'
     else
       sys.out /num1/ / /num2/
     end.if
   else
-    sys.out'INVALID'
-  end.if
-end
-
-let.call calc()
-</code></pre>
-
-        <h3>Part 1 - Function and welcome</h3>
-        <pre><code>fn calc();
-  sys.out'welcome to calc.' </code></pre>
-        <p>Declares function <code>calc</code>. Prints a greeting so the user knows the program started. No issues expected here.</p>
-
-        <h3>Part 2 - Typed numeric input (v1.61+)</h3>
-        <pre><code>  num1 = let.userinput.int'enter number first: '
-  num2 = let.userinput.int'enter number second: '</code></pre>
-        <p>These calls capture integer values directly. On v1.61+ the returned values are numeric types suitable for arithmetic. This avoids manual parsing and reduces errors.</p>
-        <p class="fix">If you must support older runtimes, fallback example:</p>
-        <pre><code>inputs are not support for versions below 1.60 CORE
-</code></pre>
-        <p class="muted-block">Always validate input on user error. For `let.userinput.int`, test entering non-numeric text and ensure your runtime prompts or errors clearly. If the runtime does not auto-validate, implement a simple parse check and re-prompt.</p>
-
-        <h3>Part 3 - Menu and choice</h3>
-        <pre><code>  sys.out'1) addition 2) subtraction 3) multiplication 4) division'
-  sys.out'choose 1 to 4'
-  choose = let.userinput'choose: '</code></pre>
-        <p>Shows options and captures a selection as a string. The code compares string tokens like '1'.</p>
-        <p class="fix">Normalize input by trimming whitespace and lower-casing if needed. Prefer `let.userinput.int` for numeric choices when available: `choose = let.userinput.int'choose: '` then compare numbers.</p>
-
-        <h3>Part 4 - Addition branch</h3>
-        <pre><code>  if choose == '1'
-    sys.out /num1/ + /num2/</code></pre>
-        <p>If the user chose option 1, the code prints the sum. Because `num1` and `num2` were captured via `let.userinput.int`, they are numeric and this prints the arithmetic result.</p>
-        <p class="muted-block">If you used string-based input, convert before arithmetic: <code>num1 = tonumber(num1)</code>.</p>
-
-        <h3>Parts 5 and 6 - Subtraction, multiplication and division guard</h3>
-        <pre><code>  eif choose == '2'
-    sys.out /num1/ - /num2/
-  eif choose == '3'
-    sys.out /num1/ * /num2/
-  eif choose == '4'
-    if /num2/ == 0
-      sys.out'ERROR: divide by zero'
-    else
-      sys.out /num1/ / /num2/
-    end.if</code></pre>
-        <p>The division branch checks the divisor before computing. Important: when comparing to zero ensure the comparison is numeric. With `let.userinput.int` this is automatic. If using parsed input, compare with the parsed numeric value.</p>
-        <p class="fix">If you need floating point division, confirm your runtime supports floats. If only integer division is supported, document that the result may be truncated.</p>
-
-        <h3>Part 7 - Fallback and invocation</h3>
-        <pre><code>  else
-    sys.out'INVALID'
+    sys.out 'INVALID'
   end.if
 end
 
 let.call calc()</code></pre>
-        <p>The `else` branch prints INVALID for any other choice. The function finishes and is invoked via <code>let.call calc()</code>, which is supported on v1.61+. If your target runtime prefers direct calls, use <code>calc()</code>.</p>
 
         <h3>Testing checklist for this example</h3>
         <ol>
@@ -328,30 +552,28 @@ let.call calc()</code></pre>
 
       <section id="examples" aria-labelledby="examplesTitle">
         <h2 id="examplesTitle">Examples</h2>
-        <p class="muted-block">Small, copy-ready samples for quick testing on v1.61+ runtimes.</p>
+        <p class="muted-block">Small, copy-ready samples for quick testing on v1.61+ runtimes. Each example is accompanied by the exact expected output or failure mode so you can validate behavior.</p>
 
         <div class="code-toolbar"><button class="copy-btn" data-target="example-save">Copy</button></div>
-        <pre id="example-save"><code># Save as hello.blt */
-sys.out'hello, world!'
-</code></pre>
+        <pre id="example-save"><code># Save as hello.blt
+sys.out 'hello, world!'</code></pre>
 
         <div class="code-toolbar"><button class="copy-btn" data-target="example-ast">Copy</button></div>
-        <pre id="example-ast"><code>bolt --inspect-ast --exec-string "sys.out'1+2'"
-</code></pre>
+        <pre id="example-ast"><code>bolt --inspect-ast --exec-string "sys.out '1+2'"</code></pre>
       </section>
 
       <section id="articles" aria-labelledby="articlesTitle">
         <h2 id="articlesTitle">Articles</h2>
-        <p class="muted-block">Short articles to help you design scripts for both interactive usage and automation. Each article includes concrete examples and support notes.</p>
+        <p class="muted-block">Short articles to help you design scripts for both interactive usage and automation. Each article includes concrete examples and support notes. The deep syntax reference is also linked from here for in-depth reading.</p>
 
         <article style="margin-top:12px">
           <h3>Safe scripting practices</h3>
-          <p>Detect runtime version with <code>bolt --version</code> and choose typed helpers when v1.61+ is detected. For automation, avoid blocking user prompts; accept flags or environment variables to switch into noninteractive mode.</p>
+          <p>Detect runtime version with <code>bolt --version</code> and choose typed helpers when v1.61+ is detected. For automation, avoid blocking user prompts; accept flags or environment variables to switch into noninteractive mode. Provide explicit error codes and, when applicable, <code>--json-errors</code> for CI consumers.</p>
         </article>
 
         <article style="margin-top:12px">
           <h3>Distributing scripts</h3>
-          <p>Include a small header that prints expected runtime version and usage. Provide both typed-helper paths for v1.61+ and fallback parsing code for earlier runtimes so your package runs across environments.</p>
+          <p>Include a small header that prints expected runtime version and usage. Provide both typed-helper paths for v1.61+ and fallback parsing code for earlier runtimes so your package runs across environments. Keep the API surface minimal and document every exported variable and required runtime capability.</p>
         </article>
       </section>
 
@@ -478,7 +700,7 @@ sys.out'hello, world!'
 
       function highlightMatch(text, q){
         if(!q) return text;
-        const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g,'\\$&') + ')', 'ig');
+        const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\]/g,'\\$&') + ')', 'ig');
         return text.replace(re, '<strong style="background:rgba(14,165,233,0.12);color:var(--text);padding:0 2px;border-radius:4px">$1</strong>');
       }
 
