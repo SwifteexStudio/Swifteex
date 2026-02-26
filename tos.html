@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bolt — Terms of Service & License Notice</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      --accent:#0b5fff;
+      --muted:#55617a;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --radius:12px;
+      --maxwidth:1100px;
+      --gap:18px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #0b1220;
+    }
+
+    html,body{height:100%;margin:0;background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-decoration:none}
+    header{background:linear-gradient(180deg,#ffffff,rgba(255,255,255,0.95));border-bottom:1px solid #e6eef8;position:sticky;top:0;z-index:20}
+    .wrap{max-width:var(--maxwidth);margin:0 auto;padding:18px;box-sizing:border-box}
+    .header-row{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+    .brand h1{font-size:20px;color:var(--accent);margin:0}
+    .brand .muted{font-size:13px;color:var(--muted);margin-top:4px}
+
+    main{max-width:var(--maxwidth);margin:22px auto;padding:0 18px;box-sizing:border-box}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:var(--gap)}
+    .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 6px 18px rgba(11,17,34,0.04);border:1px solid rgba(14,30,60,0.04)}
+    h2{margin:0 0 10px 0;font-size:16px;color:#0b1220}
+    p,li,dd,dt{color:var(--muted);line-height:1.5;font-size:14px;margin:0 0 10px 0}
+    dl{display:grid;grid-template-columns:140px 1fr;gap:8px 12px;margin:0}
+    ol,ul{margin:0 0 0 18px;padding:0}
+    .notice{background:#fff7ed;border-left:4px solid #f59e0b;padding:12px;border-radius:8px;margin-top:10px;color:#92400e}
+
+    aside .card{position:sticky;top:84px}
+    .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-block;padding:9px 12px;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;border:0;cursor:pointer;text-decoration:none}
+    .btn.secondary{background:#eef2ff;color:var(--accent);border:1px solid #dbe7ff}
+    .copy{background:#f1f5f9;border:1px solid #e2e8f0;padding:8px;border-radius:8px;font-size:13px;color:var(--muted)}
+
+    .license-block{background:#f8fbff;border:1px dashed #e6f0ff;padding:12px;border-radius:8px;margin-top:8px;color:#123b8b;font-size:13px}
+    footer{text-align:center;color:var(--muted);font-size:13px;margin:20px 0 60px 0}
+
+    @media (max-width: 879px){
+      .grid{grid-template-columns:1fr;gap:14px}
+      .header-row{flex-direction:column;align-items:flex-start;gap:8px}
+      aside .card{position:relative;top:auto}
+      .brand h1{font-size:18px}
+    }
+
+    @media (min-width: 880px){
+      .grid{grid-template-columns:1fr 360px}
+    }
+
+    @media print{
+      header, .btn, .actions{display:none}
+      .card{box-shadow:none;border:0}
+    }
+
+    .muted{color:var(--muted)}
+    .kbd{font-family:monospace;background:#f1f5f9;border-radius:6px;padding:2px 6px;font-size:12px;border:1px solid #e2e8f0}
+    .strong{font-weight:700;color:#0b1220}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap header-row" role="banner">
+      <div class="brand" aria-hidden="false">
+        <h1>Bolt — Terms of Service & License Notice</h1>
+        <div class="muted">Authoritative rights statement • Apache-2.0 interaction • Enforcement-forward</div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="muted">Effective date: <strong id="effectiveDateDisplay"></strong></div>
+        <a id="downloadBolt" class="btn" href="https://swifteexstudio.github.io/Swifteex/downloadbolt.html" target="_blank" rel="noopener">Download Bolt</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid" role="main">
+      <!-- Primary column -->
+      <section class="card" aria-labelledby="overviewTitle">
+        <h2 id="overviewTitle">1. Overview</h2>
+        <p>
+          These Terms of Service ("Terms") define the rights and obligations between you ("User") and the Provider of the Bolt language,
+          runtime, tooling and documentation (the "Provider"). This document is decisive: it explains what is free, what is licensed
+          under Apache-2.0, and what conduct will not be tolerated.
+        </p>
+
+        <h2 style="margin-top:12px">2. Bolt is free — core statement</h2>
+        <p>
+          The Bolt language, its official language specification and reference implementation are provided free of charge for use,
+          study, modification, distribution, and commercial use, except for files or modules that explicitly carry a different license.
+          <strong class="strong">The language itself is free.</strong>
+        </p>
+
+        <div class="notice" style="margin-top:6px">
+          <strong>Enforcement-first rules (read carefully):</strong>
+          <ul style="margin:8px 0 0 18px">
+            <li><strong>Illegal suing:</strong> Any attacks of illegal suiing are forbidden. Frivolous, malicious, extortionate, or bad-faith legal actions
+                against the Provider or contributors are strictly prohibited. Such conduct will result in immediate suspension of rights and prompt
+                enforcement measures, including injunctive relief and claims for damages where permitted by law.</li>
+            <li><strong>Credit and attribution:</strong> Taking credit for Bolt, Provider-owned components, or others' contributions is strictly prohibited.
+                Removing, altering, or falsifying attribution and NOTICE files is forbidden and will trigger remediation, removal of redistribution rights,
+                and other lawful remedies.</li>
+          </ul>
+        </div>
+
+        <h2 style="margin-top:12px">3. Grant of Rights — Bolt vs Apache components</h2>
+        <p>
+          Unless a file is explicitly marked with a different license, Provider retains all rights in Bolt-branded code, assets, and documentation.
+          Components expressly labeled as Apache License, Version 2.0 are governed by that license's terms and conditions (preserve copyright and NOTICE,
+          include license text, respect the patent grant).
+        </p>
+
+        <div class="license-block">
+          <strong>Apache-2.0 summary (high level):</strong>
+          <p class="muted" style="margin:6px 0 0 0">
+            Apache License 2.0 permits reproduction, modification, distribution (including commercial use), subject to notice and attribution
+            requirements and the contributor patent grant. See the official Apache text for authoritative terms.
+          </p>
+        </div>
+
+        <h2 style="margin-top:12px">4. Conditions & Attribution (Apache-2.0 compliance)</h2>
+        <ol>
+          <li>Preserve copyright, license and NOTICE files for redistributed Apache-2.0 components.</li>
+          <li>Include the Apache License 2.0 text where redistribution requires it.</li>
+          <li>Contributor patent grants apply; initiating patent litigation against a contributor terminates patent rights granted under Apache-2.0.</li>
+        </ol>
+
+        <h2 style="margin-top:12px">5. Warranty Disclaimer</h2>
+        <p class="muted">
+          Except where a separate, explicit written warranty exists, Bolt and Apache-2.0 governed components are provided "AS IS" and "AS AVAILABLE",
+          without warranties of any kind. Provider disclaims all implied warranties to the fullest extent permitted by law.
+        </p>
+
+        <h2 style="margin-top:12px">6. Limitation of Liability</h2>
+        <p class="muted">
+          Provider and contributors shall not be liable for indirect, incidental, special, consequential or punitive damages, including lost profits,
+          even if advised of the possibility of such damages. Provider's aggregate liability for direct damages is limited to the greater of (a) the
+          amount paid by you to Provider in the prior 12 months, or (b) USD 5,000.
+        </p>
+
+        <h2 style="margin-top:12px">7. Indemnity, Enforcement & Remedies</h2>
+        <p>
+          You agree to defend, indemnify and hold Provider and its contributors harmless from third-party claims arising from your breach of these Terms,
+          misuse of Bolt, or distribution of infringing modifications. Violations of the credit or illegal-suing provisions may result in immediate
+          termination of distribution and use rights and pursuit of injunctive and monetary remedies.
+        </p>
+
+        <h2 style="margin-top:12px">8. Copyright, DMCA & Takedown</h2>
+        <p class="muted">
+          Provider respects intellectual property rights. If you believe content distributed with Bolt infringes your copyright, follow Provider's designated
+          takedown/DMCA process. Provider may remove or block access to allegedly infringing content while investigating.
+        </p>
+
+        <h2 style="margin-top:12px">9. Termination</h2>
+        <p class="muted">
+          Provider may suspend or terminate your rights to use Bolt for material breach of these Terms, including violations of the anti-litigation or
+          attribution rules. Surviving sections include indemnity, limitation of liability, and governing law.
+        </p>
+
+        <h2 style="margin-top:12px">10. Governing Law & Dispute Resolution</h2>
+        <p class="muted">
+          These Terms are governed by the law chosen by Provider (see contact block). Disputes that cannot be resolved amicably will be brought in the
+          competent courts of Provider's chosen jurisdiction, unless applicable law requires otherwise.
+        </p>
+
+        <h2 style="margin-top:12px">11. Changes, Notices, and Contact</h2>
+        <p class="muted">
+          Provider may update these Terms; material changes will be posted with a clear effective date. For notices, DMCA, or legal inquiries, contact:
+          <a id="providerContact" href="mailto:swifteexstudio@gmail.com">swifteexstudio@gmail.com</a>
+        </p>
+
+        <div class="notice" style="margin-top:8px">
+          <strong>Template notice:</strong> This document is a strongly-worded template and is not legal advice. For binding legal compliance tailored to
+          your jurisdiction and business model, consult an attorney.
+        </div>
+      </section>
+
+      <!-- Sidebar -->
+      <aside>
+        <div class="card" aria-label="Quick references">
+          <div class="meta">Quick actions</div>
+          <div class="actions" style="margin-bottom:12px">
+            <a id="downloadQuick" class="btn" href="https://swifteexstudio.github.io/Swifteex/downloadbolt.html" target="_blank" rel="noopener">Download Bolt</a>
+            <button id="printBtn" class="btn secondary" type="button">Print / Save</button>
+          </div>
+
+          <div class="meta">Apache License resources</div>
+          <div class="copy" style="margin-bottom:10px">
+            <div style="font-weight:600;margin-bottom:6px">Apache License, Version 2.0</div>
+            <div class="muted" style="font-size:13px">Full text and guidance are provided by the Apache Software Foundation.</div>
+            <div style="margin-top:8px"><a id="apacheLink" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Read the Apache 2.0 license</a></div>
+          </div>
+
+          <div class="meta">Bolt project references</div>
+          <ul style="margin:0 0 12px 18px;padding:0">
+            <li><a id="boltDocs" href="https://swifteexstudio.github.io/Swifteex/docs.html" target="_blank" rel="noopener">Bolt / Swifteex official documentation</a></li>
+            <li><a id="boltDownloadRef" href="https://swifteexstudio.github.io/Swifteex/downloadbolt.html" target="_blank" rel="noopener">Bolt download</a></li>
+          </ul>
+
+          <div class="meta">Attribution note</div>
+          <p class="muted" style="margin:0 0 6px 0">Verify component headers and NOTICE files for exact Apache-2.0 attributions before redistributing.</p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div class="muted">Generated authoritative template. Replace contact or jurisdiction with your official details if needed.</div>
+    </footer>
+  </main>
+
+  <script>
+    (function(){
+      // Effective date
+      const iso = new Date().toISOString().slice(0,10);
+      document.getElementById('effectiveDateDisplay').textContent = iso;
+
+      // Wire buttons (already linked in markup, but keep safe fallback)
+      document.getElementById('downloadQuick').href = 'https://swifteexstudio.github.io/Swifteex/downloadbolt.html';
+      document.getElementById('boltDocs').href = 'https://swifteexstudio.github.io/Swifteex/docs.html';
+      document.getElementById('boltDownloadRef').href = 'https://swifteexstudio.github.io/Swifteex/downloadbolt.html';
+      document.getElementById('apacheLink').href = 'https://www.apache.org/licenses/LICENSE-2.0';
+
+      // Print / Save
+      document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
+
+      // Accessibility: minimal focus outline improvement for keyboard users
+      document.addEventListener('keyup', (e)=>{
+        if(e.key === 'Tab'){ document.documentElement.style.scrollBehavior = 'smooth'; }
+      });
+    })();
+  </script>
+</body>
+</html>
