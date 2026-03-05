@@ -1,11 +1,11 @@
-       <!doctype html>
+ <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bolt Runtime Engine v1.6.1 - Documentation (v1.61+ features & detailed documentations.)</title>
-  <link rel="icon" href="assets/boltlogoM.ico" type="image/x-icon" />
-  <meta name="description" content="Bolt Runtime Engine v1.6.1 - installation, CLI, deep syntax reference for v1.61+, full calculator walkthrough, troubleshooting, and fast search."/>
+  <title>Bolt Runtime Engine v1.7.0 - Documentation (v1.70+ features & deep syntax)</title>
+  <link rel="icon" href="assets/boltlogo.ico" type="image/x-icon" />
+  <meta name="description" content="Bolt Runtime Engine v1.7.0 - installation, CLI, deep syntax reference for v1.70+, runtime bytecode workflow, modules, pre-baked libraries, troubleshooting, and fast search."/>
   <style>
     :root{
       --bg: #061025;
@@ -72,15 +72,15 @@
     <header aria-labelledby="docTitle">
       <div class="logo" role="img" aria-label="Bolt logo"></div>
       <div class="title-wrap">
-        <h1 id="docTitle">Bolt Runtime Engine v1.6.1 - Documentation</h1>
-        <div class="subtitle">Fast, safe, document-first distribution - read before you install.</div>
+        <h1 id="docTitle">Bolt Runtime Engine v1.7.0 - Documentation</h1>
+        <div class="subtitle">Fast, safe, document-first distribution - read before you install. (Includes v1.61+ and v1.70+ features)</div>
       </div>
     </header>
 
     <div class="card" role="region" aria-label="Documentation card">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <div>
-          <div class="lead">Installation, CLI reference, syntax guide updated for Bolt v1.61+ typed input and control flow, deep syntax reference articles, troubleshooting, and fast search.</div>
+          <div class="lead">Installation, CLI reference, runtime bytecode flow, v1.70 module & library guides, deep syntax reference, troubleshooting, and fast search.</div>
         </div>
 
         <div class="actions" role="toolbar" aria-label="primary actions">
@@ -91,12 +91,14 @@
 
       <nav class="toc" aria-label="Table of contents">
         <a href="#install">Installation & Verification</a>
+        <a href="#run-guide">Running a script (v1.70)</a>
         <a href="#cli">CLI</a>
         <a href="#syntax">New syntax (v1.61+)</a>
+        <a href="#modules">Modules (v1.70)</a>
+        <a href="#libraries">Pre-baked Libraries</a>
         <a href="#syntax-deep">Syntax - Deep Reference</a>
         <a href="#calc-breakdown">Calc - Detailed Breakdown</a>
         <a href="#examples">Examples</a>
-        <a href="#articles">Articles</a>
         <a href="#troubleshoot">Troubleshooting</a>
         <a href="#legal">Legal & Credits</a>
       </nav>
@@ -123,14 +125,51 @@
         </div>
         <pre id="cmd-version"><code>bolt --version</code></pre>
 
-        <p>Canonical output sample to expect:</p>
+        <p>Canonical output sample to expect (example):</p>
         <pre id="version-sample"><code>Bolt Runtime Engine v1.X.X (V: official=X/X)
-Created by Ariyan Ahmed. This project is protected by Copyright © 202X Swifteex (a HyperClouD Softwares company).
-This version was released on 202X-0X-0X proudly built by Ariyan Ahmed, Swifteex Studio.</code></pre>
+[build metadata and release date fields here]
+This version was released on 202X-0X-0X proudly built by the Swifteex Studio build system.
+Please verify signed artifacts before running.</code></pre>
 
-        <p class="muted-block">If your output follows this layout, the binary exposes build metadata and the release date which helps support and automation tools. For features documented here, ensure your Bolt runtime is <strong>v1.61+</strong>.</p>
+        <p style="margin-top:8px;color:var(--muted);font-size:14px">
+          Release metadata and authorship are published with the builds. For reference, this documentation was produced with contributions by 0 and distributed by 1 (a 2 company).
+        </p>
+
+        <p class="muted-block">If your output follows the layout above and reports at least <strong>v1.61+</strong> you will be able to use typed helpers. For v1.70 specific features (module files, runtime bytecode flow, and pre-baked libraries) the runtime must report <strong>v1.70+</strong>.</p>
 
         <p>Support and downloads: <a href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener">https://swifteexstudio.github.io/Swifteex/</a></p>
+      </section>
+
+      <section id="run-guide" aria-labelledby="runGuideTitle">
+        <h2 id="runGuideTitle">Run flow & bytecode (v1.70)</h2>
+        <p class="muted-block">Bolt v1.70 introduces a simple edit-compile-run workflow producing a portable virtual-machine bytecode (.bvmb) file. This section describes the recommended developer workflow.</p>
+
+        <h3>Step-by-step: write → compile → run</h3>
+        <ol>
+          <li><strong>Create your source file</strong><br>
+            Save your script with the new <code class="inline">.bolt</code> extension (previously <code class="inline">.blt</code>).</li>
+
+          <li><strong>Open a command prompt / terminal in the folder where your file is located</strong><br>
+            Use your system terminal (PowerShell, Command Prompt, bash, etc.).</li>
+
+          <li><strong>Compile (generate bytecode)</strong><br>
+            Run the compiler switch specifying your <code class="inline">.bolt</code> file:
+            <div class="code-toolbar"><button class="copy-btn" data-target="compile-cmd">Copy</button></div>
+            <pre id="compile-cmd"><code>Bolt -c filename.bolt</code></pre>
+            If compilation succeeds a <code class="inline">filename.bvmb</code> file (Bolt Virtual Machine Bytecode) will be produced in the same folder. If there are errors, the compiler will print diagnostic info and exit with a non-zero exit code.</li>
+
+          <li><strong>Run the bytecode</strong><br>
+            Execute the produced bytecode with the runtime:
+            <div class="code-toolbar"><button class="copy-btn" data-target="run-bvmb">Copy</button></div>
+            <pre id="run-bvmb"><code>bolt filename.bvmb</code></pre>
+            The runtime executes the bytecode; use <code class="inline">--debug</code> or <code class="inline">--json-errors</code> for diagnostics in automation or CI.</li>
+        </ol>
+
+        <p class="muted-block">Notes:</p>
+        <ul>
+          <li>Compilation is optional for quick interactive experiments (some runtimes still support direct <code class="inline">--run</code>), but the <code class="inline">-c</code> → <code class="inline">.bvmb</code> approach ensures consistent, distributable artifacts for shipping and automation.</li>
+          <li>Bytecode files are portable across compatible minor releases; include version metadata during compilation if portability across patch-level runtimes is required.</li>
+        </ul>
       </section>
 
       <section id="cli" aria-labelledby="cliTitle">
@@ -138,7 +177,7 @@ This version was released on 202X-0X-0X proudly built by Ariyan Ahmed, Swifteex 
         <p class="muted-block">Flags and runtime modes in Bolt. Combine them to fit your workflow.</p>
 
         <ul>
-          <li><code class="inline">--run [files...]</code> - execute <code>.blt</code> files</li>
+          <li><code class="inline">--run [files...]</code> - execute <code>.bolt</code> or <code>.bvmb</code> files</li>
           <li><code class="inline">--exec-string "&lt;source&gt;"</code> - run inline source</li>
           <li><code class="inline">--cmd</code> - single-line interactive mode</li>
           <li><code class="inline">--safe</code> - sandbox mode (blocks interactive and unsafe built-ins)</li>
@@ -150,12 +189,14 @@ This version was released on 202X-0X-0X proudly built by Ariyan Ahmed, Swifteex 
         <div class="code-toolbar">
           <button class="copy-btn" data-target="cmd-run-safe">Copy</button>
         </div>
-        <pre id="cmd-run-safe"><code>bolt --safe --debug --run myscript.blt</code></pre>
+        <pre id="cmd-run-safe"><code>bolt --safe --debug --run myscript.bolt
+# or run compiled bytecode:
+bolt myscript.bvmb</code></pre>
       </section>
 
       <section id="syntax" aria-labelledby="syntaxTitle">
         <h2 id="syntaxTitle">New Syntax - v1.61+ Quick Reference</h2>
-        <p class="muted-block">This section focuses on syntax and features available from <strong>Bolt v1.61+</strong>. For a thorough, authoritative description see the <a href="#syntax-deep">Syntax - Deep Reference</a> section which expands every entry below into a full how-to, troubleshooting, purpose, and requirements article.</p>
+        <p class="muted-block">This section focuses on syntax and features available from <strong>Bolt v1.61+</strong>. v1.70 keeps compatibility while adding modules and runtime bytecode workflow. For in-depth coverage see the <a href="#syntax-deep">Syntax - Deep Reference</a> section which expands every entry below into a full how-to, troubleshooting, purpose, and requirements article.</p>
 
         <h3 id="printing">Printing - <code>sys.out</code></h3>
         <p><strong>What it is and what it does (short):</strong> <code>sys.out</code> writes text or evaluated tokens to standard output. Use forward slashes to expand variables inside output: <code>/var/</code>.</p>
@@ -216,6 +257,96 @@ else
   sys.out 'no'
 end.if</code></pre>
         
+      </section>
+
+      <section id="modules" aria-labelledby="modulesTitle">
+        <h2 id="modulesTitle">Modules (v1.70)</h2>
+        <p class="muted-block">Bolt v1.70 introduces a simple module system that allows packaging reusable code into <code class="inline">.boltmodule</code> files and importing them into scripts. Modules are intended for distribution and reuse across projects.</p>
+
+        <h3>Creating a module file</h3>
+        <p>Save the module as <code class="inline">mymodule.boltmodule</code>. The top-level module wrapper must follow this exact form:</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="module-create">Copy</button></div>
+        <pre id="module-create"><code>public.module[modulename$1] {{
+  # module public API and implementation
+  fn module_init();
+    # initialization code
+  end
+
+  # helper functions, variables, etc.
+  some_helper = 'value'
+}}</code></pre>
+        <p class="muted-block">Important: the name inside <code class="inline">public.module[...]</code> must match the module filename identifier and the import reference. The <code class="inline">$1</code> suffix denotes the exported major API slot and aids versioning; treat it as part of the module identifier.</p>
+
+        <h3>Importing modules</h3>
+        <p>Use the import helper <code class="inline">$get.module</code> to load a module at runtime. Examples:</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="module-import">Copy</button></div>
+        <pre id="module-import"><code># simple import
+$get.module
+
+# import with alias
+$get.modulename $; aliasname
+# call exported initialization
+let.call mymod.module_init()</code></pre>
+
+        <p class="muted-block">The left-hand <code class="inline">$get.module</code> form loads the module into the current scope; when using aliasing the module's public symbols are referenced via the alias.</p>
+
+        <h3>Packaging & distribution notes</h3>
+        <ul>
+          <li>Ship <code class="inline">.boltmodule</code> with a small manifest containing <code>name</code>, <code>version</code>, and <code>compat</code> (minimum bolt runtime version).</li>
+          <li>Prefer explicit public APIs (document which functions/variables are public) and avoid global mutable state across modules.</li>
+        </ul>
+      </section>
+
+      <section id="libraries" aria-labelledby="libTitle">
+        <h2 id="libTitle">Pre-baked Libraries (v1.70)</h2>
+        <p class="muted-block">v1.70 ships with a small set of convenience libraries for common tasks. They are optional runtime modules; include them by importing or referencing the runtime-provided namespace per your packaging.</p>
+
+        <h3>Boltclock</h3>
+        <p>Utilities for deterministic pauses and simple scheduling.</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="boltclock-ex">Copy</button></div>
+        <pre id="boltclock-ex"><code># pause for 2 seconds
+Boltclock.pause(2)
+
+# combine with function calls
+fn afterwait();
+  sys.out 'resuming after wait'
+end
+
+Boltclock.pause(1)
+let.call afterwait()</code></pre>
+        <p class="muted-block"><strong>Boltclock.pause(sec)</strong> accepts numeric seconds. Implementation may block the current execution context; avoid in high-concurrency scenarios or use cooperative patterns.</p>
+
+        <h3>Boltloop</h3>
+        <p>Simple repeated execution helper. Use for fixed-count repetition where no loop keywords exist.</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="boltloop-ex">Copy</button></div>
+        <pre id="boltloop-ex"><code># call sys.out 5 times
+boltloop.loop(sys.out 'tick') ! 5
+
+# or call a function repeatedly
+fn tick();
+  sys.out 'tick from function'
+end
+
+boltloop.loop(tick) ! 3</code></pre>
+        <p class="muted-block">Syntax: <code>boltloop.loop(instruction) ! times</code>. <code>instruction</code> may be a <code>sys.out</code>, a function identifier, or any single-call instruction supported by the runtime. The runtime treats this as a convenience expansion into repeated calls; heavy repetition should be implemented with careful function design to preserve stack and memory safety.</p>
+
+        <h3>Random</h3>
+        <p>Pick random items from a provided list or data arguments.</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="random-ex">Copy</button></div>
+        <pre id="random-ex"><code># pick and print one of the arguments
+Random.main('data1', 'data2', 'data3')
+
+# store result (example pattern - adapt per runtime API)
+choice = Random.main('red','blue','green')
+sys.out /choice/</code></pre>
+        <p class="muted-block">Behavior: <code>Random.main(...)</code> returns a single random item from the arguments and prints it when used inline as shown. Confirm exact return semantics on your runtime (some variants print and return; others only return).</p>
+
+        <h3>void.0 - runtime stop</h3>
+        <p class="muted-block">To immediately halt Bolt execution from your script use the sentinel <code>void.0</code>. This provides a clean, immediate stop without raising a runtime exception (useful for controlled termination in tools and interactive sessions).</p>
+        <div class="code-toolbar"><button class="copy-btn" data-target="void-ex">Copy</button></div>
+        <pre id="void-ex"><code>sys.out 'starting'
+void.0
+# code below will not execute</code></pre>
       </section>
 
       <!-- Deep Reference section -->
@@ -360,7 +491,7 @@ end
 let.call greet()</code></pre>
 
           <h4>Arguments and returns (pattern)</h4>
-          <p class="muted-block">Bolt v1.61+ DOES support formal parameter lists in function header.</p>
+          <p class="muted-block">Bolt v1.61+ does not support formal parameter lists in function header in the same way as other languages. To pass data, assign variables in the calling scope before the call or use global vars as an explicit convention. To return values, write to a known variable. Keep this pattern disciplined and documented in your package header.</p>
 
           <h4>Recursion and repetition</h4>
           <p class="muted-block">Because Bolt lacks loop keywords (for/while), recursion or repeated calls are the structured way to perform repetition. Use recursion with caution: ensure a clear base case to avoid stack overflow. Example (conceptual):</p>
@@ -496,7 +627,7 @@ bolt --json-errors --run script.blt</code></pre>
           <p class="muted-block">Distribute a small header in scripts that prints expected runtime and performs a capability check, followed by two code paths: typed-helpers-enabled (v1.61+) and fallback parsing. This keeps packages resilient across environments.</p>
         </article>
 
-        <p class="fix" style="margin-top:12px">All deep reference code samples follow Bolt v1.61+ conventions. If you require a separate legacy compatibility appendix (v1.50 - v1.60), we can produce a compact fallback appendix that shows explicit parsing and error handling patterns.</p>
+        <p class="fix" style="margin-top:12px">All deep reference code samples follow Bolt v1.61+ conventions. v1.70 adds modules, bytecode workflow, and the pre-baked libraries documented above. If you require a separate legacy compatibility appendix (v1.50 - v1.60), we can produce a compact fallback appendix that shows explicit parsing and error handling patterns.</p>
       </section>
 
       <section id="calc-breakdown" aria-labelledby="calcTitle">
@@ -541,7 +672,7 @@ let.call calc()</code></pre>
 
         <h3>Testing checklist for this example</h3>
         <ol>
-          <li>Run <code>bolt --version</code> and confirm v1.61 or newer.</li>
+          <li>Run <code>bolt --version</code> and confirm v1.61 or newer (v1.70 recommended for library support).</li>
           <li>Enter valid integers and verify arithmetic results match expectations.</li>
           <li>Try invalid inputs and confirm either the typed helper re-prompts or your parse fallback handles the case.</li>
           <li>Check division by zero behavior and confirm the guard prints the error message.</li>
@@ -552,14 +683,32 @@ let.call calc()</code></pre>
 
       <section id="examples" aria-labelledby="examplesTitle">
         <h2 id="examplesTitle">Examples</h2>
-        <p class="muted-block">Small, copy-ready samples for quick testing on v1.61+ runtimes. Each example is accompanied by the exact expected output or failure mode so you can validate behavior.</p>
+        <p class="muted-block">Small, copy-ready samples for quick testing on v1.61+ and v1.70 runtimes. Each example is accompanied by the exact expected output or failure mode so you can validate behavior.</p>
 
         <div class="code-toolbar"><button class="copy-btn" data-target="example-save">Copy</button></div>
-        <pre id="example-save"><code># Save as hello.blt
+        <pre id="example-save"><code># Save as hello.bolt
 sys.out 'hello, world!'</code></pre>
 
         <div class="code-toolbar"><button class="copy-btn" data-target="example-ast">Copy</button></div>
         <pre id="example-ast"><code>bolt --inspect-ast --exec-string "sys.out '1+2'"</code></pre>
+
+        <h3>Module example (mymod.boltmodule)</h3>
+        <div class="code-toolbar"><button class="copy-btn" data-target="example-mod-file">Copy</button></div>
+        <pre id="example-mod-file"><code>public.module[mymod$1] {{
+  fn module_init();
+    sys.out 'mymod initialized'
+  end
+
+  fn greet();
+    sys.out 'hello from mymod'
+  end
+}}</code></pre>
+
+        <h3>Using the module in a script (app.bolt)</h3>
+        <div class="code-toolbar"><button class="copy-btn" data-target="example-mod-usage">Copy</button></div>
+        <pre id="example-mod-usage"><code>$get.module mymod$1 $; m
+let.call m.module_init()
+let.call m.greet()</code></pre>
       </section>
 
       <section id="articles" aria-labelledby="articlesTitle">
@@ -573,7 +722,7 @@ sys.out 'hello, world!'</code></pre>
 
         <article style="margin-top:12px">
           <h3>Distributing scripts</h3>
-          <p>Include a small header that prints expected runtime version and usage. Provide both typed-helper paths for v1.61+ and fallback parsing code for earlier runtimes so your package runs across environments. Keep the API surface minimal and document every exported variable and required runtime capability.</p>
+          <p>Include a small header that prints expected runtime version and usage. Provide both typed-helper paths for v1.61+ and fallback parsing code for earlier runtimes so your package runs across environments. For v1.70 distribute compiled <code>.bvmb</code> artifacts alongside source to support environments that prefer bytecode-only deployment. Keep the API surface minimal and document every exported variable and required runtime capability.</p>
         </article>
       </section>
 
@@ -594,10 +743,10 @@ sys.out 'hello, world!'</code></pre>
         </ol>
 
         <h3>Script errors or missing helpers</h3>
-        <p>Confirm your runtime version is v1.61+ for typed helpers and modern control flow. If running older versions, include fallback parsing and safe guards. When requesting help provide the Bolt version, the script, and the exact terminal output.</p>
+        <p>Confirm your runtime version is v1.61+ for typed helpers and modern control flow. For v1.70 features (modules, bytecode generation, pre-baked libraries), confirm the runtime reports <code>v1.70+</code>. If running older versions, include fallback parsing and safe guards. When requesting help provide the Bolt version, the script, and the exact terminal output.</p>
 
         <h3>Collect logs</h3>
-        <p>Run scripts with <code>bolt --debug --run script.blt</code> or <code>bolt --json-errors --run script.blt</code> to get structured information to attach to a support request.</p>
+        <p>Run scripts with <code>bolt --debug --run script.bolt</code> or <code>bolt --json-errors --run script.bolt</code> to get structured information to attach to a support request. For compiled artifacts, include both the source <code>.bolt</code> and compiled <code>.bvmb</code> files plus the exact compilation command used.</p>
       </section>
 
       <section id="legal" aria-labelledby="legalTitle">
