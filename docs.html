@@ -284,7 +284,7 @@ end.if</code></pre>
 $get.module
 
 # import with alias
-$get.modulename $; aliasname
+$get.modulename $; aliasname # No need to add '$1' because it is only to give bolt module manager permission to import. It will cause a error if included.
 # call exported initialization
 let.call mymod.module_init()</code></pre>
 
