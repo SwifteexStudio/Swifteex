@@ -377,6 +377,10 @@ void.0
           <p class="muted-block">To emit raw forward-slashes or sequences that look like tokens, break the string into separate sys.out calls or avoid token syntax. Bolt does not provide an escape sequence inside a single-quoted sys.out literal for forward-slash interpolation. Example safe pattern:</p>
           <pre id="deep-print-escape"><code>sys.out 'path: /usr/bin'
 
+          <h4>Escaping and literal slashes</h4>
+          <p class="muted-block:Comments in Bolt</p>
+          <pre id="deep-print-escape"><code>#;this is a comment'
+            
 # To show '/name/' literally - avoid token parsing:
 sys.out 'name literal: /name/'</code></pre>
 
@@ -386,8 +390,7 @@ sys.out 'name literal: /name/'</code></pre>
 sys.out /name/
 
 a = 5
-b = 7
-sys.out /a/ + /b/
+b = 4>sys.out /a/ + /b/
 
 sys.out 'the sum is /a + b/'</code></pre>
 
