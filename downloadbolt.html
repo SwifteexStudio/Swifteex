@@ -3,713 +3,680 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BOLT 1.61, Official Installer</title>
+  <title>BOLT 1.70</title>
   <link rel="icon" href="assets/boltlogoM.ico" type="image/x-icon" />
   <style>
-    /* design tokens (default = light) */
     :root{
-      --bg-overlay: rgba(3,8,12,0.48);
-      --page-bg: #071226;
-      --panel-bg: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,251,0.98));
-      --modal-bg: linear-gradient(180deg,#ffffff,#fbfeff);
-      --text-dark: #072033;
-      --muted: #4d6b75;
-      --muted-weak: rgba(77,107,117,0.9);
-      --radius: 14px;
-      --shadow-soft: 0 10px 30px rgba(10,20,30,0.06);
-      --shadow-deep: 0 18px 60px rgba(2,8,20,0.35);
-
-      --bolt-grad-1: #ff4b4b; /* red */
-      --bolt-grad-2: #1b6bf0; /* blue */
-      --download-grad-1: #ffb84b; /* yellow orange */
-      --download-grad-2: #ff4b4b; /* red */
-      --accent-sky: #38bdf8;
-
-      --max-width: 980px;
-      --gap: 18px;
+      --bg-1:#040406;
+      --bg-2:#100508;
+      --panel: rgba(10, 10, 14, 0.84);
+      --panel-2: rgba(16, 16, 20, 0.95);
+      --text:#f6f7fb;
+      --muted: rgba(255,255,255,0.72);
+      --muted-2: rgba(255,255,255,0.52);
+      --red:#ff2a2a;
+      --red-2:#9f001a;
+      --blue:#2e8bff;
+      --blue-2:#0e5ae0;
+      --glow-red: 0 0 16px rgba(255,42,42,0.70), 0 0 48px rgba(255,42,42,0.22);
+      --glow-blue: 0 0 16px rgba(46,139,255,0.72), 0 0 48px rgba(46,139,255,0.26);
+      --shadow: 0 24px 80px rgba(0,0,0,0.55);
+      --radius: 22px;
       --ease: cubic-bezier(.2,.9,.2,1);
-
-      --nav-width: 320px;
-      --ui-font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif;
-      --focus-ring: 4px solid rgba(56,189,248,0.14);
+      --font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --max: 1280px;
     }
 
-    /* dark theme overrides (applied to body.dark) */
-    body.dark{
-      --page-bg: #05070b;
-      --bg-overlay: rgba(2,6,10,0.64);
-      --panel-bg: linear-gradient(180deg, rgba(6,12,18,0.96), rgba(6,12,18,0.96));
-      --modal-bg: linear-gradient(180deg, rgba(8,14,22,0.96), rgba(8,14,22,0.96));
-      --text-dark: #e6f8ff;
-      --muted: #95b8c9;
-      --muted-weak: rgba(149,184,201,0.9);
-      --shadow-soft: 0 10px 30px rgba(2,8,16,0.35);
-      --shadow-deep: 0 20px 70px rgba(0,0,0,0.7);
-    }
-
-    /* base and background image */
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:var(--ui-font);-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+    html,body{height:100%;margin:0}
     body{
-      background-color:var(--page-bg);
-      color:var(--text-dark);
+      font-family:var(--font);
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,42,42,0.12), transparent 24%),
+        radial-gradient(circle at 80% 25%, rgba(46,139,255,0.08), transparent 20%),
+        radial-gradient(circle at 50% 100%, rgba(159,0,26,0.18), transparent 30%),
+        linear-gradient(145deg, var(--bg-1), var(--bg-2));
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(115deg, rgba(255,42,42,0.07), transparent 25%, transparent 75%, rgba(46,139,255,0.05)),
+        radial-gradient(circle at center, rgba(255,255,255,0.03), transparent 62%);
+      opacity:.9;
+      z-index:0;
+      animation: cozy-shift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes cozy-shift {
+      0% { transform: scale(1) translate3d(0, 0, 0); }
+      100% { transform: scale(1.06) translate3d(-1%, -1%, 0); }
+    }
+
+    .grid{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size:56px 56px;
+      mask-image: radial-gradient(circle at center, rgba(0,0,0,0.95), transparent 82%);
+      opacity:0.16;
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      min-height:100vh;
       padding:28px;
-      background-image: url('assets/coding.jpg');
-      background-position:center;
-      background-size:cover;
-      background-repeat:no-repeat;
-      position:relative;
-      transition:background-color .18s var(--ease), color .18s var(--ease);
-      font-size:16px;
-      line-height:1.45;
     }
-    /* soft overlay to keep text legible */
-    body::before{
-      content:'';
-      position:fixed;inset:0;
-      background:var(--bg-overlay);
-      z-index:0;
+
+    .hero{
+      width:100%;
+      max-width:var(--max);
+      display:grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap:24px;
+      align-items:stretch;
+    }
+
+    .panel{
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(18,18,24,0.84), rgba(7,7,10,0.95));
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+
+    .content{
+      padding:36px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      min-height: 740px;
+      animation: rise 850ms var(--ease) both;
+    }
+
+    @keyframes rise{
+      from{opacity:0; transform:translateY(18px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+
+    /* Staggered entrance animations */
+    h1 { animation: slideIn 0.8s var(--ease) 0.1s both; }
+    .subtitle { animation: slideIn 0.8s var(--ease) 0.2s both; }
+    .slideshow { animation: slideIn 0.8s var(--ease) 0.3s both; }
+    .actions { animation: slideIn 0.8s var(--ease) 0.4s both; }
+    .tiny { animation: slideIn 0.8s var(--ease) 0.5s both; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Refined interactive states */
+    .download:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 
+        0 0 25px rgba(46,139,255,0.85), 
+        0 0 70px rgba(46,139,255,0.35), 
+        0 22px 40px rgba(0,0,0,0.4);
+    }
+
+    .docs:hover {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+      transform: translateX(4px);
+    }
+    .docs { display: inline-block; transition: all 0.3s var(--ease); }
+
+    .visual-badge {
+      animation: badgeIn 1s var(--ease) 0.6s both;
+    }
+    @keyframes badgeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      width:max-content;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,42,42,0.20);
+      background:rgba(255,42,42,0.08);
+      color:#ffdcdc;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      box-shadow:var(--glow-red);
+    }
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:var(--red);
+      box-shadow:var(--glow-red);
+    }
+
+    h1{
+      margin:18px 0 10px;
+      font-size: clamp(42px, 6vw, 78px);
+      line-height:0.96;
+      letter-spacing:-0.05em;
+      font-weight:950;
+    }
+
+    .neon{
+      color:#fff;
+      text-shadow:
+        0 0 10px rgba(255,255,255,0.20),
+        0 0 18px rgba(255,42,42,0.60),
+        0 0 42px rgba(255,42,42,0.38),
+        0 0 66px rgba(159,0,26,0.26);
+      animation: pulse 3.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse{
+      0%,100%{filter:brightness(1)}
+      50%{filter:brightness(1.12)}
+    }
+
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.65;
+      max-width:56ch;
+    }
+
+    .slideshow{
+      margin-top:28px;
+      position:relative;
+      height:170px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      overflow:hidden;
+    }
+
+    .slides{
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+
+    .slide{
+      position:absolute;
+      inset:0;
+      padding: 22px 22px 42px 22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:10px;
+      opacity:0;
+      transform:translateX(28px);
+      transition: opacity .45s var(--ease), transform .45s var(--ease);
+    }
+
+    .slide.active{
+      opacity:1;
+      transform:translateX(0);
+    }
+
+    .slide h2{
+      margin:0;
+      font-size:24px;
+      line-height:1.08;
+      letter-spacing:-0.03em;
+      color:#fff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.15), 0 0 20px rgba(255,42,42,0.45);
+      animation: pulse 3.4s ease-in-out infinite;
+    }
+
+    .slide p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+      text-shadow: 0 0 8px rgba(255,255,255,0.08);
+      max-width:54ch;
+    }
+
+    .slide-tag{
+      display:inline-flex;
+      width:max-content;
+      padding:7px 11px;
+      border-radius:999px;
+      background:rgba(255,42,42,0.09);
+      border:1px solid rgba(255,42,42,0.20);
+      color:#ffdada;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+    }
+
+    .dots{
+      position:absolute;
+      left:18px;
+      bottom:14px;
+      display:flex;
+      gap:8px;
+      z-index:3;
+    }
+
+    .dot-btn{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      border:0;
+      cursor:pointer;
+      background:rgba(255,255,255,0.24);
+      box-shadow:0 0 0 1px rgba(255,255,255,0.08) inset;
+      transition: transform .18s var(--ease), background .18s var(--ease), box-shadow .18s var(--ease);
+    }
+
+    .dot-btn.active{
+      background:var(--red);
+      box-shadow:var(--glow-red);
+      transform:scale(1.25);
+    }
+
+    .actions{
+      margin-top:24px;
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .download{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      padding:16px 22px;
+      border-radius:16px;
+      border:0;
+      cursor:pointer;
+      text-decoration:none;
+      background:linear-gradient(180deg, var(--blue), var(--blue-2));
+      color:#fff;
+      font-size:16px;
+      font-weight:900;
+      letter-spacing:.01em;
+      text-shadow:0 0 12px rgba(255,255,255,0.95);
+      box-shadow:var(--glow-blue), 0 18px 34px rgba(0,0,0,0.30);
+      transition: transform .18s var(--ease), box-shadow .18s var(--ease), filter .18s var(--ease);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .download::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.42), transparent 44%);
+      transform:translateX(-120%);
+      transition:transform .75s var(--ease);
+    }
+
+    .download:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.06);
+      box-shadow:0 0 20px rgba(46,139,255,0.80), 0 0 60px rgba(46,139,255,0.28), 0 18px 34px rgba(0,0,0,0.30);
+    }
+
+    .download:hover::before{
+      transform:translateX(120%);
+    }
+
+    .download:active{
+      transform:translateY(1px);
+    }
+
+    .docs{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:800;
+      font-size:14px;
+      padding:10px 0;
+      transition: color .18s var(--ease);
+    }
+
+    .docs:hover{ color:#fff; }
+
+    .tiny{
+      margin-top:14px;
+      color:var(--muted-2);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .visual{
+      position:relative;
+      min-height:740px;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, rgba(255,42,42,0.09), rgba(0,0,0,0.44)),
+        radial-gradient(circle at 50% 50%, rgba(255,42,42,0.18), transparent 60%);
+    }
+
+    .frame{
+      position:absolute;
+      inset:22px;
+      border-radius:28px;
+      border:1px solid rgba(255,42,42,0.28);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 0 34px rgba(255,42,42,0.20),
+        0 0 100px rgba(255,42,42,0.10);
       pointer-events:none;
     }
 
-    main{position:relative;z-index:2;width:100%;max-width:var(--max-width);display:flex;flex-direction:column;align-items:center;gap:18px;padding:12px}
-
-    /* main card */
-    .card{
-      width:100%;
-      border-radius:var(--radius);
-      background:var(--panel-bg);
-      padding:32px;
-      box-shadow:var(--shadow-soft);
-      display:flex;
-      flex-direction:column;
-      gap:16px;
-      align-items:center;
-      text-align:center;
-      transition:transform .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease), color .18s var(--ease);
+    .art{
+      position:absolute;
+      top:50%;
+      left: 50%;
+      width: 92%;
+      height: auto;
+      transform: translate(-50%, -50%) translateZ(0);
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,0.1);
+      object-fit:cover;
+      object-position:center center;
+      filter:
+        drop-shadow(0 0 18px rgba(255,42,42,0.56))
+        drop-shadow(0 0 60px rgba(255,42,42,0.20))
+        contrast(1.08) brightness(1.04);
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,0.02) inset,
+        0 0 30px rgba(255,42,42,0.34),
+        0 0 90px rgba(255,42,42,0.18);
+      animation: showcase-float 12s ease-in-out infinite;
+      will-change: transform, filter;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: high-quality;
+      transform-style: preserve-3d;
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
     }
 
-    .header-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;width:100%}
-
-    .logo{
-      width:110px;height:110px;border-radius:14px;background-image:url('assets/boltlogoM.ico');background-size:cover;background-position:center;box-shadow:0 14px 34px rgba(27,107,240,0.12);flex:0 0 auto;animation:float 4.5s ease-in-out infinite;
-    }
-    @keyframes float{0%{transform:translateY(0) rotate(-0.6deg)}50%{transform:translateY(-8px) rotate(0.8deg)}100%{transform:translateY(0) rotate(-0.6deg)}}
-
-    h1{margin:0;font-weight:900;font-size:34px;line-height:1.02;color:var(--text-dark)}
-    .subtitle{margin:6px 0 0;color:var(--muted);font-size:15px;font-weight:700}
-    .hero-title{font-family:var(--ui-font);font-weight:800;font-size:22px;margin-top:6px;color:var(--text-dark)}
-    .hero-quote{margin:6px 0 0;color:var(--muted);font-size:15px}
-
-    /* hero rich text */
-    .hero-rich{
-      margin-top:12px;padding:18px;border-radius:12px;width:100%;max-width:820px;background:rgba(255,255,255,0.02);color:var(--text-dark);
-      box-shadow:0 12px 40px rgba(2,8,20,0.06);text-align:left;
-      border:1px solid rgba(2,8,20,0.04);
-      backdrop-filter: blur(4px);
-    }
-    .hero-rich h2{margin:0;font-size:20px;font-weight:900;color:var(--text-dark)}
-    .hero-rich p{margin:8px 0 0;color:var(--muted);font-size:15px}
-    .hero-description{margin-top:12px;color:var(--muted);font-size:15px;}
-
-    .points{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
-    .point{flex:1;min-width:180px;background:transparent;padding:14px;border-radius:10px;border:1px solid rgba(2,8,20,0.04);display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-    .point strong{display:block;font-weight:800;color:var(--text-dark)}
-    .point span{color:var(--muted);font-size:14px}
-
-    /* bolt pill and bolt card accent */
-    .bolt-pill{
-      padding:10px 16px;border-radius:999px;font-weight:900;background:linear-gradient(90deg,var(--bolt-grad-1),var(--bolt-grad-2));color:white;border:none;box-shadow:0 10px 30px rgba(27,107,240,0.12);cursor:pointer
-    }
-    .bolt-card-accent{background:linear-gradient(180deg, rgba(255,75,75,0.06), rgba(27,107,240,0.04));border:1px solid rgba(255,255,255,0.04);box-shadow:0 18px 56px rgba(11,13,17,0.12);padding:14px;border-radius:10px}
-
-    /* actions */
-    .actions{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:8px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;border:0;outline:none;text-decoration:none}
-    .btn-primary{background:linear-gradient(90deg,var(--download-grad-1),var(--download-grad-2));color:white;box-shadow:0 12px 36px rgba(255,75,75,0.16)}
-    .btn-ghost{background:transparent;color:var(--muted);border:1px solid rgba(2,8,20,0.04);padding:10px 14px;border-radius:10px}
-    .btn:active{transform:translateY(1px)}
-    .btn:focus{box-shadow:var(--focus-ring)}
-    .btn-icon{display:inline-flex;align-items:center;gap:8px}
-
-    /* more readable small text */
-    .footer{margin-top:10px;text-align:center;font-size:13px;color:var(--muted);display:flex;gap:12px;align-items:center;flex-direction:column}
-    .brand-pill{padding:8px 12px;border-radius:999px;font-weight:800;background:linear-gradient(90deg,#ff4b4b,#9aa0a6);color:white;text-decoration:none}
-
-    /* nav panel style */
-    .hamburger{
-      position:fixed;top:18px;right:18px;width:56px;height:56px;border-radius:12px;background:var(--panel-bg);box-shadow:var(--shadow-soft);display:flex;align-items:center;justify-content:center;z-index:70;border:1px solid rgba(2,8,20,0.04);cursor:pointer
-    }
-    .hamburger svg{width:24px;height:24px;color:var(--text-dark)}
-    .nav-drawer{
-      position:fixed;top:0;right:0;height:100vh;width:var(--nav-width);background:var(--modal-bg);box-shadow:-20px 0 50px rgba(2,8,20,0.12);
-      transform:translateX(110%);transition:transform .28s var(--ease);z-index:70;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:auto;
-    }
-    .nav-drawer.show{transform:translateX(0)}
-    .nav-drawer a{display:block;padding:12px;border-radius:10px;text-decoration:none;color:var(--text-dark);font-weight:800;border:1px solid rgba(2,8,20,0.04);margin-bottom:6px}
-    .nav-drawer a:hover{box-shadow:0 10px 30px rgba(27,107,240,0.06)}
-    .nav-drawer .current{box-shadow:0 10px 30px rgba(27,107,240,0.08);border-color:rgba(27,107,240,0.08)}
-
-    /* theme toggle button */
-    .theme-toggle { background:transparent;border:1px solid rgba(2,8,20,0.04);padding:8px 10px;border-radius:10px;font-weight:800;cursor:pointer; }
-
-    /* download modal */
-    .modal-backdrop{
-      position:fixed;inset:0;background:rgba(2,6,10,0.6);display:none;align-items:center;justify-content:center;z-index:120;
-    }
-    .modal-backdrop.show{display:flex}
-    .modal{
-      width:100%;max-width:760px;border-radius:14px;background:var(--modal-bg);padding:22px;box-shadow:var(--shadow-deep);color:var(--text-dark);
-      transform:translateY(10px);transition:transform .18s var(--ease), opacity .18s var(--ease);
-    }
-    .modal h3{margin:0;font-size:20px;font-weight:900}
-    .modal .muted{color:var(--muted);margin-top:8px;font-size:14px}
-    .versions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-    .version-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-      border-radius:12px;padding:14px;border:1px solid rgba(2,8,20,0.04);min-width:180px;flex:1;cursor:pointer;user-select:none;
-      transition:box-shadow .12s var(--ease), transform .12s var(--ease);
-      display:flex;flex-direction:column;gap:8px;
-    }
-    .version-card.selected{box-shadow:0 18px 50px rgba(27,107,240,0.08);transform:translateY(-4px);border-color:rgba(27,107,240,0.08)}
-    .version-title{font-weight:900;font-size:16px}
-    .version-desc{color:var(--muted);font-size:13px}
-
-    .controls{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
-    .controls-left{display:flex;gap:12px;align-items:center}
-    .checkbox-inline{display:flex;gap:10px;align-items:center}
-    .checkbox-inline input{width:18px;height:18px}
-
-    .warning{
-      margin-top:12px;padding:12px;border-radius:10px;background:#ffea5b;color:#000;font-weight:700;border:1px solid rgba(0,0,0,0.08);
-      display:none;
-    }
-    .warning.show{display:block}
-
-    /* IDE option is now available independently (not CORE-only) */
-    .ide-option{margin-top:10px;display:flex;align-items:center;gap:10px}
-    .modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:18px}
-    .btn-cancel{background:transparent;border:1px solid rgba(2,8,20,0.06);padding:10px 14px;border-radius:10px;font-weight:800}
-    .toast{
-      margin-top:12px;font-size:14px;color:var(--muted);
-      display:flex;align-items:center;gap:10px;justify-content:center;
-    }
-    .progress{
-      margin-top:12px;height:10px;background:rgba(2,8,20,0.04);border-radius:6px;overflow:hidden;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
-    }
-    .progress > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--download-grad-1),var(--download-grad-2));transition:width .45s var(--ease)}
-
-    @media (max-width:720px){
-      .card{padding:20px}
-      .hero-rich{padding:14px}
-      .logo{width:90px;height:90px}
-      h1{font-size:28px}
-      .version-card{min-width:140px}
-      .nav-drawer{width:88%}
-      .header-row{align-items:flex-start}
-      .actions{justify-content:center}
+    @keyframes showcase-float {
+      0%, 100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+      33% { transform: translate(-50.5%, -51%) rotate(0.5deg) scale(1.02); }
+      66% { transform: translate(-49.5%, -49%) rotate(-0.5deg) scale(1.01); }
     }
 
-    /* reduced motion */
+    .visual-badge{
+      position:absolute;
+      left:22px;
+      bottom:22px;
+      max-width:280px;
+      padding:14px 16px;
+      border-radius:16px;
+      background:rgba(5,5,8,0.56);
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      box-shadow:0 12px 30px rgba(0,0,0,0.28);
+    }
+
+    .visual-badge strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#ffdcdc;
+    }
+
+    .visual-badge span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .spark{
+      position:absolute;
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#fff;
+      box-shadow:
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 22px rgba(255,42,42,0.95);
+      opacity:.8;
+      animation: twinkle 2.8s linear infinite;
+    }
+
+    .s1{top:11%;left:10%}
+    .s2{top:29%;left:22%;animation-delay:.6s}
+    .s3{top:64%;left:15%;animation-delay:1.1s}
+    .s4{top:18%;right:13%;animation-delay:.3s}
+    .s5{top:76%;right:17%;animation-delay:1.2s}
+
+    @keyframes twinkle{
+      0%,100%{transform:scale(1);opacity:.45}
+      50%{transform:scale(1.8);opacity:1}
+    }
+
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .visual{min-height:460px; order:-1}
+      .content{min-height:auto}
+      .art{width:90%; left: 50%; transform: translate(-50%, -50%);}
+    }
+
+    @media (max-width: 640px){
+      .wrap{padding:16px}
+      .content{padding:20px}
+      .visual{min-height:360px}
+      .art{width:95%;}
+      .download{width:100%}
+      .visual-badge{bottom: 12px; left: 12px; transform: scale(0.9); transform-origin: bottom left;}
+      .slideshow{height:190px}
+      .visual-badge{max-width:220px}
+    }
+
+    .swifteex-spice {
+      font-size: 11px; font-weight: 900; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.3em;
+      margin-top: 20px; opacity: 0.8;
+    }
+
     @media (prefers-reduced-motion: reduce){
-      .logo, .card, .hero-rich { animation: none; transition: none }
+      *{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+      }
     }
-
-    /* small utility for better keyboard focus outlines for accessibility */
-    :focus{outline:3px solid rgba(56,189,248,0.12);outline-offset:2px}
   </style>
 </head>
 <body>
-  <!-- hamburger control -->
-  <button class="hamburger" id="hamburger" aria-haspopup="true" aria-controls="navDrawer" aria-expanded="false" title="Menu" aria-label="Open menu">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M3 7h18"></path>
-      <path d="M3 12h18"></path>
-      <path d="M3 17h18"></path>
-    </svg>
-  </button>
+  <div class="grid"></div>
 
-  <nav id="navDrawer" class="nav-drawer" aria-hidden="true" role="navigation" aria-label="Main menu">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <strong style="font-size:16px">Menu</strong>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Toggle theme">Theme</button>
-        <button id="navClose" title="Close" style="background:transparent;border:0;cursor:pointer;font-weight:800">Close</button>
-      </div>
-    </div>
+  <main class="wrap">
+    <section class="hero panel" aria-label="Bolt 1.70 landing page">
+      <div class="content">
+        <div class="eyebrow"><span class="dot"></span> Presented by Swifteex Studio</div>
 
-    <a id="navHome" class="current" href="#main" role="menuitem" tabindex="0">Home</a>
-    <a id="navDocs" href="docs.html" role="menuitem" tabindex="0">Documentation</a>
-    <!-- Download triggers an in-page polished modal -->
-    <a id="navDownload" href="#download" role="menuitem" tabindex="0">Download</a>
-    <a id="navAbout" href="aboutbolt.html" role="menuitem" tabindex="0">About</a>
-  </nav>
+        <h1 class="neon">Bolt 1.70</h1>
 
-  <main id="main" role="main" aria-labelledby="pageTitle">
-    <section class="card" id="mainCard" role="region" aria-label="Bolt installer">
-      <div class="header-row">
-        <div class="logo" aria-hidden="true" role="img" aria-label="Bolt logo"></div>
-        <div class="header-text" style="max-width:640px">
-          <h1 id="pageTitle">BOLT 1.60</h1>
-          <p class="subtitle">Official installer — documentation-forward distribution</p>
+        <p class="subtitle">
+          A powerful new release built around the module system, full runtime engine support,
+          and a native .exe builder. Clean. Fast. Fully Bolt.
+        </p>
 
-          <div class="hero-rich" id="heroRich" role="region" aria-label="About bolt">
-            <h2>Bolt runtime environment</h2>
-            <p class="hero-quote">Fast. Safe. Powerful.</p>
-            <p class="hero-description">Bolt is a production-ready runtime designed for teams who need high performance, predictable startup time, and secure extensibility. The distribution is docs-first — see the documentation before downloading so you know what you're installing.</p>
+        <div class="slideshow" aria-label="Bolt feature slideshow">
+          <div class="slides">
+            <article class="slide active">
+              <div class="slide-tag">Module System</div>
+              <h2>Built for structured power.</h2>
+              <p>
+                New module support makes Bolt cleaner to scale, easier to organize, and sharper for large projects.
+              </p>
+            </article>
 
-            <div class="points" aria-hidden="false">
-              <div class="point" aria-label="Fast">
-                <strong>Fast</strong>
-                <span>Low overhead runtime with C-like startup characteristics and optimized memory usage.</span>
-              </div>
-              <div class="point bolt-card-accent" aria-label="Easy to use">
-                <strong>Easy to adopt</strong>
-                <span>Clear interfaces, robust CLI tooling, and concise examples in the documentation.</span>
-              </div>
-              <div class="point" aria-label="Powerful">
-                <strong>Secure & Extensible</strong>
-                <span>Sandboxed plugin model and observability built in for safe production workflows.</span>
-              </div>
-            </div>
+            <article class="slide">
+              <div class="slide-tag">Runtime Engine</div>
+              <h2>Full support, full speed.</h2>
+              <p>
+                Bolt 1.70 brings full runtime engine support for smoother execution and stronger native behavior.
+              </p>
+            </article>
 
-            <p style="margin-top:12px;color:var(--muted);font-size:14px">
-              Before downloading, open the documentation to review system requirements, release notes, security model, and install guidance. If you're ready after reviewing, use the Download menu to choose a release.
-            </p>
-
+            <article class="slide">
+              <div class="slide-tag">Native .exe Builder</div>
+              <h2>Build executables directly in Bolt.</h2>
+              <p>
+                A powerful .exe builder is now fully native to Bolt, making packaging simpler and more direct.
+              </p>
+            </article>
           </div>
+
+          <div class="dots" aria-label="Slideshow navigation">
+            <button class="dot-btn active" type="button" aria-label="Slide 1"></button>
+            <button class="dot-btn" type="button" aria-label="Slide 2"></button>
+            <button class="dot-btn" type="button" aria-label="Slide 3"></button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="downloadBtn" class="download" type="button">Download Bolt Updater</button>
+          <a class="docs" href="https://swifteexstudio.github.io/Swifteex/docs.html" target="_blank" rel="noopener">See docs for usage</a>
+        </div>
+        
+        <div class="swifteex-spice">Developed by Ariyan Ahmed</div>
+
+        <div class="tiny">
+          Bolt 1.70 introduces a powerful brand new module system, full support to the runtime engine,
+          and a native .exe builder. More features, same Bolt edge.
         </div>
       </div>
 
-      <div class="actions" role="group" aria-label="Primary actions">
-        <a id="learnMore" class="btn btn-primary btn-icon" href="docs.html" role="button" aria-label="Open documentation">
-          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M4 4.5A2.5 2.5 0 0 1 6.5 7H20v13"></path>
-          </svg>
-          Learn documentation
-        </a
+      <div class="visual" aria-label="Bolt showcase image">
+        <div class="frame"></div>
+        <span class="spark s1"></span>
+        <span class="spark s2"></span>
+        <span class="spark s3"></span>
+        <span class="spark s4"></span>
+        <span class="spark s5"></span>
 
-<a id="navTOS" href="tos.html" role="menuitem" tabindex="0">Terms of Service</a>       <button id="boltPill" class="bolt-pill" title="BOLT" aria-label="View product highlights">BOLT</button>
-      </div>
+        <video id="v1" class="art" src="assets/recboltshow.mp4" muted playsinline preload="auto"></video>
+        <video id="v2" class="art" src="assets/recboltshow2.mkv" muted playsinline preload="auto" style="display:none;"></video>
 
-      <div class="footer" role="contentinfo">
-        <a class="brand-pill" href="https://swifteexstudio.github.io/Swifteex/" target="_blank" rel="noopener">made by Swifteex Studio</a>
-        <div style="color:var(--muted)">Support <a href="mailto:swifteexstudio@gmail.com" style="color:inherit;text-decoration:none">swifteexstudio@gmail.com</a></div>
+        <div class="visual-badge">
+          <strong>Bolt 1.70</strong>
+          <span>The future of runtime engines.</span>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- Download modal (polished, production grade) -->
-  <div id="downloadModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="downloadTitle" aria-hidden="true">
-    <div class="modal" role="document">
-      <h3 id="downloadTitle">Choose your version</h3>
-      <div class="muted">Select the Bolt release you want to install.</div>
-
-      <div class="versions" role="list" aria-label="Available versions">
-        <div class="version-card" role="listitem" data-version="1.40" tabindex="0">
-          <div class="version-title">Bolt 1.40</div>
-          <div class="version-desc">Older version of Bolt. Not recommended.</div>
-        </div>
-
-        <div class="version-card selected" role="listitem" data-version="1.60" tabindex="0">
-          <div class="version-title">Bolt 1.60</div>
-          <div class="version-desc">Stable build with CORE available.</div>
-        </div>
-
-        <div class="version-card" role="listitem" data-version="1.61" tabindex="0">
-          <div class="version-title">Bolt 1.61</div>
-          <div class="version-desc">Latest stable build. CORE is not available for 1.61.</div>
-        </div>
-      </div>
-
-      <div class="controls">
-        <div class="controls-left">
-          <label class="checkbox-inline" title="Enable CORE version">
-            <input id="enableCore" type="checkbox" aria-checked="false">
-            <span style="font-weight:800">Enable CORE version?</span>
-          </label>
-
-          <div class="checkbox-inline">
-            <input id="downloadNowInline" type="checkbox" checked aria-checked="true">
-            <label for="downloadNowInline" style="font-weight:700;color:var(--muted)">Download now</label>
-          </div>
-        </div>
-
-        <div style="text-align:right">
-          <div style="font-size:13px;color:var(--muted)">Selected:
-            <span id="selectedLabel" style="font-weight:900;margin-left:8px">Bolt 1.60</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="warning" id="coreWarning" role="status" aria-live="polite">
-        CORE VERSION IS AN ALPHA RELEASE FOR FUTURE BOLT RELEASES. IT MAY BE MORE POWERFUL THAN THE STABLE VERSION BUT IT MIGHT BE BUGGY.
-      </div>
-
-      <!-- IDE option is independent and available for any selected version -->
-      <div class="ide-option" id="ideOption">
-        <label class="checkbox-inline">
-          <input id="includeIDE" type="checkbox" aria-checked="false">
-          <span style="font-weight:800">Also download PlutoniumIDE</span>
-        </label>
-        <div style="font-size:13px;color:var(--muted)">Optional PlutoniumIDE installer (select if you want the IDE).</div>
-      </div>
-
-      <div class="modal-actions">
-        <button id="cancelDownload" class="btn-cancel" aria-label="Cancel">Cancel</button>
-        <button id="startDownload" class="btn btn-primary" aria-label="Start download">Download</button>
-      </div>
-
-      <div class="progress" id="progressBar" aria-hidden="true" style="display:none">
-        <i style="width:0%"></i>
-      </div>
-
-      <div class="toast" id="toast" aria-hidden="true" style="visibility:hidden"></div>
-    </div>
-  </div>
-
   <script>
-    (function(){
-      // Elements
-      const hamburger = document.getElementById('hamburger');
-      const navDrawer = document.getElementById('navDrawer');
-      const navClose = document.getElementById('navClose');
-      const navDownload = document.getElementById('navDownload');
-      const navHome = document.getElementById('navHome');
-      const navDocs = document.getElementById('navDocs');
-      const navAbout = document.getElementById('navAbout');
-      const boltPill = document.getElementById('boltPill');
-      const mainCard = document.getElementById('mainCard');
-      const themeToggle = document.getElementById('themeToggle');
-      const learnMore = document.getElementById('learnMore');
+    (function () {
+      const DOWNLOAD_URL = 'https://github.com/SwifteexStudio/Swifteex/releases/download/170/boltupd.exe';
+      // const REDIRECT_URL = 'boltupd.html'; // Not used
 
-      // Modal elements
-      const downloadModal = document.getElementById('downloadModal');
-      const versionCards = Array.from(document.querySelectorAll('.version-card'));
-      const selectedLabel = document.getElementById('selectedLabel');
-      const enableCore = document.getElementById('enableCore');
-      const coreWarning = document.getElementById('coreWarning');
-      const ideOption = document.getElementById('ideOption');
-      const includeIDE = document.getElementById('includeIDE');
-      const startDownload = document.getElementById('startDownload');
-      const cancelDownload = document.getElementById('cancelDownload');
-      const progressBar = document.getElementById('progressBar');
-      const progressFill = progressBar.querySelector('i');
-      const toast = document.getElementById('toast');
+      const btn = document.getElementById('downloadBtn');
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dots = Array.from(document.querySelectorAll('.dot-btn'));
+      const v1 = document.getElementById('v1');
+      const v2 = document.getElementById('v2');
+      
+      let slideIndex = 0;
+      let slideshowTimer = null;
 
-      // Files: direct GitHub release download links (uses release tag + asset filenames)
-      const DOWNLOADS = {
-        '1.40': 'https://github.com/SwifteexStudio/Swifteex/releases/download/BOLT/boltsetupmanager140.exe',
-        '1.60': 'https://github.com/SwifteexStudio/Swifteex/releases/download/160/boltinstallmanager160.exe',
-        '1.61': 'https://github.com/SwifteexStudio/Swifteex/releases/download/161/boltinstallmanager161.exe',
-        'CORE': 'https://github.com/SwifteexStudio/Swifteex/releases/download/bolt160cr/boltinstallmanagerCORE.exe',
-        'IDE':  'https://github.com/SwifteexStudio/Swifteex/releases/download/ide2/PlutoniumIDE_Setup.exe'
-      };
-
-      // Focus trap helper (simple)
-      function trapFocus(container){
-        const focusable = Array.from(container.querySelectorAll('a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])'))
-          .filter(el => el.offsetParent !== null);
-        if(focusable.length === 0) return {release: ()=>{}};
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        function keyHandler(e){
-          if(e.key !== 'Tab') return;
-          if(e.shiftKey && document.activeElement === first){
-            e.preventDefault();
-            last.focus();
-          } else if(!e.shiftKey && document.activeElement === last){
-            e.preventDefault();
-            first.focus();
-          }
-        }
-        document.addEventListener('keydown', keyHandler);
-        return { release: ()=> document.removeEventListener('keydown', keyHandler) };
+      // Slideshow logic
+      function showSlide(i) {
+        slideIndex = i;
+        slides.forEach((slide, s) => slide.classList.toggle('active', s === i));
+        dots.forEach((dot, s) => dot.classList.toggle('active', s === i));
       }
 
-      let modalTrap = null;
-      let lastFocusedBeforeModal = null;
-      let toastTimeout = null;
-
-      function openModal(){
-        lastFocusedBeforeModal = document.activeElement;
-        downloadModal.classList.add('show');
-        downloadModal.setAttribute('aria-hidden','false');
-        // set focus to first interactive element
-        const first = downloadModal.querySelector('.version-card');
-        if(first) first.focus();
-        modalTrap = trapFocus(downloadModal);
-      }
-      function closeModal(){
-        downloadModal.classList.remove('show');
-        downloadModal.setAttribute('aria-hidden','true');
-        if(modalTrap) modalTrap.release();
-        if(lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') lastFocusedBeforeModal.focus();
-        // reset transient UI
-        hideProgress();
-        toastMessage('', true);
+      function nextSlide() {
+        showSlide((slideIndex + 1) % slides.length);
       }
 
-      // Navigation open/close with accessibility
-      function openNav(){
-        navDrawer.classList.add('show');
-        hamburger.setAttribute('aria-expanded', 'true');
-        navDrawer.setAttribute('aria-hidden', 'false');
-        document.documentElement.style.overflow = 'hidden';
-        const firstLink = navDrawer.querySelector('a');
-        if(firstLink) firstLink.focus();
-      }
-      function closeNav(){
-        navDrawer.classList.remove('show');
-        hamburger.setAttribute('aria-expanded','false');
-        navDrawer.setAttribute('aria-hidden','true');
-        document.documentElement.style.overflow = '';
+      function startAuto() {
+        stopAuto();
+        slideshowTimer = setInterval(nextSlide, 8000);
       }
 
-      hamburger.addEventListener('click', function(){
-        const open = navDrawer.classList.toggle('show');
-        if(open) openNav(); else closeNav();
-      });
-      navClose.addEventListener('click', closeNav);
-
-      navHome.addEventListener('click', function(ev){
-        ev.preventDefault();
-        closeNav();
-        document.getElementById('mainCard').scrollIntoView({behavior:'smooth', block:'center'});
-      });
-
-      // When Download link is clicked, open polished modal
-      navDownload.addEventListener('click', function(ev){
-        ev.preventDefault();
-        closeNav();
-        setTimeout(openModal, 160);
-      });
-
-      // Version selection interactions
-      versionCards.forEach(card => {
-        card.addEventListener('click', () => selectVersion(card.dataset.version));
-        card.addEventListener('keyup', (e) => { if(e.key === 'Enter' || e.key === ' ') selectVersion(card.dataset.version); });
-      });
-
-      function selectVersion(v){
-        versionCards.forEach(c => c.classList.toggle('selected', c.dataset.version === v));
-        selectedLabel.textContent = 'Bolt ' + v;
-
-        // If user selects a version that does not support CORE (1.61 and 1.40), disallow CORE
-        if((v === '1.61' || v === '1.40') && enableCore.checked){
-          enableCore.checked = false;
-          enableCore.setAttribute('aria-checked', 'false');
-          coreWarning.classList.remove('show');
-          toastMessage('CORE is not available for Bolt ' + v);
-          clearTimeout(toastTimeout);
-          toastTimeout = setTimeout(() => toastMessage('', true), 2600);
-        }
+      function stopAuto() {
+        clearInterval(slideshowTimer);
       }
 
-      // Core toggle behavior: CORE is only allowed for 1.60
-      enableCore.addEventListener('change', function(){
-        const checked = enableCore.checked;
-        const selectedCard = versionCards.find(c => c.classList.contains('selected')) || versionCards[0];
-        const selectedVersion = selectedCard ? selectedCard.dataset.version : '1.60';
-
-        // Allow CORE only for 1.60
-        if(checked && selectedVersion !== '1.60'){
-          enableCore.checked = false;
-          enableCore.setAttribute('aria-checked', 'false');
-          toastMessage('CORE is only available for Bolt 1.60');
-          clearTimeout(toastTimeout);
-          toastTimeout = setTimeout(() => toastMessage('', true), 2600);
-          return;
-        }
-
-        enableCore.setAttribute('aria-checked', checked ? 'true' : 'false');
-        coreWarning.classList.toggle('show', checked);
-
-        if(checked){
-          selectedLabel.textContent = 'Bolt CORE';
-        } else {
-          const sel = versionCards.find(c => c.classList.contains('selected')) || versionCards[0];
-          selectedLabel.textContent = 'Bolt ' + (sel ? sel.dataset.version : '1.60');
-        }
-      });
-
-      // Cancel
-      cancelDownload.addEventListener('click', function(){ closeModal(); });
-
-      // Download flow
-      function startDownloadsSequence(targets, callback){
-        if(!targets || targets.length === 0){
-          toastMessage('No downloads selected', false);
-          setTimeout(() => toastMessage('', true), 2000);
-          return;
-        }
-
-        progressBar.style.display = 'block';
-        progressBar.setAttribute('aria-hidden','false');
-        progressFill.style.width = '0%';
-        toastMessage('Preparing downloads...');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {}, 0);
-
-        let i = 0;
-        function step(){
-          if(i >= targets.length){
-            progressFill.style.width = '100%';
-            toastMessage('Downloads started. Check your browser downloads.');
-            if(callback) callback();
-            return;
-          }
-
-          const filename = getFilenameFromPath(targets[i]);
-          const pctBefore = Math.round((i / targets.length) * 100);
-          progressFill.style.width = pctBefore + '%';
-          toastMessage('Starting ' + filename + '...');
-          triggerDownload(targets[i]);
-
-          setTimeout(() => {
-            const pctAfter = Math.min(100, Math.round(((i + 1) / targets.length) * 100));
-            progressFill.style.width = pctAfter + '%';
-            i++;
-            setTimeout(step, 420);
-          }, 520);
-        }
-        setTimeout(step, 220);
+      // Video cycling logic
+      function cycleVideos() {
+        v1.onended = () => {
+          v1.style.display = 'none';
+          v2.style.display = 'block';
+          v2.play();
+        };
+        v2.onended = () => {
+          v2.style.display = 'none';
+          v1.style.display = 'block';
+          v1.play();
+        };
+        
+        // Initial play attempt
+        v1.play().catch(() => {
+          document.addEventListener('click', () => v1.play(), { once: true });
+        });
       }
 
-      function getFilenameFromPath(path){
-        try{ return path.split('/').pop(); } catch(e){ return path; }
-      }
-
-      function triggerDownload(href){
-        try {
-          const a = document.createElement('a');
-          a.href = href;
-          a.setAttribute('download', '');
-          a.style.display = 'none';
-          a.target = '_blank';
-          document.body.appendChild(a);
-          a.click();
-          setTimeout(()=> { document.body.removeChild(a); }, 1500);
-        } catch (err) {
-          try { window.open(href, '_blank'); } catch(e) {}
-        }
-      }
-
-      function hideProgress(){
-        progressBar.style.display = 'none';
-        progressBar.setAttribute('aria-hidden','true');
-        progressFill.style.width = '0%';
-      }
-
-      function toastMessage(msg, hide){
-        if(hide){
-          toast.style.visibility = 'hidden';
-          toast.setAttribute('aria-hidden','true');
-          toast.textContent = '';
-          clearTimeout(toastTimeout);
-          return;
-        }
-        toast.style.visibility = 'visible';
-        toast.setAttribute('aria-hidden','false');
-        toast.textContent = msg;
-      }
-
-      startDownload.addEventListener('click', function(){
-        const core = enableCore.checked;
-        const selectedCard = versionCards.find(c => c.classList.contains('selected')) || versionCards[0];
-        const baseVersion = selectedCard ? selectedCard.dataset.version : '1.60';
-
-        const targets = [];
-
-        // CORE is only available for 1.60
-        if(core && baseVersion === '1.60'){
-          targets.push(DOWNLOADS['CORE']);
-        } else {
-          targets.push(DOWNLOADS[baseVersion] || DOWNLOADS['1.60']);
-        }
-
-        // IDE inclusion is independent now (not CORE-only)
-        const includeIDESelected = includeIDE.checked;
-        if(includeIDESelected){
-          targets.push(DOWNLOADS['IDE']);
-        }
-
-        const downloadNow = document.getElementById('downloadNowInline').checked;
-        if(!downloadNow){
-          const w = window.open('', '_blank');
-          if(w){
-            w.document.write('<meta charset="utf-8"><title>Downloads</title><style>body{font-family:Inter,system-ui;margin:28px;background:#f7fbff;color:#072033}</style>');
-            w.document.write('<h2>Ready to download</h2><ul>');
-            targets.forEach(t => w.document.write('<li><a href="' + t + '" target="_blank" rel="noopener">' + getFilenameFromPath(t) + '</a></li>'));
-            w.document.write('</ul>');
-            w.document.close();
-            setTimeout(closeModal, 600);
-          } else {
-            toastMessage('Pop-up blocked. Downloads will start in this tab.');
-            startDownloadsSequence(targets, () => setTimeout(closeModal, 900));
-          }
-          return;
-        }
-
-        startDownloadsSequence(targets, () => {
-          setTimeout(closeModal, 900);
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          showSlide(i);
+          startAuto();
         });
       });
 
-      // Small UX polish: bolt pill scroll
-      boltPill.addEventListener('click', function(){
-        document.getElementById('heroRich').scrollIntoView({behavior:'smooth', block:'center'});
-        boltPill.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration:420, easing:'cubic-bezier(.2,.9,.2,1)' });
+      document.querySelector('.visual').addEventListener('click', () => {
+        const activeVid = v1.style.display !== 'none' ? v1 : v2;
+        activeVid.paused ? activeVid.play() : activeVid.pause();
       });
 
-      // THEME: respect system and allow toggle, persist to localStorage
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      function applyTheme(theme){
-        if(theme === 'dark'){
-          document.body.classList.add('dark');
-          themeToggle.setAttribute('aria-pressed','true');
-        } else {
-          document.body.classList.remove('dark');
-          themeToggle.setAttribute('aria-pressed','false');
-        }
+      // Function for direct download (unchanged)
+      function triggerDirectDownload(url) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = ''; // This makes the browser download the file
+        a.rel = 'noopener'; // Security best practice for target="_blank"
+        a.style.display = 'none'; // Hide the temporary anchor element
+        document.body.appendChild(a); // Append to body to make it clickable
+        a.click(); // Programmatically click the anchor
+        setTimeout(() => a.remove(), 1200); // Clean up after a short delay
       }
-      let stored = null;
-      try{ stored = localStorage.getItem('bolt_theme'); } catch(e){}
-      if(stored === 'dark' || (stored === null && prefersDark)){
-        applyTheme('dark');
-      } else {
-        applyTheme('light');
-      }
-      themeToggle.addEventListener('click', function(){
-        const isDark = document.body.classList.toggle('dark');
-        applyTheme(isDark ? 'dark' : 'light');
-        try{ localStorage.setItem('bolt_theme', isDark ? 'dark' : 'light'); } catch(e){}
+
+      btn.addEventListener('click', () => {
+        triggerDirectDownload(DOWNLOAD_URL);
       });
 
-      // keyboard accessibility for modal (Escape to close)
-      document.addEventListener('keydown', function(e){
-        if(e.key === 'Escape'){
-          if(downloadModal.classList.contains('show')) closeModal();
-          if(navDrawer.classList.contains('show')) closeNav();
-        }
-      });
-
-      // small focus helpers
-      hamburger.addEventListener('keyup', function(e){ if(e.key === 'Enter') hamburger.click(); });
-      boltPill.addEventListener('keyup', function(e){ if(e.key === 'Enter') boltPill.click(); });
-
-      // ensure the selected label reflects initial selection
-      (function initSelected(){
-        const initial = document.querySelector('.version-card.selected')?.dataset.version || '1.60';
-        selectedLabel.textContent = 'Bolt ' + initial;
-      })();
-
+      // Initial setup
+      showSlide(0);
+      cycleVideos();
+      startAuto();
     })();
   </script>
 </body>
