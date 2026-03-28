@@ -40,6 +40,75 @@
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      z-index: 1100;
+      transition: transform 0.3s var(--ease);
+    }
+    .menu-toggle span {
+      width: 25px;
+      height: 2px;
+      background: #fff;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+    .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile Nav Drawer */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: min(300px, 80%);
+      height: 100vh;
+      background: var(--bg);
+      border-right: 1px solid rgba(255,255,255,0.05);
+      z-index: 1060;
+      padding: 100px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: left 0.5s var(--ease);
+      box-shadow: 20px 0 60px rgba(0,0,0,0.5);
+    }
+    .mobile-nav.open { left: 0; }
+    .mobile-nav a {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      transition: 0.3s;
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    .mobile-nav.open a { opacity: 1; transform: translateX(0); }
+    .mobile-nav.open a:nth-child(1) { transition-delay: 0.1s; }
+    .mobile-nav.open a:nth-child(2) { transition-delay: 0.15s; }
+    .mobile-nav.open a:nth-child(3) { transition-delay: 0.2s; }
+    .mobile-nav.open a:nth-child(4) { transition-delay: 0.25s; }
+
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      z-index: 1050;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease);
+    }
+    .menu-overlay.open { opacity: 1; pointer-events: auto; }
+
     .nav-logo { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -0.02em; }
     .nav-logo img { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--red)); }
 
@@ -194,7 +263,8 @@
 
     /* --- Mobile --- */
     @media (max-width: 768px) {
-      header { padding: 15px 20px; }
+      header { padding: 15px 20px; justify-content: flex-start; gap: 15px; }
+      .menu-toggle { display: flex; }
       .nav-links { display: none; } /* Hide links for a cleaner mobile feel or use a burger later */
       .hero { padding: 100px 20px 40px; flex-direction: column; text-align: center; }
       .hero-content { padding-right: 0; margin-bottom: 30px; order: 1; width: 100%; }
@@ -218,6 +288,9 @@
   <div class="grid-bg"></div>
 
   <header>
+    <button class="menu-toggle" id="menuBtn" aria-label="Toggle Menu">
+      <span></span><span></span><span></span>
+    </button>
     <div class="nav-logo">
       <img src="assets/boltlogoM.ico" alt="Bolt Logo">
       SWIFTEEX STUDIO
@@ -229,6 +302,14 @@
       <a href="https://swifteexstudio.github.io/Swifteex/downloadbolt.html">Download</a>
     </nav>
   </header>
+
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#">Engine</a>
+    <a href="https://swifteexstudio.github.io/Swifteex/docs.html">Documentation</a>
+    <a href="https://swifteexstudio.github.io/Swifteex/boltupd.html">Updater</a>
+    <a href="https://swifteexstudio.github.io/Swifteex/downloadbolt.html">Download</a>
+  </nav>
 
   <main>
     <section class="hero">
@@ -338,6 +419,26 @@
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
         observer.observe(card);
+      });
+
+      // Mobile Menu Toggle logic
+      const menuBtn = document.getElementById('menuBtn');
+      const mobileNav = document.getElementById('mobileNav');
+      const menuOverlay = document.getElementById('menuOverlay');
+
+      function toggleMenu() {
+        const isOpen = mobileNav.classList.toggle('open');
+        menuOverlay.classList.toggle('open');
+        menuBtn.classList.toggle('active');
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      }
+
+      menuBtn.addEventListener('click', toggleMenu);
+      menuOverlay.addEventListener('click', toggleMenu);
+      mobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (mobileNav.classList.contains('open')) toggleMenu();
+        });
       });
     })();
   </script>
