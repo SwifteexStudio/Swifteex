@@ -35,7 +35,7 @@
 
     header {
       position: fixed; top: 0; width: 100%; z-index: 1000;
-      padding: 20px 40px; display: flex; justify-content: space-between;
+      padding: 15px 40px; display: flex; justify-content: space-between;
       align-items: center; backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
@@ -53,12 +53,12 @@
     /* --- Hero Section --- */
     .hero {
       position: relative; min-height: 100vh; display: flex; 
-      align-items: center; padding: 120px 40px 60px;
+      align-items: center; justify-content: center; flex-wrap: wrap; padding: 120px 40px 60px;
       z-index: 1; max-width: 1400px; margin: 0 auto;
     }
 
     .hero-content { flex: 1; padding-right: 40px; animation: slideUp 0.8s var(--ease); }
-    .hero-visual { flex: 1.2; position: relative; height: 600px; }
+    .hero-visual { flex: 1.2; position: relative; display: flex; align-items: center; justify-content: center; }
     
     .signature {
       font-size: 13px; font-weight: 800; color: var(--red);
@@ -101,8 +101,8 @@
     }
 
     @keyframes lightning-flicker {
-      0%, 70%, 72%, 74%, 77%, 79%, 82%, 100% { opacity: 1; filter: brightness(1); text-shadow: 0 0 15px var(--red); transform: translateX(0) scale(1); }
-      71%, 73%, 75%, 78%, 80%, 81% { opacity: 0.3; filter: brightness(15) contrast(5); text-shadow: 0 0 60px #fff, 0 0 120px var(--blue); transform: translateX(3px) skewX(3deg) scale(1.05); }
+      0%, 70%, 72%, 74%, 77%, 79%, 82%, 100% { opacity: 1; filter: brightness(1); text-shadow: 0 0 15px var(--red); transform: translateZ(0) scale(1); }
+      71%, 73%, 75%, 78%, 80%, 81% { opacity: 0.3; filter: brightness(15) contrast(5); text-shadow: 0 0 60px #fff, 0 0 120px var(--blue); transform: translateZ(0) translateX(3px) skewX(3deg) scale(1.05); }
     }
 
     @keyframes speed-streak {
@@ -114,7 +114,7 @@
       80% { transform: translateX(100%); opacity: 0; }
     }
 
-    h1 { font-size: clamp(48px, 6vw, 90px); font-weight: 950; letter-spacing: -0.05em; margin: 24px 0; line-height: 0.95; }
+    h1 { font-size: clamp(32px, 8vw, 90px); font-weight: 950; letter-spacing: -0.05em; margin: 20px 0; line-height: 0.95; }
     .neon-text { color: #fff; text-shadow: 0 0 30px rgba(255,42,42,0.4); }
 
     .desc { font-size: 18px; color: var(--muted); line-height: 1.6; max-width: 500px; margin-bottom: 40px; }
@@ -135,13 +135,13 @@
 
     /* --- Showcase Art --- */
     .art-container {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 100%; height: 100%;
+      position: relative; width: 100%;
     }
     .art-video {
-      width: 100%; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1);
+      width: 100%; height: auto; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1);
       box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 40px rgba(255,42,42,0.2);
       animation: float 10s ease-in-out infinite; will-change: transform;
+      display: block;
     }
     @keyframes float {
       0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -151,16 +151,16 @@
     /* --- Stats Bar --- */
     .stats-bar {
       background: var(--panel); border-top: 1px solid rgba(255,255,255,0.05);
-      padding: 40px; display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 24px; text-align: center;
+      padding: 60px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px; text-align: center; position: relative; z-index: 2;
     }
     .stat-item strong { display: block; font-size: 32px; font-weight: 900; color: #fff; }
     .stat-item span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
 
     /* --- Features Section --- */
-    .features { padding: 100px 40px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
-    .section-header { text-align: center; margin-bottom: 80px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; }
+    .features { padding: 60px 40px 100px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+    .section-header { text-align: center; margin-bottom: 60px; width: 100%; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
 
     .card {
       background: var(--panel); border: 1px solid rgba(255,255,255,0.05);
@@ -181,6 +181,7 @@
       margin-top: 100px; background: #020204; border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,0.1); padding: 40px;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      overflow-x: auto;
     }
     .code-line { margin-bottom: 8px; display: flex; gap: 16px; }
     .ln { color: rgba(255,255,255,0.2); width: 20px; text-align: right; }
@@ -192,11 +193,23 @@
     }
 
     /* --- Mobile --- */
-    @media (max-width: 1024px) {
-      .hero { flex-direction: column; text-align: center; justify-content: center; }
-      .hero-content { padding-right: 0; margin-bottom: 60px; display: flex; flex-direction: column; align-items: center; }
-      .hero-visual { width: 100%; height: 400px; }
-      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 768px) {
+      header { padding: 15px 20px; }
+      .nav-links { display: none; } /* Hide links for a cleaner mobile feel or use a burger later */
+      .hero { padding: 100px 20px 40px; flex-direction: column; text-align: center; }
+      .hero-content { padding-right: 0; margin-bottom: 30px; order: 1; width: 100%; }
+      .bolt-tag { font-size: 24px; letter-spacing: 0.15em; }
+      .signature { font-size: 11px; }
+      .desc { font-size: 16px; margin-bottom: 30px; }
+      .btn-group { justify-content: center; }
+      .btn { width: 100%; justify-content: center; padding: 16px 24px; }
+      .hero-visual { width: 100%; height: auto; order: 2; }
+      .section-header { order: 3; margin-top: 30px; margin-bottom: 40px; }
+      .stats-bar { padding: 40px 20px; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .stat-item strong { font-size: 24px; }
+      .features { padding: 40px 20px 60px; }
+      .card { padding: 25px; }
+      .code-preview { padding: 20px; margin-top: 50px; font-size: 12px; }
     }
   </style>
 </head>
@@ -238,11 +251,16 @@
           <video id="mainVid" class="art-video" src="assets/recboltshow.mp4" muted loop playsinline></video>
         </div>
       </div>
+
+      <div class="section-header" style="margin-top: 80px;">
+        <h2 style="font-size: 40px; margin: 0 0 16px;">Engineered for Performance</h2>
+        <p style="color: var(--muted); margin: 0 auto; max-width: 600px;">Explore the core components that make Bolt the preferred choice for developers.</p>
+      </div>
     </section>
 
     <div class="stats-bar">
       <div class="stat-item">
-        <strong>0.8ms</strong>
+        <strong>0.43ms</strong>
         <span>Cold Start Time</span>
       </div>
       <div class="stat-item">
@@ -260,11 +278,6 @@
     </div>
 
     <section class="features">
-      <div class="section-header">
-        <h2 style="font-size: 40px; margin: 0 0 16px;">Engineered for Performance</h2>
-        <p style="color: var(--muted);">Explore the core components that make Bolt the preferred choice for developers.</p>
-      </div>
-
       <div class="grid">
         <div class="card">
           <div class="icon">⚙️</div>
@@ -286,7 +299,7 @@
       <div class="code-preview">
         <div class="code-line"><span class="ln">1</span><span class="kw">fn</span> <span class="fn">main</span>();</div>
         <div class="code-line"><span class="ln">2</span>  <span class="kw">sys.out</span> <span class="str">'Initializing Bolt Engine...'</span></div>
-        <div class="code-line"><span class="ln">3</span>  <span class="kw">let.list = </span>[<span class="str">'module'</span> ; <span class="str">'runtime'</span>]</div>
+        <div class="code-line"><span class="ln">3</span>  <span class="kw">let.list</span>[<span class="str">'module'</span> ; <span class="str">'runtime'</span>]</div>
         <div class="code-line"><span class="ln">4</span>  <span class="kw">if</span> /status/ == <span class="str">'stable'</span></div>
         <div class="code-line"><span class="ln">5</span>    <span class="kw">sys.out</span> <span class="str">'Bolt 1.70 Live.'</span></div>
         <div class="code-line"><span class="ln">6</span>  <span class="kw">end.if</span></div>
