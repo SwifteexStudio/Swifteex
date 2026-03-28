@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bolt — Terms of Service & License Notice</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root {
+      --bg: #040406;
+      --panel: rgba(18, 18, 24, 0.84);
+      --text: #f6f7fb;
+      --muted: rgba(255, 255, 255, 0.6);
+      --red: #ff2a2a;
+      --blue: #2e8bff;
+      --radius: 24px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+      --font: Inter, system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 20px; border: 3px solid var(--bg); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: var(--font); -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(circle at center, black, transparent 80%);
+    }
+
+    header {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 15px 40px; display: flex; justify-content: space-between;
+      align-items: center; backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav-logo { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -0.02em; }
+    .nav-logo img { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--red)); }
+
+    main { position: relative; z-index: 1; max-width: 1000px; margin: 120px auto 60px; padding: 0 20px; }
+
+    .card {
+      background: var(--panel); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius); padding: 40px; margin-bottom: 30px;
+      backdrop-filter: blur(12px); box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      animation: slideUp 0.8s var(--ease);
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    h1.neon { 
+      font-size: clamp(28px, 5vw, 42px); font-weight: 950; letter-spacing: -0.04em; margin: 0 0 10px;
+      color: #fff; text-shadow: 0 0 30px rgba(255,42,42,0.4);
+    }
+    h2 { font-size: 20px; color: #fff; margin: 40px 0 15px; display: flex; align-items: center; gap: 10px; }
+    h2::before { content: ''; width: 4px; height: 18px; background: var(--red); border-radius: 2px; }
+    
+    p, li { color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 15px; }
+    .strong { color: #fff; font-weight: 700; }
+
+    .notice {
+      border-left: 4px solid var(--red); background: rgba(255,42,42,0.05);
+      padding: 25px; border-radius: 12px; margin: 30px 0;
+    }
+    .notice strong { color: var(--red); text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 10px; }
+
+    .license-block {
+      background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1);
+      padding: 20px; border-radius: 12px; margin-top: 15px;
+    }
+
+    .btn {
+      padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 14px;
+      text-decoration: none; transition: all 0.3s var(--ease); display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(180deg, var(--blue), #0e5ae0); color: #fff;
+    }
+
+    footer { 
+      margin-top: 60px; padding: 40px; border-top: 1px solid rgba(255,255,255,0.05); 
+      text-align: center; color: var(--muted); font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 15px 20px; }
+      main { margin-top: 100px; }
+      .card { padding: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <header>
+    <div class="nav-logo">
+      <img src="assets/boltlogoM.ico" alt="Bolt Logo">
+      Swifteex Studio terms of service
+    </div>
+    <div style="color: var(--muted); font-size: 12px; font-weight: 700;">Effective: <span id="effectiveDateDisplay"></span></div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h1 class="neon">Terms of Service</h1>
+      <p>These Terms of Service ("Terms") define the legal framework between the User and the Provider regarding the Bolt language, runtime, and associated tooling.</p>
+
+      <h2>1. License & Distribution</h2>
+      <p>The Bolt language specification and reference implementation are provided free of charge for commercial and non-commercial use, modification, and distribution. Components explicitly labeled under the <span class="strong">Apache License 2.0</span> are governed by those specific terms.</p>
+
+      <div class="notice">
+        <strong>Material Conduct Requirements:</strong>
+        <ul>
+          <li><span class="strong">Litigation & Dispute Conduct:</span> The initiation of frivolous, malicious, or bad-faith legal actions against the Provider or its contributors is strictly prohibited. Engaging in such conduct constitutes a material breach, resulting in the immediate termination of all granted rights and potential legal counter-action.</li>
+          <li><span class="strong">Attribution & Proprietary Notices:</span> Users shall not misrepresent the origin of the Software or claim ownership over Provider-owned components. All original copyright notices, trademarks, and NOTICE files must be preserved in any redistribution.</li>
+        </ul>
+      </div>
+
+      <h2>2. Warranty & Liability</h2>
+      <p>Bolt is provided <span class="strong">"AS IS"</span> without warranty of any kind. The Provider disclaims all implied warranties to the fullest extent permitted by law. In no event shall the Provider be liable for consequential, incidental, or special damages arising from the use of this software.</p>
+
+      <h2>3. Intellectual Property</h2>
+      <p>Unless expressly marked otherwise, the Provider retains all rights in Bolt-branded assets, logos, and technical documentation. Redistribution of Apache-2.0 components must comply with standard notice requirements.</p>
+
+      <div class="license-block">
+        <p class="muted" style="margin:0">For legal inquiries or DMCA notices, contact: <a href="mailto:swifteexstudio@gmail.com" style="color: var(--blue);">swifteexstudio@gmail.com</a></p>
+      </div>
+    </div>
+
+    <div style="text-align: center;">
+      <a href="https://swifteexstudio.github.io/Swifteex/bolt/download" class="btn">Download Bolt 1.70</a>
+    </div>
+
+    <footer>
+      <p>© 2026 Bolt Documentation 1.70 Engineering • Lead Architect: Ariyan Ahmed</p>
+      <div style="margin-top: 12px; display: flex; justify-content: center; gap: 20px;">
+        <a href="https://swifteexstudio.github.io/Swifteex/bolt/home/" style="color: var(--muted); text-decoration: none;">Home</a>
+        <a href="https://swifteexstudio.github.io/Swifteex/bolt/docs/" style="color: var(--muted); text-decoration: none;">Documentation</a>
+      </div>
+    </footer>
+  </main>
+  <script>document.getElementById('effectiveDateDisplay').textContent = new Date().toISOString().slice(0,10);</script>
+</body>
+</html>
