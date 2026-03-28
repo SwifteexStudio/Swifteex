@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BOLT 1.70</title>
+  <link rel="icon" href="assets/boltlogoM.ico" type="image/x-icon" />
+  <style>
+    :root{
+      --bg-1:#040406;
+      --bg-2:#100508;
+      --panel: rgba(10, 10, 14, 0.84);
+      --panel-2: rgba(16, 16, 20, 0.95);
+      --text:#f6f7fb;
+      --muted: rgba(255,255,255,0.72);
+      --muted-2: rgba(255,255,255,0.52);
+      --red:#ff2a2a;
+      --red-2:#9f001a;
+      --blue:#2e8bff;
+      --blue-2:#0e5ae0;
+      --glow-red: 0 0 16px rgba(255,42,42,0.70), 0 0 48px rgba(255,42,42,0.22);
+      --glow-blue: 0 0 16px rgba(46,139,255,0.72), 0 0 48px rgba(46,139,255,0.26);
+      --shadow: 0 24px 80px rgba(0,0,0,0.55);
+      --radius: 22px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+      --font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --max: 1280px;
+    }
+
+    *{box-sizing:border-box}
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-1);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      border: 3px solid var(--bg-1);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--red);
+    }
+
+    html,body{height:100%;margin:0}
+    body{
+      font-family:var(--font);
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,42,42,0.12), transparent 24%),
+        radial-gradient(circle at 80% 25%, rgba(46,139,255,0.08), transparent 20%),
+        radial-gradient(circle at 50% 100%, rgba(159,0,26,0.18), transparent 30%),
+        linear-gradient(145deg, var(--bg-1), var(--bg-2));
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(115deg, rgba(255,42,42,0.07), transparent 25%, transparent 75%, rgba(46,139,255,0.05)),
+        radial-gradient(circle at center, rgba(255,255,255,0.03), transparent 62%);
+      opacity:.9;
+      z-index:0;
+      animation: cozy-shift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes cozy-shift {
+      0% { transform: scale(1) translate3d(0, 0, 0); }
+      100% { transform: scale(1.06) translate3d(-1%, -1%, 0); }
+    }
+
+    .grid{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size:56px 56px;
+      mask-image: radial-gradient(circle at center, rgba(0,0,0,0.95), transparent 82%);
+      opacity:0.16;
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+
+    .hero{
+      width:100%;
+      max-width:var(--max);
+      display:grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap:24px;
+      align-items:stretch;
+    }
+
+    .panel{
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(18,18,24,0.84), rgba(7,7,10,0.95));
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+
+    .content{
+      padding:36px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      min-height: 740px;
+      animation: rise 850ms var(--ease) both;
+    }
+
+    @keyframes rise{
+      from{opacity:0; transform:translateY(18px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+
+    /* Staggered entrance animations */
+    h1 { animation: slideIn 0.8s var(--ease) 0.1s both; }
+    .subtitle { animation: slideIn 0.8s var(--ease) 0.2s both; }
+    .slideshow { animation: slideIn 0.8s var(--ease) 0.3s both; }
+    .actions { animation: slideIn 0.8s var(--ease) 0.4s both; }
+    .tiny { animation: slideIn 0.8s var(--ease) 0.5s both; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Refined interactive states */
+    .download:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 
+        0 0 25px rgba(46,139,255,0.85), 
+        0 0 70px rgba(46,139,255,0.35), 
+        0 22px 40px rgba(0,0,0,0.4);
+    }
+
+    .docs:hover {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+      transform: translateX(4px);
+    }
+    .docs { display: inline-block; transition: all 0.3s var(--ease); }
+
+    .visual-badge {
+      animation: badgeIn 1s var(--ease) 0.6s both;
+    }
+    @keyframes badgeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      width:max-content;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,42,42,0.20);
+      background:rgba(255,42,42,0.08);
+      color:#ffdcdc;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      box-shadow:var(--glow-red);
+    }
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:var(--red);
+      box-shadow:var(--glow-red);
+    }
+
+    h1{
+      margin:18px 0 10px;
+      font-size: clamp(42px, 6vw, 78px);
+      line-height:0.96;
+      letter-spacing:-0.05em;
+      font-weight:950;
+    }
+
+    .neon{
+      color:#fff;
+      text-shadow:
+        0 0 10px rgba(255,255,255,0.20),
+        0 0 18px rgba(255,42,42,0.60),
+        0 0 42px rgba(255,42,42,0.38),
+        0 0 66px rgba(159,0,26,0.26);
+      animation: pulse 3.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse{
+      0%,100%{filter:brightness(1)}
+      50%{filter:brightness(1.12)}
+    }
+
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.65;
+      max-width:56ch;
+    }
+
+    .slideshow{
+      margin-top:28px;
+      position:relative;
+      height:170px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      overflow:hidden;
+    }
+
+    .slides{
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+
+    .slide{
+      position:absolute;
+      inset:0;
+      padding: 22px 22px 42px 22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:10px;
+      opacity:0;
+      transform:translateX(28px);
+      transition: opacity .45s var(--ease), transform .45s var(--ease);
+    }
+
+    .slide.active{
+      opacity:1;
+      transform:translateX(0);
+    }
+
+    .slide h2{
+      margin:0;
+      font-size:24px;
+      line-height:1.08;
+      letter-spacing:-0.03em;
+      color:#fff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.15), 0 0 20px rgba(255,42,42,0.45);
+      animation: pulse 3.4s ease-in-out infinite;
+    }
+
+    .slide p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+      text-shadow: 0 0 8px rgba(255,255,255,0.08);
+      max-width:54ch;
+    }
+
+    .slide-tag{
+      display:inline-flex;
+      width:max-content;
+      padding:7px 11px;
+      border-radius:999px;
+      background:rgba(255,42,42,0.09);
+      border:1px solid rgba(255,42,42,0.20);
+      color:#ffdada;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+    }
+
+    .dots{
+      position:absolute;
+      left:18px;
+      bottom:14px;
+      display:flex;
+      gap:8px;
+      z-index:3;
+    }
+
+    .dot-btn{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      border:0;
+      cursor:pointer;
+      background:rgba(255,255,255,0.24);
+      box-shadow:0 0 0 1px rgba(255,255,255,0.08) inset;
+      transition: transform .18s var(--ease), background .18s var(--ease), box-shadow .18s var(--ease);
+    }
+
+    .dot-btn.active{
+      background:var(--red);
+      box-shadow:var(--glow-red);
+      transform:scale(1.25);
+    }
+
+    .actions{
+      margin-top:24px;
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .download{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      padding:16px 22px;
+      border-radius:16px;
+      border:0;
+      cursor:pointer;
+      text-decoration:none;
+      background:linear-gradient(180deg, var(--blue), var(--blue-2));
+      color:#fff;
+      font-size:16px;
+      font-weight:900;
+      letter-spacing:.01em;
+      text-shadow:0 0 12px rgba(255,255,255,0.95);
+      box-shadow:var(--glow-blue), 0 18px 34px rgba(0,0,0,0.30);
+      transition: transform .18s var(--ease), box-shadow .18s var(--ease), filter .18s var(--ease);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .download::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.42), transparent 44%);
+      transform:translateX(-120%);
+      transition:transform .75s var(--ease);
+    }
+
+    .download:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.06);
+      box-shadow:0 0 20px rgba(46,139,255,0.80), 0 0 60px rgba(46,139,255,0.28), 0 18px 34px rgba(0,0,0,0.30);
+    }
+
+    .download:hover::before{
+      transform:translateX(120%);
+    }
+
+    .download:active{
+      transform:translateY(1px);
+    }
+
+    .docs{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:800;
+      font-size:14px;
+      padding:10px 0;
+      transition: color .18s var(--ease);
+    }
+
+    .docs:hover{ color:#fff; }
+
+    .tiny{
+      margin-top:14px;
+      color:var(--muted-2);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .visual{
+      position:relative;
+      min-height:740px;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, rgba(255,42,42,0.09), rgba(0,0,0,0.44)),
+        radial-gradient(circle at 50% 50%, rgba(255,42,42,0.18), transparent 60%);
+    }
+
+    .frame{
+      position:absolute;
+      inset:22px;
+      border-radius:28px;
+      border:1px solid rgba(255,42,42,0.28);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 0 34px rgba(255,42,42,0.20),
+        0 0 100px rgba(255,42,42,0.10);
+      pointer-events:none;
+    }
+
+    .art{
+      position:absolute;
+      top:50%;
+      left: 50%;
+      width: 92%;
+      height: auto;
+      transform: translate(-50%, -50%) translateZ(0);
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,0.1);
+      object-fit:cover;
+      object-position:center center;
+      filter:
+        drop-shadow(0 0 18px rgba(255,42,42,0.56))
+        drop-shadow(0 0 60px rgba(255,42,42,0.20))
+        contrast(1.08) brightness(1.04);
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,0.02) inset,
+        0 0 30px rgba(255,42,42,0.34),
+        0 0 90px rgba(255,42,42,0.18);
+      animation: showcase-float 12s ease-in-out infinite;
+      will-change: transform, filter;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: high-quality;
+      transform-style: preserve-3d;
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+
+    @keyframes showcase-float {
+      0%, 100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+      33% { transform: translate(-50.5%, -51%) rotate(0.5deg) scale(1.02); }
+      66% { transform: translate(-49.5%, -49%) rotate(-0.5deg) scale(1.01); }
+    }
+
+    .visual-badge{
+      position:absolute;
+      left:22px;
+      bottom:22px;
+      max-width:280px;
+      padding:14px 16px;
+      border-radius:16px;
+      background:rgba(5,5,8,0.56);
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      box-shadow:0 12px 30px rgba(0,0,0,0.28);
+    }
+
+    .visual-badge strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#ffdcdc;
+    }
+
+    .visual-badge span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .spark{
+      position:absolute;
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#fff;
+      box-shadow:
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 22px rgba(255,42,42,0.95);
+      opacity:.8;
+      animation: twinkle 2.8s linear infinite;
+    }
+
+    .s1{top:11%;left:10%}
+    .s2{top:29%;left:22%;animation-delay:.6s}
+    .s3{top:64%;left:15%;animation-delay:1.1s}
+    .s4{top:18%;right:13%;animation-delay:.3s}
+    .s5{top:76%;right:17%;animation-delay:1.2s}
+
+    @keyframes twinkle{
+      0%,100%{transform:scale(1);opacity:.45}
+      50%{transform:scale(1.8);opacity:1}
+    }
+
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .visual{min-height:460px; order:-1}
+      .content{min-height:auto}
+      .art{width:90%; left: 50%; transform: translate(-50%, -50%);}
+    }
+
+    @media (max-width: 640px){
+      .wrap{padding:16px}
+      .content{padding:20px}
+      .visual{min-height:360px}
+      .art{width:95%;}
+      .download{width:100%}
+      .visual-badge{bottom: 12px; left: 12px; transform: scale(0.9); transform-origin: bottom left;}
+      .slideshow{height:190px}
+      .visual-badge{max-width:220px}
+    }
+
+    .swifteex-spice {
+      font-size: 11px; font-weight: 900; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.3em;
+      margin-top: 20px; opacity: 0.8;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid"></div>
+
+  <main class="wrap">
+    <section class="hero panel" aria-label="Bolt 1.70 landing page">
+      <div class="content">
+        <div class="eyebrow"><span class="dot"></span> Presented by Swifteex Studio</div>
+
+        <h1 class="neon">Bolt 1.70</h1>
+
+        <p class="subtitle">
+          A powerful new release built around the module system, full runtime engine support,
+          and a native .exe builder. Clean. Fast. Fully Bolt.
+        </p>
+
+        <div class="slideshow" aria-label="Bolt feature slideshow">
+          <div class="slides">
+            <article class="slide active">
+              <div class="slide-tag">Module System</div>
+              <h2>Built for structured power.</h2>
+              <p>
+                New module support makes Bolt cleaner to scale, easier to organize, and sharper for large projects.
+              </p>
+            </article>
+
+            <article class="slide">
+              <div class="slide-tag">Runtime Engine</div>
+              <h2>Full support, full speed.</h2>
+              <p>
+                Bolt 1.70 brings full runtime engine support for smoother execution and stronger native behavior.
+              </p>
+            </article>
+
+            <article class="slide">
+              <div class="slide-tag">Native .exe Builder</div>
+              <h2>Build executables directly in Bolt.</h2>
+              <p>
+                A powerful .exe builder is now fully native to Bolt, making packaging simpler and more direct.
+              </p>
+            </article>
+          </div>
+
+          <div class="dots" aria-label="Slideshow navigation">
+            <button class="dot-btn active" type="button" aria-label="Slide 1"></button>
+            <button class="dot-btn" type="button" aria-label="Slide 2"></button>
+            <button class="dot-btn" type="button" aria-label="Slide 3"></button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="downloadBtn" class="download" type="button">Download Bolt Updater</button>
+          <a class="docs" href="https://swifteexstudio.github.io/Swifteex/docs.html" target="_blank" rel="noopener">See docs for usage</a>
+        </div>
+        
+        <div class="swifteex-spice">Developed by Ariyan Ahmed</div>
+
+        <div class="tiny">
+          Bolt 1.70 introduces a powerful brand new module system, full support to the runtime engine,
+          and a native .exe builder. More features, same Bolt edge.
+        </div>
+      </div>
+
+      <div class="visual" aria-label="Bolt showcase image">
+        <div class="frame"></div>
+        <span class="spark s1"></span>
+        <span class="spark s2"></span>
+        <span class="spark s3"></span>
+        <span class="spark s4"></span>
+        <span class="spark s5"></span>
+
+        <video id="v1" class="art" src="assets/recboltshow.mp4" muted playsinline preload="auto"></video>
+        <video id="v2" class="art" src="assets/recboltshow2.mkv" muted playsinline preload="auto" style="display:none;"></video>
+
+        <div class="visual-badge">
+          <strong>Bolt 1.70</strong>
+          <span>The future of runtime engines.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const DOWNLOAD_URL = 'https://github.com/SwifteexStudio/Swifteex/releases/download/170/boltupd.exe';
+      // const REDIRECT_URL = 'boltupd.html'; // Not used
+
+      const btn = document.getElementById('downloadBtn');
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dots = Array.from(document.querySelectorAll('.dot-btn'));
+      const v1 = document.getElementById('v1');
+      const v2 = document.getElementById('v2');
+      
+      let slideIndex = 0;
+      let slideshowTimer = null;
+
+      // Slideshow logic
+      function showSlide(i) {
+        slideIndex = i;
+        slides.forEach((slide, s) => slide.classList.toggle('active', s === i));
+        dots.forEach((dot, s) => dot.classList.toggle('active', s === i));
+      }
+
+      function nextSlide() {
+        showSlide((slideIndex + 1) % slides.length);
+      }
+
+      function startAuto() {
+        stopAuto();
+        slideshowTimer = setInterval(nextSlide, 8000);
+      }
+
+      function stopAuto() {
+        clearInterval(slideshowTimer);
+      }
+
+      // Video cycling logic
+      function cycleVideos() {
+        v1.onended = () => {
+          v1.style.display = 'none';
+          v2.style.display = 'block';
+          v2.play();
+        };
+        v2.onended = () => {
+          v2.style.display = 'none';
+          v1.style.display = 'block';
+          v1.play();
+        };
+        
+        // Initial play attempt
+        v1.play().catch(() => {
+          document.addEventListener('click', () => v1.play(), { once: true });
+        });
+      }
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          showSlide(i);
+          startAuto();
+        });
+      });
+
+      document.querySelector('.visual').addEventListener('click', () => {
+        const activeVid = v1.style.display !== 'none' ? v1 : v2;
+        activeVid.paused ? activeVid.play() : activeVid.pause();
+      });
+
+      // Function for direct download (unchanged)
+      function triggerDirectDownload(url) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = ''; // This makes the browser download the file
+        a.rel = 'noopener'; // Security best practice for target="_blank"
+        a.style.display = 'none'; // Hide the temporary anchor element
+        document.body.appendChild(a); // Append to body to make it clickable
+        a.click(); // Programmatically click the anchor
+        setTimeout(() => a.remove(), 1200); // Clean up after a short delay
+      }
+
+      btn.addEventListener('click', () => {
+        triggerDirectDownload(DOWNLOAD_URL);
+      });
+
+      // Initial setup
+      showSlide(0);
+      cycleVideos();
+      startAuto();
+    })();
+  </script>
+</body>
+</html>
