@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bolt Updater — Technical Guide</title>
+  <link rel="icon" href="assets/boltlogoM.ico" type="image/x-icon" />
+  <style>
+    :root{
+      --bg-1:#040406;
+      --bg-2:#100508;
+      --panel: rgba(10, 10, 14, 0.84);
+      --text:#f6f7fb;
+      --muted: rgba(255,255,255,0.72);
+      --red:#ff2a2a;
+      --blue:#2e8bff;
+      --radius: 22px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+      --font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--font); color:var(--text);
+      background: linear-gradient(145deg, var(--bg-1), var(--bg-2));
+      min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:40px 20px;
+    }
+
+    .container{ width:100%; max-width:900px; animation: fadeIn 0.8s var(--ease); }
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
+
+    header{ text-align:center; margin-bottom:40px; }
+    .logo{ width:80px; height:80px; margin:0 auto 20px; display:block; filter: drop-shadow(0 0 15px rgba(255,42,42,0.4)); }
+    h1{ font-size:clamp(32px, 5vw, 52px); font-weight:950; letter-spacing:-0.04em; margin:0; }
+    .dev-signature { 
+      font-size: 12px; font-weight: 800; color: var(--red); 
+      text-transform: uppercase; letter-spacing: 0.3em; 
+      margin-top: 10px; display: block;
+    }
+    .neon{ color:#fff; text-shadow: 0 0 10px rgba(255,255,255,0.2), 0 0 30px rgba(255,42,42,0.5); }
+
+    .card{
+      background: var(--panel); border:1px solid rgba(255,255,255,0.08);
+      border-radius:var(--radius); padding:40px; backdrop-filter:blur(12px);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5); margin-bottom:24px;
+    }
+
+    h2{ font-size:24px; margin:0 0 20px; color:#fff; display:flex; align-items:center; gap:12px; }
+    h2::before{ content:''; width:4px; height:24px; background:var(--red); border-radius:2px; box-shadow:0 0 10px var(--red); }
+
+    p{ color:var(--muted); line-height:1.7; font-size:16px; margin-bottom:20px; }
+    
+    .code-block{
+      background:#020204; border:1px solid rgba(255,255,255,0.05);
+      border-radius:12px; padding:24px; padding-right:80px; margin:20px 0; font-family:var(--mono);
+      font-size:14px; line-height:1.6; color:#dff7ff; position:relative; overflow-x:auto;
+      white-space: pre-wrap;
+    }
+
+    .copy-btn{
+      position:absolute; top:12px; right:12px;
+      background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+      border-radius:6px; color:var(--muted); padding:4px 10px; font-size:11px;
+      font-weight:700; cursor:pointer; transition:all 0.2s var(--ease);
+    }
+    .copy-btn:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+
+    .step{ margin-bottom:32px; }
+    .step-num{ color:var(--red); font-weight:900; margin-right:8px; }
+
+    .warning-box{
+      border-left:4px solid var(--red); background:rgba(255,42,42,0.05);
+      padding:20px; border-radius:0 12px 12px 0; margin:30px 0;
+    }
+    .warning-box strong{ color:var(--red); text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:8px; }
+
+    footer{ text-align:center; padding:40px 0; border-top:1px solid rgba(255,255,255,0.05); width:100%; margin-top:auto; }
+    footer p{ font-size:13px; color:var(--muted-2); }
+    .back-link{ color:var(--blue); text-decoration:none; font-weight:800; transition:0.2s; }
+    .back-link:hover{ text-shadow: 0 0 10px var(--blue); }
+
+    @media (max-width: 640px){
+      .card{ padding:24px; }
+      h1{ font-size:32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <img src="assets/boltlogoM.ico" alt="Bolt Logo" class="logo">
+      <h1 class="neon">Bolt Updater Guide</h1>
+      <span class="dev-signature">Developed by Ariyan Ahmed</span>
+      <p style="margin-top: 15px;">Official deployment documentation • Presented by Swifteex Studio</p>
+    </header>
+
+    <section class="card">
+      <h2>Getting Started</h2>
+      <p>
+        The <strong>Bolt Updater (boltupd.exe)</strong> is a specialized utility designed to manage the lifecycle of your Bolt environment. 
+        Before execution, ensure the binary is located in an accessible directory.
+      </p>
+
+      <div class="step">
+        <p><span class="step-num">01.</span> Locate the <code>boltupd.exe</code> binary in your system downloads folder.</p>
+        <p><span class="step-num">02.</span> Initialize the Command Prompt (Terminal) by pressing <code>Win + R</code>, typing <code>cmd</code>, and pressing Enter.</p>
+        <p><span class="step-num">03.</span> Navigate to the directory containing the updater and execute the base command to verify functionality:</p>
+      </div>
+
+      <div class="code-block">
+        <button class="copy-btn">Copy</button>
+        <code class="content">boltupd</code>
+      </div>
+
+      <p>The utility will initialize and display the available operations interface:</p>
+
+      <div class="code-block">
+        <button class="copy-btn">Copy</button>
+        <code class="content">Bolt Updater
+Usage:
+  boltupd -check-for-upd-latest   Check if an update is available
+  boltupd --upd --latest          Download and install the latest version
+  boltupd --bkp                   Create a backup of the local Bolt version folder.</code>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Installation Procedure</h2>
+      <p>
+        To perform a clean installation of the Bolt Runtime, follow the standardized deployment workflow outlined below.
+      </p>
+
+      <div class="step">
+        <h3>Step 1: Version Verification</h3>
+        <p>Query the remote repository to identify the latest stable build and evaluate your local installation state.</p>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <code class="content">boltupd -check-for-upd-latest</code>
+        </div>
+        <p>The system will return a status report similar to the following:</p>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <code class="content">Checking for updates...
+[Info] No local Bolt installation found in C:\Program Files\Bolt.
+[Info] Latest version: 170
+[Result] Update/Installation required.</code>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3>Step 2: Automated Deployment</h3>
+        <p>Upon verification, initiate the automated download and installation sequence.</p>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <code class="content">boltupd --upd --latest</code>
+        </div>
+        <p>
+          The utility will fetch the secure Bolt installer package and begin the system integration. 
+          Follow any on-screen prompts provided by the installer to finalize the setup.
+        </p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Maintenance & Backups</h2>
+      <p>
+        To preserve your current configuration before applying major updates, it is recommended to utilize the native backup flag.
+      </p>
+      <div class="code-block">
+        <button class="copy-btn">Copy</button>
+        <code class="content">boltupd --bkp</code>
+      </div>
+      <p>This creates a timestamped archive of your local Bolt binaries within the application directory.</p>
+
+      <div class="warning-box">
+        <strong>Critical Requirement: Path Validation</strong>
+        The Bolt Updater is engineered to interface exclusively with installations located in the standard directory: 
+        <code>C:\Program Files\Bolt</code>. If the Bolt Runtime has been deployed to a non-standard path, 
+        the updater will fail to synchronize and apply patches.
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 Swifteex Studio • Lead Architect: Ariyan Ahmed</p>
+      <p><a href="downloadbolt.html" class="back-link">← Return to Download Center</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // Smooth scroll and subtle parallax effect for code blocks
+    document.addEventListener('mousemove', (e) => {
+      const codes = document.querySelectorAll('.code-block');
+      const x = (window.innerWidth / 2 - e.pageX) / 50;
+      const y = (window.innerHeight / 2 - e.pageY) / 50;
+      
+      codes.forEach(code => {
+        code.style.boxShadow = `${x}px ${y}px 20px rgba(0,0,0,0.3)`;
+      });
+    });
+
+    // Copy functionality
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const code = btn.nextElementSibling.innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          const original = btn.innerText;
+          btn.innerText = 'Copied!';
+          btn.style.background = 'var(--red)';
+          btn.style.color = '#fff';
+          setTimeout(() => { btn.innerText = original; btn.style.background = ''; btn.style.color = ''; }, 2000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
