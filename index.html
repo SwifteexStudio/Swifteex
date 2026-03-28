@@ -20,8 +20,9 @@
     body {
       margin: 0; background: var(--bg); color: var(--text);
       font-family: Inter, system-ui, -apple-system, sans-serif;
-      overflow-x: hidden; -webkit-font-smoothing: antialiased;
+      overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased;
     }
+    html { overflow-x: hidden; width: 100%; }
 
     /* --- Global Elements --- */
     .grid-bg {
@@ -123,7 +124,7 @@
     .hero {
       position: relative; min-height: 100vh; display: flex; 
       align-items: center; justify-content: center; flex-wrap: wrap; padding: 120px 40px 60px;
-      z-index: 1; max-width: 1400px; margin: 0 auto;
+      z-index: 1; max-width: 1400px; margin: 0 auto; overflow: hidden;
     }
 
     .hero-content { flex: 1; padding-right: 40px; animation: slideUp 0.8s var(--ease); }
@@ -268,6 +269,7 @@
       .nav-links { display: none; } /* Hide links for a cleaner mobile feel or use a burger later */
       .hero { padding: 100px 20px 40px; flex-direction: column; text-align: center; }
       .hero-content { padding-right: 0; margin-bottom: 30px; order: 1; width: 100%; }
+      .eyebrow { font-size: 10px; padding: 6px 12px; letter-spacing: 0.1em; }
       .bolt-tag { font-size: 24px; letter-spacing: 0.15em; }
       .signature { font-size: 11px; }
       .desc { font-size: 16px; margin-bottom: 30px; }
@@ -280,6 +282,7 @@
       .features { padding: 40px 20px 60px; }
       .card { padding: 25px; }
       .code-preview { padding: 20px; margin-top: 50px; font-size: 12px; }
+      footer { padding: 40px 20px; }
     }
   </style>
 </head>
