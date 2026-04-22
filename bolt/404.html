@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bolt — 404 Page Not Found</title>
+  <link rel="icon" href="assets/boltlogoM.ico" type="image/x-icon" />
+  <style>
+    :root {
+      --bg: #040406;
+      --panel: rgba(18, 18, 24, 0.84);
+      --text: #f6f7fb;
+      --muted: rgba(255, 255, 255, 0.6);
+      --red: #ff2a2a;
+      --blue: #2e8bff;
+      --radius: 24px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+      --font: Inter, system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: var(--font); -webkit-font-smoothing: antialiased;
+      height: 100vh; display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(circle at center, black, transparent 80%);
+    }
+
+    main {
+      position: relative; z-index: 1; text-align: center; padding: 20px;
+      animation: slideUp 0.8s var(--ease);
+    }
+
+    .error-code {
+      font-size: clamp(100px, 20vw, 240px);
+      font-weight: 950;
+      line-height: 1;
+      margin: 0;
+      color: #fff;
+      text-shadow: 0 0 20px var(--red);
+      animation: lightning-flicker 5s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes lightning-flicker {
+      0%, 70%, 72%, 74%, 77%, 79%, 82%, 100% { opacity: 1; filter: brightness(1); text-shadow: 0 0 20px var(--red); transform: scale(1); }
+      71%, 73%, 75%, 78%, 80%, 81% { opacity: 0.3; filter: brightness(10) contrast(5); text-shadow: 0 0 60px #fff, 0 0 120px var(--blue); transform: translateX(5px) skewX(5deg); }
+    }
+
+    h1 {
+      font-size: 28px; font-weight: 800; letter-spacing: -0.02em;
+      margin: 20px 0 10px; color: #fff;
+    }
+
+    p {
+      color: var(--muted); font-size: 16px; max-width: 450px;
+      margin: 0 auto 40px; line-height: 1.6;
+    }
+
+    .nav-links {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 14px;
+      text-decoration: none; transition: all 0.3s var(--ease);
+      border: 1px solid rgba(255,255,255,0.1); color: var(--muted);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.08); color: #fff;
+      border-color: var(--blue); transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .btn.primary {
+      background: linear-gradient(180deg, var(--blue), #0e5ae0);
+      color: #fff; border: none;
+      box-shadow: 0 0 20px rgba(46,139,255,0.2);
+    }
+
+    .btn.primary:hover {
+      box-shadow: 0 0 40px rgba(46,139,255,0.4);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .back-hint {
+      margin-top: 40px; font-size: 11px; font-weight: 800;
+      color: var(--red); text-transform: uppercase; letter-spacing: 0.2em;
+      opacity: 0.6;
+    }
+
+    footer {
+      position: absolute; bottom: 40px; width: 100%; text-align: center;
+      color: var(--muted); font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <main>
+    <div class="error-code">404</div>
+    <h1>bolt.error.PageNotFound</h1>
+    <p>We looked far far into our codebase, but found $NULL</p>
+    
+    <div class="nav-links">
+      <a href="https://swifteexstudio.github.io/Swifteex/bolt/home/" class="btn primary">Return Home</a>
+      <a href="https://swifteexstudio.github.io/Swifteex/bolt/docs/" class="btn">Documentation</a>
+      <a href="https://swifteexstudio.github.io/Swifteex/bolt/upd/" class="btn">Updater</a>
+      <a href="https://swifteexstudio.github.io/Swifteex/bolt/download" class="btn">Downloads</a>
+    </div>
+
+    <div class="back-hint">Error: Page_Segment_Fault</div>
+  </main>
+
+  <footer>
+    © 2026 Bolt Engineering • Developed by Swifteex Studio
+  </footer>
+
+  <script>
+    // Subtle parallax effect on mouse move
+    document.addEventListener('mousemove', (e) => {
+      const moveX = (e.clientX - window.innerWidth / 2) / 50;
+      const moveY = (e.clientY - window.innerHeight / 2) / 50;
+      document.querySelector('main').style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+  </script>
+</body>
+</html>
