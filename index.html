@@ -1,0 +1,3507 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the Bolt programming language">
+      
+      
+        <meta name="author" content="Swifteex Studio">
+      
+      
+      
+      
+        <link rel="next" href="modules/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Bolt Runtime Engine Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#bolt-runtime-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Bolt Runtime Engine Documentation" class="md-header__button md-logo" aria-label="Bolt Runtime Engine Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Bolt Runtime Engine Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Native syntax
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Bolt Runtime Engine Documentation" class="md-nav__button md-logo" aria-label="Bolt Runtime Engine Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Bolt Runtime Engine Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Native syntax
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Native syntax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation &amp; Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation &amp; Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-flow-bytecode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run Flow &amp; Bytecode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Run Flow &amp; Bytecode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-write-compile-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-step: write → compile → run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Line Interface
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Syntax Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#printing-sysout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Printing - sys.out
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lists
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-keyword" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        in Keyword
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions-and-invocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions and Invocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typed-input-helpers-v161" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typed Input Helpers (v1.61+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow-if-eif-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Flow - if, eif, else
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#while-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        While Loops
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax-deep-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax - Deep Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Syntax - Deep Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#printing-sysout-deep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Printing - sys.out (deep)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Printing - sys.out (deep)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-interpolation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variable interpolation rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-errors-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common errors &amp; fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-runtime-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements &amp; runtime notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-declaration-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables - Declaration &amp; Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variables - Declaration &amp; Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax-and-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax and semantics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lists-creation-indexing-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lists - Creation, Indexing, Length
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lists - Creation, Indexing, Length">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexing-rules-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indexing rules &amp; safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions-declaration-invocation-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions - Declaration, Invocation, Conventions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions - Declaration, Invocation, Conventions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments-and-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments and returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typed-input-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typed Input Helpers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Typed Input Helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow-if-eif-else_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Flow - if / eif / else
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control Flow - if / eif / else">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples &amp; patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#while-loops_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        While Loops
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="While Loops">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boltloop-fixed-repetition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Boltloop - Fixed Repetition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Boltloop - Fixed Repetition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling-diagnostics-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling &amp; Diagnostics (CLI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling &amp; Diagnostics (CLI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-try-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The try Block
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The try Block">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimal-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimal example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-identifier-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Identifier Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Identifier Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syntax-structural-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax &amp; Structural Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#null-safety-state-errors-v200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Null-Safety &amp; State Errors (v2.0.0+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-module-errors-bfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External Module Errors — bfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-catch-clauses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple catch Clauses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-bolterrorruntimeerror-as-a-broad-catch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using bolt.error.RuntimeError as a Broad Catch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-handler-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using a Handler Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-diagnostics-alongside-trycatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI Diagnostics Alongside try/catch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-reference-table-all-catchable-identifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Reference Table — All Catchable Identifiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calculator-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculator Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calculator Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#canonical-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Canonical source
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardened-version-with-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardened version with error handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save-as-hellobolt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Save as hello.bolt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ast-inspection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AST inspection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-example-mymodboltmodule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module example (mymod.boltmodule)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-module-in-a-script-appbolt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the module in a script (app.bolt)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#articles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Articles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Articles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#safe-scripting-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe scripting practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributing-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distributing scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bolt-not-recognised" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bolt not recognised
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-errors-or-missing-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Script errors or missing helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collect-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Collect logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legal-credits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legal &amp; Credits
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage of modules in bolt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="bfiledocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bfile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation &amp; Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation &amp; Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-flow-bytecode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run Flow &amp; Bytecode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Run Flow &amp; Bytecode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-write-compile-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-step: write → compile → run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Line Interface
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Syntax Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#printing-sysout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Printing - sys.out
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lists
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-keyword" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        in Keyword
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions-and-invocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions and Invocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typed-input-helpers-v161" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typed Input Helpers (v1.61+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow-if-eif-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Flow - if, eif, else
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#while-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        While Loops
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax-deep-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax - Deep Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Syntax - Deep Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#printing-sysout-deep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Printing - sys.out (deep)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Printing - sys.out (deep)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-interpolation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variable interpolation rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-errors-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common errors &amp; fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-runtime-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements &amp; runtime notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-declaration-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables - Declaration &amp; Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variables - Declaration &amp; Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax-and-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax and semantics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lists-creation-indexing-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lists - Creation, Indexing, Length
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lists - Creation, Indexing, Length">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexing-rules-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indexing rules &amp; safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions-declaration-invocation-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions - Declaration, Invocation, Conventions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions - Declaration, Invocation, Conventions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments-and-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments and returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typed-input-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typed Input Helpers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Typed Input Helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow-if-eif-else_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Flow - if / eif / else
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control Flow - if / eif / else">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples &amp; patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#while-loops_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        While Loops
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="While Loops">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boltloop-fixed-repetition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Boltloop - Fixed Repetition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Boltloop - Fixed Repetition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling-diagnostics-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling &amp; Diagnostics (CLI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling &amp; Diagnostics (CLI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-try-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The try Block
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The try Block">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-syntax_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimal-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimal example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-identifier-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Identifier Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Identifier Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syntax-structural-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax &amp; Structural Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#null-safety-state-errors-v200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Null-Safety &amp; State Errors (v2.0.0+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-module-errors-bfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External Module Errors — bfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-catch-clauses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple catch Clauses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-bolterrorruntimeerror-as-a-broad-catch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using bolt.error.RuntimeError as a Broad Catch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-handler-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using a Handler Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-diagnostics-alongside-trycatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI Diagnostics Alongside try/catch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-reference-table-all-catchable-identifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Reference Table — All Catchable Identifiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calculator-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculator Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calculator Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#canonical-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Canonical source
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardened-version-with-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardened version with error handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save-as-hellobolt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Save as hello.bolt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ast-inspection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AST inspection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-example-mymodboltmodule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module example (mymod.boltmodule)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-module-in-a-script-appbolt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the module in a script (app.bolt)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#articles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Articles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Articles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#safe-scripting-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe scripting practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributing-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distributing scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bolt-not-recognised" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bolt not recognised
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-errors-or-missing-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Script errors or missing helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collect-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Collect logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legal-credits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legal &amp; Credits
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="bolt-runtime-documentation">Bolt Runtime Documentation<a class="headerlink" href="#bolt-runtime-documentation" title="Permanent link">&para;</a></h1>
+<p>Official technical reference for Bolt v2.0.0+ and the newest module workflow. High-performance distribution meets structured engineering ⚙️</p>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#installation--verification">Installation &amp; Verification</a></li>
+<li><a href="#run-flow--bytecode">Running a Script</a></li>
+<li><a href="#command-line-interface">Command Line Interface</a></li>
+<li><a href="#syntax-reference">Syntax Reference</a></li>
+<li><a href="#modules-v200">Modules</a></li>
+<li><a href="#pre-baked-libraries">Pre-baked Libraries</a></li>
+<li><a href="#syntax---deep-reference">Syntax - Deep Reference</a></li>
+<li><a href="#error-handling">Error Handling</a></li>
+<li><a href="#calculator-example">Calculator Example</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#articles">Articles</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+<li><a href="#legal--credits">Legal &amp; Credits</a></li>
+</ul>
+<hr />
+<h2 id="installation-verification">Installation &amp; Verification<a class="headerlink" href="#installation-verification" title="Permanent link">&para;</a></h2>
+<p>Download Bolt from the official distribution and verify signed artifacts before running binaries. After installation confirm the runtime is accessible from your shell.</p>
+<h3 id="verify-installation">Verify installation<a class="headerlink" href="#verify-installation" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>bolt<span class="w"> </span>--version
+</code></pre></div>
+
+<p>Canonical output sample to expect (example):</p>
+<div class="codehilite"><pre><span></span><code>Bolt Runtime Engine v2.0.0+ (V: official=X/X)
+[build metadata and release date fields here]
+This version was released on 202X-0X-0X proudly built by the Swifteex Studio build system.
+Please verify signed artifacts before running.
+</code></pre></div>
+
+<p>Release metadata and authorship are published with the builds. For reference, this documentation was produced by the Swifteex Studio stack and distributed by HyperClouD.</p>
+<p>If your output reports at least <strong>v1.61+</strong>, typed helpers are available. For v2.0.0+ features such as module file metadata, refreshed module loading, and Python module wrappers, the runtime must report <strong>v2.0.0+</strong>.</p>
+<p>Support and downloads: https://swifteexstudio.github.io/Swifteex/</p>
+<hr />
+<h2 id="run-flow-bytecode">Run Flow &amp; Bytecode<a class="headerlink" href="#run-flow-bytecode" title="Permanent link">&para;</a></h2>
+<p>Bolt keeps the edit-compile-run workflow that produces portable bytecode files. This section describes the recommended developer flow.</p>
+<h3 id="step-by-step-write-compile-run">Step-by-step: write → compile → run<a class="headerlink" href="#step-by-step-write-compile-run" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Create your source file</strong>
+   Save your script with the <code>.bolt</code> extension.</p>
+</li>
+<li>
+<p><strong>Open a command prompt / terminal in the folder where your file is located</strong>
+   Use PowerShell or Command Prompt on Windows.</p>
+</li>
+<li>
+<p><strong>Compile</strong>
+   Run the compiler switch specifying your <code>.bolt</code> file:</p>
+</li>
+</ol>
+<p><code>bash
+   Bolt -c filename.bolt</code></p>
+<p>If compilation succeeds a <code>filename.bvmb</code> file will be produced in the same folder.</p>
+<ol>
+<li><strong>Run the bytecode</strong>
+   Execute the produced bytecode with the runtime:</li>
+</ol>
+<p><code>bash
+   bolt filename.bvmb</code></p>
+<p>Use <code>--debug</code> or <code>--json-errors</code> for diagnostics in automation or CI.</p>
+<p>Notes:</p>
+<ul>
+<li>Compilation is optional for quick interactive experiments, but the <code>-c</code> → <code>.bvmb</code> flow keeps artifacts consistent for shipping and automation.</li>
+<li>Bytecode files are portable across compatible minor releases.</li>
+</ul>
+<hr />
+<h2 id="command-line-interface">Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permanent link">&para;</a></h2>
+<p>Flags and runtime modes in Bolt. Combine them to fit your workflow.</p>
+<ul>
+<li><code>--run [files...]</code> — execute <code>.bolt</code> or <code>.bvmb</code> files</li>
+<li><code>--exec-string "&lt;source&gt;"</code> — run inline source</li>
+<li><code>--cmd</code> — single-line interactive mode</li>
+<li><code>--safe</code> — sandbox mode</li>
+<li><code>--debug</code> — verbose logging and tracebacks</li>
+<li><code>--inspect-ast</code> — print AST before execution for diagnostics</li>
+<li><code>--json-errors</code> — machine-readable error output for CI</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>bolt<span class="w"> </span>--safe<span class="w"> </span>--debug<span class="w"> </span>--run<span class="w"> </span>myscript.bolt
+<span class="c1"># or run compiled bytecode:</span>
+bolt<span class="w"> </span>myscript.bvmb
+</code></pre></div>
+
+<hr />
+<h2 id="syntax-reference">Syntax Reference<a class="headerlink" href="#syntax-reference" title="Permanent link">&para;</a></h2>
+<p>This section focuses on syntax and features available from Bolt v1.61+ and newer. Bolt v2.0.0+ keeps compatibility while adding the refreshed module workflow.</p>
+<h3 id="printing-sysout">Printing - <code>sys.out</code><a class="headerlink" href="#printing-sysout" title="Permanent link">&para;</a></h3>
+<p><strong>What it is and what it does:</strong> <code>sys.out</code> writes text or evaluated tokens to standard output. Use forward slashes to expand variables inside output: <code>/var/</code>.</p>
+<div class="codehilite"><pre><span></span><code>sys.out &#39;hello, world!&#39;
+
+name = &#39;Ariyan&#39;
+sys.out /name/
+
+num1 = 10
+num2 = 15
+sys.out /num1/ + /num2/
+
+sys.out &#39;the calculation is /num1 + num2/&#39;
+</code></pre></div>
+
+<p>If you see literal tokens such as <code>/name/</code> in output, confirm the variable is defined and that you used forward slashes without spaces.</p>
+<h3 id="variables">Variables<a class="headerlink" href="#variables" title="Permanent link">&para;</a></h3>
+<p>Assignment uses equals. Starting with v1.61+ integers and numeric types are available and usable in arithmetic.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">myvariable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Alice&#39;</span>
+<span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="o">/</span><span class="n">myvariable</span><span class="o">/</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="o">/</span><span class="n">age</span><span class="o">/</span>
+</code></pre></div>
+
+<h3 id="lists">Lists<a class="headerlink" href="#lists" title="Permanent link">&para;</a></h3>
+<p>Create lists with <code>let.list['a' ; 'b']</code>. Index with 0-based notation.</p>
+<div class="codehilite"><pre><span></span><code>listname = let.list[&#39;1&#39;, &#39;2&#39;]
+
+sys.out /listname[0]/
+</code></pre></div>
+
+<h3 id="in-keyword"><code>in</code> Keyword<a class="headerlink" href="#in-keyword" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="nv">listname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">let</span>.<span class="nv">list</span>[<span class="s1">&#39;1&#39;</span>,<span class="w"> </span><span class="s1">&#39;2&#39;</span>]
+<span class="k">if</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">listname</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ok&#39;</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;nope&#39;</span>
+<span class="k">end</span>.<span class="k">if</span>
+</code></pre></div>
+
+<h3 id="functions-and-invocation">Functions and Invocation<a class="headerlink" href="#functions-and-invocation" title="Permanent link">&para;</a></h3>
+<p>Functions are declared with <code>fn name(); ... end</code>. The helper <code>let.call name()</code> is available and standard on v1.61+.</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">fn</span><span class="w"> </span><span class="nv">greet</span><span class="ss">(</span><span class="nv">name</span><span class="ss">)</span><span class="c1">;</span>
+<span class="w">  </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;hello /name/!&#39;</span>
+<span class="k">end</span>
+
+<span class="nv">let</span>.<span class="k">call</span><span class="w"> </span><span class="nl">greet</span><span class="ss">(</span><span class="nv">ariyan</span><span class="ss">)</span>
+</code></pre></div>
+
+<h3 id="typed-input-helpers-v161">Typed Input Helpers (v1.61+)<a class="headerlink" href="#typed-input-helpers-v161" title="Permanent link">&para;</a></h3>
+<p>In v1.61+ Bolt provides typed input helpers to capture typed values directly: <code>let.userinput.int 'prompt'</code> for integers and <code>let.userinput.str 'prompt'</code> for strings.</p>
+<div class="codehilite"><pre><span></span><code>num = let.userinput.int &#39;enter a number: &#39;
+name = let.userinput.str &#39;enter your name: &#39;
+</code></pre></div>
+
+<p>Bolt supports specific typed inputs like <code>int</code> and <code>str</code>. You can also check the input type using <code>:int</code> or <code>:str</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">intvalue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">let</span>.<span class="nv">userinput</span>.<span class="nv">int</span><span class="w"> </span><span class="s1">&#39;value: &#39;</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">intvalue</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>:<span class="nv">int</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;it is integer&#39;</span>
+<span class="nv">eif</span><span class="w"> </span><span class="nv">intvalue</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>:<span class="nv">str</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;it is string&#39;</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;INVALID&#39;</span>
+<span class="k">end</span>.<span class="k">if</span>
+</code></pre></div>
+
+<h3 id="control-flow-if-eif-else">Control Flow - <code>if</code>, <code>eif</code>, <code>else</code><a class="headerlink" href="#control-flow-if-eif-else" title="Permanent link">&para;</a></h3>
+<p>v1.61+ includes the conditional ladder: <code>if</code>, <code>eif</code> for else-if, and <code>else</code> for fallback. Use <code>end.if</code> to close the block.</p>
+<div class="codehilite"><pre><span></span><code>if condition
+  sys.out &#39;yes&#39;
+eif other_condition
+  sys.out &#39;other&#39;
+else
+  sys.out &#39;no&#39;
+end.if
+</code></pre></div>
+
+<h3 id="while-loops">While Loops<a class="headerlink" href="#while-loops" title="Permanent link">&para;</a></h3>
+<p>Bolt supports <code>while</code> for repeated execution.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="nv">condition</span>
+<span class="w">  </span><span class="nv">work</span>
+<span class="k">end</span>.<span class="k">while</span>
+</code></pre></div>
+
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">while</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">  </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;looping&#39;</span>
+<span class="w">  </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">end</span>.<span class="k">while</span>
+</code></pre></div>
+
+<p>You can also use <code>boltloop</code> for fixed-count repetition. See <a href="#boltloop---fixed-repetition">Boltloop</a>.</p>
+<hr />
+<h2 id="syntax-deep-reference">Syntax - Deep Reference<a class="headerlink" href="#syntax-deep-reference" title="Permanent link">&para;</a></h2>
+<p>Strict and detailed reference for Bolt v1.61+ and v2.0.0+ features. Examples follow the documented syntax and avoid unsupported constructs.</p>
+<h3 id="printing-sysout-deep">Printing - <code>sys.out</code> (deep)<a class="headerlink" href="#printing-sysout-deep" title="Permanent link">&para;</a></h3>
+<h4 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h4>
+<p>Provide deterministic output to stdout. It is the primary documented mechanism for emitting textual results and computed numeric values.</p>
+<h4 id="exact-syntax">Exact syntax<a class="headerlink" href="#exact-syntax" title="Permanent link">&para;</a></h4>
+<p><code>sys.out 'literal string'</code> prints the literal string verbatim.
+<code>sys.out /identifier/</code> prints the value of a variable named <code>identifier</code>.</p>
+<h4 id="variable-interpolation-rules">Variable interpolation rules<a class="headerlink" href="#variable-interpolation-rules" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Interpolation tokens are delimited with forward slashes: <code>/.../</code>.</li>
+<li>Inside an interpolation token place a single variable or a numeric expression built from numeric variables and literal numbers.</li>
+<li>Do not include whitespace between the slashes and the token name if you expect expansion.</li>
+</ol>
+<h4 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>name = &#39;Ariyan&#39;
+sys.out /name/
+
+a = 5
+b = 4
+sys.out /a/ + /b/
+
+sys.out &#39;the sum is /a + b/&#39;
+</code></pre></div>
+
+<h4 id="common-errors-fixes">Common errors &amp; fixes<a class="headerlink" href="#common-errors-fixes" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Tokens printed verbatim:</strong> confirm the variable is defined and the token contains valid content.</li>
+</ul>
+<h4 id="requirements-runtime-notes">Requirements &amp; runtime notes<a class="headerlink" href="#requirements-runtime-notes" title="Permanent link">&para;</a></h4>
+<p>The interpolation behavior assumes Bolt v1.61+. Older runtimes may not evaluate expressions inside tokens.</p>
+<hr />
+<h3 id="variables-declaration-types">Variables - Declaration &amp; Types<a class="headerlink" href="#variables-declaration-types" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_1">Purpose<a class="headerlink" href="#purpose_1" title="Permanent link">&para;</a></h4>
+<p>Hold immutable or mutable values such as strings, integers, numeric types, and lists.</p>
+<h4 id="exact-syntax-and-semantics">Exact syntax and semantics<a class="headerlink" href="#exact-syntax-and-semantics" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>identifier = expression
+</code></pre></div>
+
+<h4 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>username = &#39;guest&#39;
+count = 3
+total = count + 2
+
+sys.out /username/
+sys.out /total/
+</code></pre></div>
+
+<hr />
+<h3 id="lists-creation-indexing-length">Lists - Creation, Indexing, Length<a class="headerlink" href="#lists-creation-indexing-length" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_2">Purpose<a class="headerlink" href="#purpose_2" title="Permanent link">&para;</a></h4>
+<p>Lists are ordered collections providing indexed access using 0-based positions.</p>
+<h4 id="exact-syntax_1">Exact syntax<a class="headerlink" href="#exact-syntax_1" title="Permanent link">&para;</a></h4>
+<p><code>let.list['item1' ; 'item2' ; 'itemN']</code> constructs a list. Index with square brackets: <code>listVar[index]</code>.</p>
+<h4 id="examples_2">Examples<a class="headerlink" href="#examples_2" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>listname = let.list[&#39;1&#39; ; &#39;2&#39;]
+
+sys.out /listname[0]/
+</code></pre></div>
+
+<h4 id="indexing-rules-safety">Indexing rules &amp; safety<a class="headerlink" href="#indexing-rules-safety" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Indexes are integers starting at 0.</li>
+<li>Accessing an index outside the valid range raises <code>bolt.error.MemoryError</code>. Ensure the index value you use is valid before accessing a list element.</li>
+<li>List contents may be mixed types, so be careful when using items in numeric expressions.</li>
+</ul>
+<hr />
+<h3 id="functions-declaration-invocation-conventions">Functions - Declaration, Invocation, Conventions<a class="headerlink" href="#functions-declaration-invocation-conventions" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_3">Purpose<a class="headerlink" href="#purpose_3" title="Permanent link">&para;</a></h4>
+<p>Functions encapsulate logic and allow reuse. Bolt uses a compact declaration and a predictable call model.</p>
+<h4 id="exact-syntax_2">Exact syntax<a class="headerlink" href="#exact-syntax_2" title="Permanent link">&para;</a></h4>
+<p>Declare:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">fn</span><span class="w"> </span><span class="nv">name</span><span class="ss">()</span><span class="c1">;</span>
+<span class="w">  </span>...
+<span class="k">end</span>
+</code></pre></div>
+
+<p>Invoke:</p>
+<div class="codehilite"><pre><span></span><code>let.call name()
+</code></pre></div>
+
+<p>or, on many runtimes, direct invocation <code>name()</code>.</p>
+<h4 id="examples_3">Examples<a class="headerlink" href="#examples_3" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="nv">fn</span><span class="w"> </span><span class="nv">greet</span><span class="ss">()</span><span class="c1">;</span>
+<span class="w">  </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;hello&#39;</span>
+<span class="k">end</span>
+
+<span class="nv">let</span>.<span class="k">call</span><span class="w"> </span><span class="nl">greet</span><span class="ss">()</span>
+</code></pre></div>
+
+<h4 id="arguments-and-returns">Arguments and returns<a class="headerlink" href="#arguments-and-returns" title="Permanent link">&para;</a></h4>
+<p>Bolt v1.61+ keeps the function model compact. To pass data, assign variables in the calling scope before the call or use module-level variables as a deliberate convention. To return values, write to a known variable.</p>
+<hr />
+<h3 id="typed-input-helpers">Typed Input Helpers<a class="headerlink" href="#typed-input-helpers" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_4">Purpose<a class="headerlink" href="#purpose_4" title="Permanent link">&para;</a></h4>
+<p>Capture user-provided values directly as specific types to avoid manual parsing and conversion bugs.</p>
+<h4 id="exact-syntax_3">Exact syntax<a class="headerlink" href="#exact-syntax_3" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="k">var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">let</span><span class="o">.</span><span class="n">userinput</span><span class="o">.</span><span class="n">int</span><span class="w"> </span><span class="s1">&#39;prompt&#39;</span>
+</code></pre></div>
+
+<p>returns an integer.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">let</span><span class="o">.</span><span class="n">userinput</span><span class="o">.</span><span class="n">str</span><span class="w"> </span><span class="s1">&#39;prompt&#39;</span>
+</code></pre></div>
+
+<p>returns a string.</p>
+<h4 id="examples_4">Examples<a class="headerlink" href="#examples_4" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>num = let.userinput.int &#39;enter a number: &#39;
+name = let.userinput.str &#39;enter your name: &#39;
+</code></pre></div>
+
+<hr />
+<h3 id="control-flow-if-eif-else_1">Control Flow - <code>if</code> / <code>eif</code> / <code>else</code><a class="headerlink" href="#control-flow-if-eif-else_1" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_5">Purpose<a class="headerlink" href="#purpose_5" title="Permanent link">&para;</a></h4>
+<p>Model conditional decision points. The control flow ladder is intentionally compact and readable.</p>
+<h4 id="exact-syntax_4">Exact syntax<a class="headerlink" href="#exact-syntax_4" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>if condition
+  ...
+eif other_condition
+  ...
+else
+  ...
+end.if
+</code></pre></div>
+
+<h4 id="examples-patterns">Examples &amp; patterns<a class="headerlink" href="#examples-patterns" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="o">/</span><span class="nv">score</span><span class="o">/</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">90</span>
+<span class="w">  </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;grade: A&#39;</span>
+<span class="nv">eif</span><span class="w"> </span><span class="o">/</span><span class="nv">score</span><span class="o">/</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">80</span>
+<span class="w">  </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;grade: B&#39;</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;grade: C or below&#39;</span>
+<span class="k">end</span>.<span class="k">if</span>
+</code></pre></div>
+
+<hr />
+<h3 id="while-loops_1">While Loops<a class="headerlink" href="#while-loops_1" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_6">Purpose<a class="headerlink" href="#purpose_6" title="Permanent link">&para;</a></h4>
+<p>Use <code>while</code> when repetition depends on a condition. There is no <code>for</code> loop in this documented syntax set.</p>
+<h4 id="exact-syntax_5">Exact syntax<a class="headerlink" href="#exact-syntax_5" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="nv">condition</span>
+<span class="w">  </span><span class="nv">work</span>
+<span class="k">end</span>.<span class="k">while</span>
+</code></pre></div>
+
+<h4 id="rules">Rules<a class="headerlink" href="#rules" title="Permanent link">&para;</a></h4>
+<ul>
+<li>The condition is checked before each iteration.</li>
+<li>Update the condition inside the block when needed to avoid an endless loop.</li>
+<li>Close the loop with <code>end.while</code>.</li>
+</ul>
+<hr />
+<h3 id="boltloop-fixed-repetition">Boltloop - Fixed Repetition<a class="headerlink" href="#boltloop-fixed-repetition" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_7">Purpose<a class="headerlink" href="#purpose_7" title="Permanent link">&para;</a></h4>
+<p>Use <code>BOLTLOOP.LOOP</code> for a fixed number of repetitions. This is the clean count-based pattern.</p>
+<h4 id="exact-syntax_6">Exact syntax<a class="headerlink" href="#exact-syntax_6" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">boltloop</span>
+
+<span class="nv">boltloop</span>.<span class="k">loop</span><span class="ss">(</span><span class="nv">times</span><span class="ss">)</span>
+<span class="w">  </span><span class="nv">work</span>
+<span class="k">end</span>.<span class="k">loop</span>
+</code></pre></div>
+
+<h4 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">boltloop</span>
+
+<span class="nv">boltloop</span>.<span class="k">loop</span><span class="ss">(</span><span class="mi">5</span><span class="ss">)</span>
+<span class="w">  </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;hi&#39;</span>
+<span class="k">end</span>.<span class="k">loop</span>
+</code></pre></div>
+
+<h4 id="rules_1">Rules<a class="headerlink" href="#rules_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>times</code> controls the number of executions.</li>
+<li>The block ends with <code>end.loop</code>.</li>
+<li>Use this instead of <code>while</code> when the count is known in advance.</li>
+</ul>
+<hr />
+<h3 id="error-handling-diagnostics-cli">Error Handling &amp; Diagnostics (CLI)<a class="headerlink" href="#error-handling-diagnostics-cli" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_8">Purpose<a class="headerlink" href="#purpose_8" title="Permanent link">&para;</a></h4>
+<p>Provide clear, reproducible failure messages and machine-readable diagnostics for automation and support workflows.</p>
+<h4 id="best-practices">Best practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Run with <code>--debug</code> for verbose tracebacks during development.</li>
+<li>Use <code>--json-errors</code> when attaching logs to support tickets or CI systems.</li>
+</ul>
+<p>For structured in-script error handling, see the <a href="#error-handling">Error Handling</a> section.</p>
+<hr />
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<p>Bolt provides a first-class <code>try</code>/<code>catch</code> construct for intercepting and recovering from both compile-time and runtime errors. This section covers the complete syntax, every catchable error identifier, and idiomatic usage patterns.</p>
+<hr />
+<h3 id="the-try-block">The <code>try</code> Block<a class="headerlink" href="#the-try-block" title="Permanent link">&para;</a></h3>
+<h4 id="purpose_9">Purpose<a class="headerlink" href="#purpose_9" title="Permanent link">&para;</a></h4>
+<p>Wrap any code that may fail — file operations, user input parsing, arithmetic, module calls — inside a <code>try</code> block. If an error matching the specified identifier is raised during execution of that block, control transfers immediately to the <code>catch</code> branch. The remaining lines inside the <code>try</code> block are skipped.</p>
+<h4 id="exact-syntax_7">Exact syntax<a class="headerlink" href="#exact-syntax_7" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="nv">try</span><span class="c1">;</span>
+<span class="w">    </span><span class="o">&lt;</span><span class="nv">guarded</span><span class="w"> </span><span class="nv">code</span><span class="o">&gt;</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="o">&lt;</span><span class="nv">error</span>.<span class="nv">identifier</span><span class="o">&gt;</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="o">&lt;</span><span class="nv">handler</span><span class="w"> </span><span class="nv">expression</span><span class="o">&gt;</span>
+<span class="k">end</span>.<span class="nv">try</span>
+</code></pre></div>
+
+<p>Every <code>try</code> block must be closed with <code>end.try</code>. Every <code>try</code> must have at least one <code>catch</code>.</p>
+<p>The <code>and</code> keyword separates the caught error identifier from the handler expression. The handler expression may be a single statement such as <code>sys.out 'message'</code>, or a call to a function that contains more complex recovery logic.</p>
+<h4 id="minimal-example">Minimal example<a class="headerlink" href="#minimal-example" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="nv">try</span><span class="c1">;</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;risky code&#39;</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bolt</span>.<span class="nv">error</span>.<span class="nv">RuntimeError</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;something went wrong&#39;</span>
+<span class="k">end</span>.<span class="nv">try</span>
+</code></pre></div>
+
+<hr />
+<h3 id="error-identifier-reference">Error Identifier Reference<a class="headerlink" href="#error-identifier-reference" title="Permanent link">&para;</a></h3>
+<p>Bolt organises its error identifiers into four groups. Use the exact identifier string in your <code>catch</code> clause.</p>
+<hr />
+<h4 id="syntax-structural-errors">Syntax &amp; Structural Errors<a class="headerlink" href="#syntax-structural-errors" title="Permanent link">&para;</a></h4>
+<p>These errors are raised by the parser and lexer before the script begins execution. They indicate malformed source that the engine cannot process.</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>When raised</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bolt.error.SyntaxError</code></td>
+<td>Generic catch-all for any parsing failure not covered by a more specific identifier.</td>
+</tr>
+<tr>
+<td><code>bolt.error.IndentationError</code></td>
+<td>Code layout violates the strict 2-space indentation requirement.</td>
+</tr>
+<tr>
+<td><code>bolt.error.UnterminatedBlockError</code></td>
+<td>A block (<code>fn</code>, <code>if</code>, <code>try</code>, <code>loop</code>, etc.) was opened but never closed with a matching <code>end</code> or <code>}}</code>.</td>
+</tr>
+<tr>
+<td><code>bolt.error.LexicalError</code></td>
+<td>The lexer encountered an unrecognised or illegal character in the source.</td>
+</tr>
+</tbody>
+</table>
+<p>Example — catching a known structural issue during dynamic evaluation:</p>
+<div class="codehilite"><pre><span></span><code>try;
+    let.call undefined_fn()
+catch(bolt.error.SyntaxError) and sys.out &#39;parse failed: check your source&#39;
+end.try
+</code></pre></div>
+
+<hr />
+<h4 id="runtime-errors">Runtime Errors<a class="headerlink" href="#runtime-errors" title="Permanent link">&para;</a></h4>
+<p>These errors occur while the engine is actively processing logic. They represent failures in execution rather than in parsing.</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>When raised</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bolt.error.ReferenceError</code></td>
+<td>Attempting to use a variable or function that has not been defined in the current scope.</td>
+</tr>
+<tr>
+<td><code>bolt.error.TypeError</code></td>
+<td>Incompatible data type operations (e.g. adding a string to a null) or attempting to call a non-function as a function.</td>
+</tr>
+<tr>
+<td><code>bolt.error.ZeroDivisionError</code></td>
+<td>Division or modulo operation where the divisor is zero.</td>
+</tr>
+<tr>
+<td><code>bolt.error.MemoryError</code></td>
+<td>Memory safety violations — accessing freed heap memory, or out-of-bounds index access on lists or strings.</td>
+</tr>
+<tr>
+<td><code>bolt.error.ImportError</code></td>
+<td>The Bolt Module Manager (<code>bmm</code>) failed to find, read, or validate a required module.</td>
+</tr>
+<tr>
+<td><code>bolt.error.SystemError</code></td>
+<td>OS-level issues interfere with execution — commonly during file system interactions or terminal history processing.</td>
+</tr>
+<tr>
+<td><code>bolt.error.RuntimeError</code></td>
+<td>Base class for general execution failures. Use this as a broad catch when no more specific identifier applies.</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="nt">Guard</span><span class="w"> </span><span class="nt">against</span><span class="w"> </span><span class="nt">division</span><span class="w"> </span><span class="nt">by</span><span class="w"> </span><span class="nt">zero</span>
+<span class="nt">divisor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">let</span><span class="p">.</span><span class="nc">userinput</span><span class="p">.</span><span class="nc">int</span><span class="w"> </span><span class="s1">&#39;enter divisor: &#39;</span>
+
+<span class="nt">try</span><span class="o">;</span>
+<span class="w">    </span><span class="nt">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="o">/</span><span class="nt">divisor</span><span class="o">/</span>
+<span class="w">    </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="o">/</span><span class="nt">result</span><span class="o">/</span>
+<span class="nt">catch</span><span class="o">(</span><span class="nt">bolt</span><span class="p">.</span><span class="nc">error</span><span class="p">.</span><span class="nc">ZeroDivisionError</span><span class="o">)</span><span class="w"> </span><span class="nt">and</span><span class="w"> </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;ERROR: cannot divide by zero&#39;</span>
+<span class="nt">end</span><span class="p">.</span><span class="nc">try</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># Guard against a missing variable reference</span>
+<span class="n">try</span><span class="p">;</span>
+<span class="w">    </span><span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="o">/</span><span class="n">undefined_variable</span><span class="o">/</span>
+<span class="n">catch</span><span class="p">(</span><span class="n">bolt</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ReferenceError</span><span class="p">)</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="s1">&#39;ERROR: variable not defined&#39;</span>
+<span class="n">end</span><span class="o">.</span><span class="n">try</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="nx">Guard</span><span class="w"> </span><span class="nx">against</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nx">mismatch</span>
+<span class="nx">try</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">bad</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">hello</span><span class="err">&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">99</span>
+<span class="w">    </span><span class="nx">sys</span><span class="p">.</span><span class="nx">out</span><span class="w"> </span><span class="o">/</span><span class="nx">bad</span><span class="o">/</span>
+<span class="nx">catch</span><span class="p">(</span><span class="nx">bolt</span><span class="p">.</span><span class="nx">error</span><span class="p">.</span><span class="nx">RuntimeError</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">sys</span><span class="p">.</span><span class="nx">out</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">ERROR</span><span class="p">:</span><span class="w"> </span><span class="nx">incompatible</span><span class="w"> </span><span class="nx">types</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">operation</span><span class="err">&#39;</span>
+<span class="nx">end</span><span class="p">.</span><span class="nx">try</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>#<span class="w"> </span><span class="nv">Guard</span><span class="w"> </span><span class="nv">against</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">out</span><span class="o">-</span><span class="nv">of</span><span class="o">-</span><span class="nv">bounds</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="nv">access</span>
+<span class="nv">items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">let</span>.<span class="nv">list</span>[<span class="s1">&#39;a&#39;</span><span class="w"> </span><span class="c1">; &#39;b&#39; ; &#39;c&#39;]</span>
+
+<span class="nv">try</span><span class="c1">;</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="o">/</span><span class="nv">items</span>[<span class="mi">99</span>]<span class="o">/</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bolt</span>.<span class="nv">error</span>.<span class="nv">MemoryError</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ERROR: index out of bounds&#39;</span>
+<span class="k">end</span>.<span class="nv">try</span>
+</code></pre></div>
+
+<hr />
+<h4 id="null-safety-state-errors-v200">Null-Safety &amp; State Errors (v2.0.0+)<a class="headerlink" href="#null-safety-state-errors-v200" title="Permanent link">&para;</a></h4>
+<p>These errors were introduced in v2.0.0 alongside the variable locking system. They are specific to the <code>$null</code> literal and the null-lock mechanism.</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>When raised</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bolt.error.NullAssignmentError</code></td>
+<td>Attempting to assign a new value to a variable that has been locked with the <code>$null</code> literal.</td>
+</tr>
+<tr>
+<td><code>bolt.error.NullLockViolation</code></td>
+<td>Attempting to read or access the value of a variable that is currently nulled.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Attempt to write to a null-locked variable</span>
+<span class="n">try</span><span class="p">;</span>
+<span class="w">    </span><span class="n">locked_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">$</span><span class="nb nb-Type">null</span>
+<span class="w">    </span><span class="n">locked_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;new value&#39;</span>
+<span class="n">catch</span><span class="p">(</span><span class="n">bolt</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">NullAssignmentError</span><span class="p">)</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="s1">&#39;ERROR: cannot reassign a null-locked variable&#39;</span>
+<span class="n">end</span><span class="o">.</span><span class="n">try</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># Attempt to read a null-locked variable</span>
+<span class="n">try</span><span class="p">;</span>
+<span class="w">    </span><span class="n">dead_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">$</span><span class="nb nb-Type">null</span>
+<span class="w">    </span><span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="o">/</span><span class="n">dead_var</span><span class="o">/</span>
+<span class="n">catch</span><span class="p">(</span><span class="n">bolt</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">NullLockViolation</span><span class="p">)</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="s1">&#39;ERROR: variable is null-locked and cannot be read&#39;</span>
+<span class="n">end</span><span class="o">.</span><span class="n">try</span>
+</code></pre></div>
+
+<hr />
+<h4 id="external-module-errors-bfile">External Module Errors — <code>bfile</code><a class="headerlink" href="#external-module-errors-bfile" title="Permanent link">&para;</a></h4>
+<p>When the <code>bfile</code> module is loaded, it registers three additional catchable error identifiers into the current execution environment. These follow the same <code>catch</code> syntax as native Bolt errors.</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>When raised</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bfile.error.FileNotFound</code></td>
+<td>The target file does not exist at the specified path.</td>
+</tr>
+<tr>
+<td><code>bfile.error.AccessDenied</code></td>
+<td>The OS denied access to the file (insufficient permissions).</td>
+</tr>
+<tr>
+<td><code>bfile.error.IOError</code></td>
+<td>All other file system failures — corrupt file, full disk, unavailable mount, etc.</td>
+</tr>
+</tbody>
+</table>
+<p>Example — safe file read:</p>
+<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
+
+<span class="nv">try</span><span class="c1">;</span>
+<span class="w">    </span><span class="nv">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">read</span><span class="ss">(</span><span class="nv">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;/config.txt&#39;</span><span class="ss">)</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="o">/</span><span class="nv">content</span><span class="o">/</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bfile</span>.<span class="nv">error</span>.<span class="nv">FileNotFound</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ERROR: config.txt not found&#39;</span>
+<span class="k">end</span>.<span class="nv">try</span>
+</code></pre></div>
+
+<p>Example — distinguishing access errors from missing files:</p>
+<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
+
+<span class="nv">try</span><span class="c1">;</span>
+<span class="w">    </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">read</span><span class="ss">(</span><span class="s1">&#39;/etc/secret.conf&#39;</span><span class="ss">)</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="o">/</span><span class="nv">data</span><span class="o">/</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bfile</span>.<span class="nv">error</span>.<span class="nv">FileNotFound</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ERROR: file does not exist&#39;</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bfile</span>.<span class="nv">error</span>.<span class="nv">AccessDenied</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ERROR: permission denied&#39;</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bfile</span>.<span class="nv">error</span>.<span class="nv">IOError</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ERROR: unexpected I/O failure&#39;</span>
+<span class="k">end</span>.<span class="nv">try</span>
+</code></pre></div>
+
+<hr />
+<h3 id="multiple-catch-clauses">Multiple <code>catch</code> Clauses<a class="headerlink" href="#multiple-catch-clauses" title="Permanent link">&para;</a></h3>
+<p>A single <code>try</code> block may have multiple <code>catch</code> clauses. The engine evaluates them top-to-bottom and executes the first one whose identifier matches the raised error. Subsequent clauses are skipped.</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">try</span><span class="c1">;</span>
+<span class="w">    </span><span class="nv">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">let</span>.<span class="nv">userinput</span>.<span class="nv">int</span><span class="w"> </span><span class="s1">&#39;enter a number: &#39;</span>
+<span class="w">    </span><span class="nb">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="o">/</span><span class="nv">val</span><span class="o">/</span>
+<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="o">/</span><span class="nb">result</span><span class="o">/</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bolt</span>.<span class="nv">error</span>.<span class="nv">ZeroDivisionError</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ERROR: divisor was zero&#39;</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bolt</span>.<span class="nv">error</span>.<span class="nv">TypeError</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ERROR: input was not a number&#39;</span>
+<span class="nv">catch</span><span class="ss">(</span><span class="nv">bolt</span>.<span class="nv">error</span>.<span class="nv">RuntimeError</span><span class="ss">)</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;ERROR: unspecified runtime failure&#39;</span>
+<span class="k">end</span>.<span class="nv">try</span>
+</code></pre></div>
+
+<p><strong>Ordering advice:</strong> Place the most specific error identifiers first and <code>bolt.error.RuntimeError</code> last. Since <code>RuntimeError</code> is the base class for general execution failures, placing it first would swallow more specific errors before they can be matched.</p>
+<hr />
+<h3 id="using-bolterrorruntimeerror-as-a-broad-catch">Using <code>bolt.error.RuntimeError</code> as a Broad Catch<a class="headerlink" href="#using-bolterrorruntimeerror-as-a-broad-catch" title="Permanent link">&para;</a></h3>
+<p><code>bolt.error.RuntimeError</code> functions as the widest net available. Use it as a last-resort clause when you need to ensure an error is always handled regardless of type, but you have no specific recovery logic to apply.</p>
+<div class="codehilite"><pre><span></span><code>try;
+    let.call risky_operation()
+catch(bolt.error.ZeroDivisionError) and sys.out &#39;specific: division by zero&#39;
+catch(bolt.error.RuntimeError) and sys.out &#39;unhandled runtime error — operation aborted&#39;
+end.try
+</code></pre></div>
+
+<hr />
+<h3 id="using-a-handler-function">Using a Handler Function<a class="headerlink" href="#using-a-handler-function" title="Permanent link">&para;</a></h3>
+<p>For non-trivial recovery logic, extract the handler into a dedicated function and invoke it from the <code>catch</code> clause.</p>
+<div class="codehilite"><pre><span></span><code>fn on_file_error();
+    sys.out &#39;File operation failed.&#39;
+    sys.out &#39;Check that the path exists and permissions are correct.&#39;
+    sys.out &#39;Run with --debug for a full trace.&#39;
+end
+
+$get.bfile
+
+try;
+    content = bfile.read(local + &#39;/data.txt&#39;)
+    sys.out /content/
+catch(bfile.error.FileNotFound) and let.call on_file_error()
+catch(bfile.error.AccessDenied) and let.call on_file_error()
+end.try
+</code></pre></div>
+
+<hr />
+<h3 id="cli-diagnostics-alongside-trycatch">CLI Diagnostics Alongside <code>try</code>/<code>catch</code><a class="headerlink" href="#cli-diagnostics-alongside-trycatch" title="Permanent link">&para;</a></h3>
+<p>The <code>try</code>/<code>catch</code> construct handles errors at the script level. For development-time diagnostics that show full stack traces and engine internals, combine it with CLI flags:</p>
+<div class="codehilite"><pre><span></span><code>bolt<span class="w"> </span>--debug<span class="w"> </span>--run<span class="w"> </span>script.bolt
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>bolt<span class="w"> </span>--json-errors<span class="w"> </span>--run<span class="w"> </span>script.bolt
+</code></pre></div>
+
+<p><code>--debug</code> will report the full context of any error that propagates past all <code>catch</code> clauses. <code>--json-errors</code> formats uncaught errors as structured JSON for CI pipelines and automated log parsers.</p>
+<hr />
+<h3 id="complete-reference-table-all-catchable-identifiers">Complete Reference Table — All Catchable Identifiers<a class="headerlink" href="#complete-reference-table-all-catchable-identifiers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Category</th>
+<th>Available from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bolt.error.SyntaxError</code></td>
+<td>Syntax &amp; Structural</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.IndentationError</code></td>
+<td>Syntax &amp; Structural</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.UnterminatedBlockError</code></td>
+<td>Syntax &amp; Structural</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.LexicalError</code></td>
+<td>Syntax &amp; Structural</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.ReferenceError</code></td>
+<td>Runtime</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.TypeError</code></td>
+<td>Runtime</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.ZeroDivisionError</code></td>
+<td>Runtime</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.MemoryError</code></td>
+<td>Runtime</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.ImportError</code></td>
+<td>Runtime</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.SystemError</code></td>
+<td>Runtime</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.RuntimeError</code></td>
+<td>Runtime (base)</td>
+<td>v1.61+</td>
+</tr>
+<tr>
+<td><code>bolt.error.NullAssignmentError</code></td>
+<td>Null-Safety</td>
+<td>v2.0.0+</td>
+</tr>
+<tr>
+<td><code>bolt.error.NullLockViolation</code></td>
+<td>Null-Safety</td>
+<td>v2.0.0+</td>
+</tr>
+<tr>
+<td><code>bfile.error.FileNotFound</code></td>
+<td>External (bfile)</td>
+<td>v1.70+</td>
+</tr>
+<tr>
+<td><code>bfile.error.AccessDenied</code></td>
+<td>External (bfile)</td>
+<td>v1.70+</td>
+</tr>
+<tr>
+<td><code>bfile.error.IOError</code></td>
+<td>External (bfile)</td>
+<td>v1.70+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="calculator-example">Calculator Example<a class="headerlink" href="#calculator-example" title="Permanent link">&para;</a></h2>
+<p>The calculator example below assumes Bolt v1.61+ so that typed input helpers and modern control flow are available.</p>
+<h3 id="canonical-source">Canonical source<a class="headerlink" href="#canonical-source" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>fn calc();
+  sys.out &#39;welcome to calc.&#39;
+
+  num1 = let.userinput.int &#39;enter number first: &#39;
+  num2 = let.userinput.int &#39;enter number second: &#39;
+
+  sys.out &#39;1) addition&#39;
+  sys.out &#39;2) subtraction&#39;
+  sys.out &#39;3) multiplication&#39;
+  sys.out &#39;4) division&#39;
+  sys.out &#39;choose 1 to 4&#39;
+
+  choose = let.userinput.str &#39;choose: &#39;
+
+  if choose == &#39;1&#39;
+    sys.out /num1/ + /num2/
+  eif choose == &#39;2&#39;
+    sys.out /num1/ - /num2/
+  eif choose == &#39;3&#39;
+    sys.out /num1/ * /num2/
+  eif choose == &#39;4&#39;
+    if /num2/ == 0
+      sys.out &#39;ERROR: divide by zero&#39;
+    else
+      sys.out /num1/ / /num2/
+    end.if
+  else
+    sys.out &#39;INVALID&#39;
+  end.if
+end
+
+let.call calc()
+</code></pre></div>
+
+<h3 id="hardened-version-with-error-handling">Hardened version with error handling<a class="headerlink" href="#hardened-version-with-error-handling" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="nt">fn</span><span class="w"> </span><span class="nt">calc</span><span class="o">();</span>
+<span class="w">    </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;welcome to calc.&#39;</span>
+
+<span class="w">    </span><span class="nt">try</span><span class="o">;</span>
+<span class="w">        </span><span class="nt">num1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">let</span><span class="p">.</span><span class="nc">userinput</span><span class="p">.</span><span class="nc">int</span><span class="w"> </span><span class="s1">&#39;enter number first: &#39;</span>
+<span class="w">        </span><span class="nt">num2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">let</span><span class="p">.</span><span class="nc">userinput</span><span class="p">.</span><span class="nc">int</span><span class="w"> </span><span class="s1">&#39;enter number second: &#39;</span>
+<span class="w">    </span><span class="nt">catch</span><span class="o">(</span><span class="nt">bolt</span><span class="p">.</span><span class="nc">error</span><span class="p">.</span><span class="nc">TypeError</span><span class="o">)</span><span class="w"> </span><span class="nt">and</span><span class="w"> </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;ERROR: numeric input required&#39;</span>
+<span class="w">    </span><span class="nt">end</span><span class="p">.</span><span class="nc">try</span>
+
+<span class="w">    </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;1) addition&#39;</span>
+<span class="w">    </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;2) subtraction&#39;</span>
+<span class="w">    </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;3) multiplication&#39;</span>
+<span class="w">    </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;4) division&#39;</span>
+<span class="w">    </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;choose 1 to 4&#39;</span>
+
+<span class="w">    </span><span class="nt">choose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">let</span><span class="p">.</span><span class="nc">userinput</span><span class="p">.</span><span class="nc">str</span><span class="w"> </span><span class="s1">&#39;choose: &#39;</span>
+
+<span class="w">    </span><span class="nt">if</span><span class="w"> </span><span class="nt">choose</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;1&#39;</span>
+<span class="w">        </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="o">/</span><span class="nt">num1</span><span class="o">/</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="o">/</span><span class="nt">num2</span><span class="o">/</span>
+<span class="w">    </span><span class="nt">eif</span><span class="w"> </span><span class="nt">choose</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;2&#39;</span>
+<span class="w">        </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="o">/</span><span class="nt">num1</span><span class="o">/</span><span class="w"> </span><span class="nt">-</span><span class="w"> </span><span class="o">/</span><span class="nt">num2</span><span class="o">/</span>
+<span class="w">    </span><span class="nt">eif</span><span class="w"> </span><span class="nt">choose</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;3&#39;</span>
+<span class="w">        </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="o">/</span><span class="nt">num1</span><span class="o">/</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">/</span><span class="nt">num2</span><span class="o">/</span>
+<span class="w">    </span><span class="nt">eif</span><span class="w"> </span><span class="nt">choose</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;4&#39;</span>
+<span class="w">        </span><span class="nt">try</span><span class="o">;</span>
+<span class="w">            </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="o">/</span><span class="nt">num1</span><span class="o">/</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="o">/</span><span class="nt">num2</span><span class="o">/</span>
+<span class="w">        </span><span class="nt">catch</span><span class="o">(</span><span class="nt">bolt</span><span class="p">.</span><span class="nc">error</span><span class="p">.</span><span class="nc">ZeroDivisionError</span><span class="o">)</span><span class="w"> </span><span class="nt">and</span><span class="w"> </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;ERROR: divide by zero&#39;</span>
+<span class="w">        </span><span class="nt">end</span><span class="p">.</span><span class="nc">try</span>
+<span class="w">    </span><span class="nt">else</span>
+<span class="w">        </span><span class="nt">sys</span><span class="p">.</span><span class="nc">out</span><span class="w"> </span><span class="s1">&#39;INVALID&#39;</span>
+<span class="w">    </span><span class="nt">end</span><span class="p">.</span><span class="nc">if</span>
+<span class="nt">end</span>
+
+<span class="nt">let</span><span class="p">.</span><span class="nc">call</span><span class="w"> </span><span class="nt">calc</span><span class="o">()</span>
+</code></pre></div>
+
+<hr />
+<h2 id="examples_5">Examples<a class="headerlink" href="#examples_5" title="Permanent link">&para;</a></h2>
+<p>Small copy-ready samples for quick testing.</p>
+<h3 id="save-as-hellobolt">Save as hello.bolt<a class="headerlink" href="#save-as-hellobolt" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code># Save as hello.bolt
+sys.out &#39;hello, world!&#39;
+</code></pre></div>
+
+<h3 id="ast-inspection">AST inspection<a class="headerlink" href="#ast-inspection" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>bolt<span class="w"> </span>--inspect-ast<span class="w"> </span>--exec-string<span class="w"> </span><span class="s2">&quot;sys.out &#39;1+2&#39;&quot;</span>
+</code></pre></div>
+
+<h3 id="module-example-mymodboltmodule">Module example (mymod.boltmodule)<a class="headerlink" href="#module-example-mymodboltmodule" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">[BV=200, CORE=0, VER: 1.0, LANG=Bolt]</span>
+
+<span class="na">public.module[mymod$1$bolt] {{</span>
+<span class="na">fn module_init();</span>
+<span class="w">  </span><span class="na">sys.out &#39;mymod initialized&#39;</span>
+<span class="na">end</span>
+
+<span class="na">fn greet();</span>
+<span class="w">  </span><span class="na">sys.out &#39;hello from mymod&#39;</span>
+<span class="na">end</span>
+<span class="na">}}</span>
+</code></pre></div>
+
+<h3 id="using-the-module-in-a-script-appbolt">Using the module in a script (app.bolt)<a class="headerlink" href="#using-the-module-in-a-script-appbolt" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$get.mymodule
+
+let.call mymod.module_init()
+let.call mymod.greet()
+</code></pre></div>
+
+<hr />
+<h2 id="articles">Articles<a class="headerlink" href="#articles" title="Permanent link">&para;</a></h2>
+<p>Short articles to help you design scripts for both interactive usage and automation.</p>
+<h3 id="safe-scripting-practices">Safe scripting practices<a class="headerlink" href="#safe-scripting-practices" title="Permanent link">&para;</a></h3>
+<p>Detect runtime version with <code>bolt --version</code> and choose typed helpers when v1.61+ is detected. Wrap all file operations, user input handling, and arithmetic in <code>try</code>/<code>catch</code> blocks. For automation, avoid blocking user prompts and provide explicit error codes.</p>
+<h3 id="distributing-scripts">Distributing scripts<a class="headerlink" href="#distributing-scripts" title="Permanent link">&para;</a></h3>
+<p>Include a small header that prints expected runtime version and usage. Provide typed-helper paths for v1.61+ and fallback parsing code for earlier runtimes. In distributed scripts, handle errors gracefully with <code>try</code>/<code>catch</code> so end users receive clean messages rather than raw tracebacks.</p>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<p>Concrete steps when Bolt is not recognised or scripts fail.</p>
+<h3 id="bolt-not-recognised">Bolt not recognised<a class="headerlink" href="#bolt-not-recognised" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Confirm install folder exists.</li>
+<li>Run the executable directly from the folder.</li>
+<li>Add the install folder to PATH.</li>
+<li>If the binary is missing or corrupt, re-download and reinstall.</li>
+</ol>
+<h3 id="script-errors-or-missing-helpers">Script errors or missing helpers<a class="headerlink" href="#script-errors-or-missing-helpers" title="Permanent link">&para;</a></h3>
+<p>Confirm your runtime version is v1.61+ for typed helpers and modern control flow. For v2.0.0+ module features, confirm the runtime reports v2.0.0+. For null-safety errors (<code>NullAssignmentError</code>, <code>NullLockViolation</code>), confirm v2.0.0+.</p>
+<h3 id="collect-logs">Collect logs<a class="headerlink" href="#collect-logs" title="Permanent link">&para;</a></h3>
+<p>Run scripts with <code>bolt --debug --run script.bolt</code> or <code>bolt --json-errors --run script.bolt</code> to get structured logs. Errors that propagate past all <code>catch</code> clauses will appear in full detail with either flag.</p>
+<hr />
+<h2 id="legal-credits">Legal &amp; Credits<a class="headerlink" href="#legal-credits" title="Permanent link">&para;</a></h2>
+<p>All rights reserved. Verify downloadable artifacts with the signed checksums on the official download page before installation.</p>
+<p>© 2026 Swifteex Studio. Documentation and builds assembled by Swifteex Studio. Recommended editor: Visual Studio Code.</p>
+<p>Support &amp; downloads: https://swifteexstudio.github.io/Swifteex/</p>
+<hr />
+<p>© 2026 Bolt Documentation 2.0 Engineering • Lead Architect: Ariyan Ahmed</p>
+<p>Support | Home | Terms of Service</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": [], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
