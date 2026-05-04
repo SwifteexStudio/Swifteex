@@ -11,7 +11,6 @@
       --text: #f6f7fb;
       --muted: rgba(255, 255, 255, 0.6);
       --red: #ff2a2a;
-      --blue: #2e8bff;
       --ease: cubic-bezier(.2,.9,.2,1);
       --radius: 24px;
     }
@@ -174,31 +173,7 @@
       letter-spacing: 0.25em;
       position: relative;
       display: block;
-      text-shadow: 0 0 15px var(--red);
-      animation: lightning-flicker 4s ease-in-out infinite;
-    }
-
-    .bolt-tag::before {
-      content: '';
-      position: absolute;
-      top: 50%; left: -50%; width: 200%; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--blue), #fff, var(--blue), transparent);
-      opacity: 0;
-      animation: speed-streak 4s linear infinite;
-    }
-
-    @keyframes lightning-flicker {
-      0%, 70%, 72%, 74%, 77%, 79%, 82%, 100% { opacity: 1; filter: brightness(1); text-shadow: 0 0 15px var(--red); transform: translateZ(0) scale(1); }
-      71%, 73%, 75%, 78%, 80%, 81% { opacity: 0.3; filter: brightness(15) contrast(5); text-shadow: 0 0 60px #fff, 0 0 120px var(--blue); transform: translateZ(0) translateX(3px) skewX(3deg) scale(1.05); }
-    }
-
-    @keyframes speed-streak {
-      0%, 65% { transform: translateX(-100%); opacity: 0; }
-      67% { opacity: 1; }
-      70% { transform: translateX(100%); opacity: 0; }
-      75% { transform: translateX(-100%); opacity: 0; }
-      77% { opacity: 1; }
-      80% { transform: translateX(100%); opacity: 0; }
+      color: var(--red);
     }
 
     h1 { font-size: clamp(32px, 8vw, 90px); font-weight: 950; letter-spacing: -0.05em; margin: 20px 0; line-height: 0.95; }
@@ -212,13 +187,12 @@
       text-decoration: none; transition: all 0.3s var(--ease); display: inline-flex; align-items: center; gap: 12px;
     }
     .btn-primary { 
-      background: linear-gradient(180deg, var(--blue), #0e5ae0); color: #fff;
-      box-shadow: 0 0 30px rgba(46,139,255,0.3);
+      background: var(--red); color: #fff;
     }
-    .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 0 50px rgba(46,139,255,0.5); }
+    .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
     .btn-outline { border: 1px solid rgba(255,255,255,0.1); color: #fff; background: rgba(255,255,255,0.03); }
-    .btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
 
     /* --- Showcase Art --- */
     .art-container {
@@ -226,13 +200,8 @@
     }
     .art-video {
       width: 100%; height: auto; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 40px rgba(255,42,42,0.2);
-      animation: float 10s ease-in-out infinite; will-change: transform;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
       display: block;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(0.5deg); }
     }
 
     /* --- Stats Bar --- */
@@ -335,7 +304,7 @@
     <section class="hero">
       <div class="hero-content">
         <div class="eyebrow">Presented by Swifteex Studio</div>
-        <div class="bolt-tag">BOLT 1.70</div>
+        <div class="bolt-tag">BOLT 2.00</div>
         <h1 class="neon-text">The Future of Runtime Engines</h1>
         <div class="signature">Developed by Ariyan Ahmed</div>
         <p class="desc">
@@ -343,7 +312,7 @@
           native binary distribution, and lightning-fast developer iteration.
         </p>
         <div class="btn-group">
-          <a href="https://swifteexstudio.github.io/Swifteex/bolt/download" class="btn btn-primary">Download Bolt 1.70</a>
+          <a href="https://swifteexstudio.github.io/Swifteex/bolt/download" class="btn btn-primary">Download Bolt 2.00</a>
           <a href="https://swifteexstudio.github.io/Swifteex/bolt/docs/" class="btn btn-outline">Read Documentation</a>
         </div>
       </div>
@@ -373,7 +342,7 @@
         <span>Module Syntax</span>
       </div>
       <div class="stat-item">
-        <strong>v1.70</strong>
+        <strong>v2.00</strong>
         <span>Latest Version</span>
       </div>
     </div>
@@ -402,7 +371,7 @@
         <div class="code-line"><span class="ln">2</span>  <span class="kw">sys.out</span> <span class="str">'Initializing Bolt Engine...'</span></div>
         <div class="code-line"><span class="ln">3</span>  <span class="kw">let.list</span>[<span class="str">'module'</span> ; <span class="str">'runtime'</span>]</div>
         <div class="code-line"><span class="ln">4</span>  <span class="kw">if</span> /status/ == <span class="str">'stable'</span></div>
-        <div class="code-line"><span class="ln">5</span>    <span class="kw">sys.out</span> <span class="str">'Bolt 1.70 Live.'</span></div>
+        <div class="code-line"><span class="ln">5</span>    <span class="kw">sys.out</span> <span class="str">'Bolt 2.00 Live.'</span></div>
         <div class="code-line"><span class="ln">6</span>  <span class="kw">end.if</span></div>
         <div class="code-line"><span class="ln">7</span><span class="kw">end</span></div>
       </div>
