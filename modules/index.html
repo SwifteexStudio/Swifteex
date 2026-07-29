@@ -6,19 +6,15 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Official documentation for the Bolt programming language">
+        <meta name="description" content="Documentation for the BOLT programming language">
       
       
         <meta name="author" content="Swifteex Studio">
       
       
-        <link rel="canonical" href="https://SwifteexStudio.github.io/Swifteex/docs/modules/">
       
+        <link rel="prev" href="../bfile/">
       
-        <link rel="prev" href="..">
-      
-      
-        <link rel="next" href="../bfiledocs/">
       
       
         
@@ -29,14 +25,11 @@
     
     
       
-        <title>Usage of modules in bolt - Bolt Runtime Engine Documentation</title>
+        <title>Modules - BOLT Documentation</title>
       
     
     
       <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
-      
-        
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -64,14 +57,7 @@
   </head>
   
   
-    
-    
-      
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -96,7 +82,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Bolt Runtime Engine Documentation" class="md-header__button md-logo" aria-label="Bolt Runtime Engine Documentation" data-md-component="logo">
+    <a href=".." title="BOLT Documentation" class="md-header__button md-logo" aria-label="BOLT Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -110,44 +96,18 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Bolt Runtime Engine Documentation
+            BOLT Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Usage of modules in bolt
+              Modules
             
           </span>
         </div>
       </div>
     </div>
-    
-      
-        <form class="md-header__option" data-md-component="palette">
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
-</form>
-      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -220,13 +180,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Bolt Runtime Engine Documentation" class="md-nav__button md-logo" aria-label="Bolt Runtime Engine Documentation" data-md-component="logo">
+    <a href=".." title="BOLT Documentation" class="md-nav__button md-logo" aria-label="BOLT Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    Bolt Runtime Engine Documentation
+    BOLT Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -245,7 +205,34 @@
   <span class="md-ellipsis">
     
   
-    Native syntax
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bfile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BFile
   
 
     
@@ -279,7 +266,7 @@
   <span class="md-ellipsis">
     
   
-    Usage of modules in bolt
+    Modules
   
 
     
@@ -297,7 +284,7 @@
   <span class="md-ellipsis">
     
   
-    Usage of modules in bolt
+    Modules
   
 
     
@@ -429,33 +416,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../bfiledocs/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Bfile
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -606,9 +566,9 @@
 
 
 
-  <h1>Usage of modules in bolt</h1>
+  <h1>Modules</h1>
 
-<h2 id="modules-v200">Modules (v2.0.0+)<a class="headerlink" href="#modules-v200" title="Permanent link">&para;</a></h2>
+<h2 id="modules-v200">Modules (v2.0.0+)</h2>
 <p>Getting started: to access the newest feature set, make sure your Bolt runtime is <strong>2.0.0+</strong>. When this section is opened, the page refreshes once and then loads module docs from the current documentation set.</p>
 <ul>
 <li>BV metadata</li>
@@ -616,11 +576,10 @@
 <li>VER tag</li>
 <li>LANG: Bolt / Python</li>
 </ul>
-<h3 id="creating-a-module-file">Creating a module file<a class="headerlink" href="#creating-a-module-file" title="Permanent link">&para;</a></h3>
+<h3 id="creating-a-module-file">Creating a module file</h3>
 <p>Use the <code>.boltmodule</code> file extension. Inside the file, include a metadata header and the module wrapper:</p>
-<div class="codehilite"><pre><span></span><code>[BV=200, CORE=0, VER: 1.0, LANG=Bolt]
+<div class="highlight"><pre><span></span><code>[BV=200, CORE=0, VER: 1.0, LANG=Bolt]
 </code></pre></div>
-
 <p>The fields mean:</p>
 <ul>
 <li><code>BV=X</code> matches the Bolt version target your module file is built for.</li>
@@ -628,70 +587,64 @@
 <li><code>VER=X.X</code> is the version of your <code>.boltmodule</code> file.</li>
 <li><code>LANG=Bolt</code> or <code>LANG=Python</code> determines which language the module body uses.</li>
 </ul>
-<div class="codehilite"><pre><span></span><code>[BV=200, CORE=0, VER: 1.0, LANG=python]
+<div class="highlight"><pre><span></span><code>[BV=200, CORE=0, VER: 1.0, LANG=python]
 
 public.module[name$1$lang] {{
 # code here
 }}
 </code></pre></div>
-
 <p>Use <code>LANG=Python</code> when the code inside the module is valid Python. Use Bolt syntax when the body is Bolt.</p>
 <p>There is no extra indentation requirement after <code>{{</code>. Keep the body clean and aligned exactly as your module needs it.</p>
-<h3 id="importing-modules-in-bolt">Importing modules in Bolt<a class="headerlink" href="#importing-modules-in-bolt" title="Permanent link">&para;</a></h3>
+<h3 id="importing-modules-in-bolt">Importing modules in Bolt</h3>
 <p>Import from the <code>bmodules/</code> folder with <code>$get.name</code>. The runtime checks <code>bmodules/</code> automatically.</p>
-<div class="codehilite"><pre><span></span><code>$get.name
+<div class="highlight"><pre><span></span><code>$get.name
 
 # example
 $get.mymodule
 </code></pre></div>
-
 <p>Keep the module identifier consistent with the file name and exported wrapper name. Use the current docs for the surrounding setup, install, and runtime flow.</p>
-<h3 id="python-module-support">Python module support<a class="headerlink" href="#python-module-support" title="Permanent link">&para;</a></h3>
+<h3 id="python-module-support">Python module support</h3>
 <p>When <code>LANG=python</code> is used, the code inside the module should be Python valid. The wrapper name still follows the module system rules, and the import path remains the same.</p>
-<div class="codehilite"><pre><span></span><code>[BV=200, CORE=0, VER: 1.0, LANG=python]
+<div class="highlight"><pre><span></span><code>[BV=200, CORE=0, VER: 1.0, LANG=python]
 
 public.module[pytools$1$lang] {{
 def hello():
     print(&quot;hello from python module&quot;)
 }}
 </code></pre></div>
-
 <p>Opening the Modules section refreshes the page once and then loads the module docs view. That keeps the newest module instructions in sync with the current page state.</p>
 <hr />
-<h3 id="pre-baked-libraries">Pre-baked Libraries<a class="headerlink" href="#pre-baked-libraries" title="Permanent link">&para;</a></h3>
+<h3 id="pre-baked-libraries">Pre-baked Libraries</h3>
 <p>Bolt ships with a small set of convenience libraries for common tasks. They are optional runtime modules.</p>
-<h3 id="boltclock">Boltclock<a class="headerlink" href="#boltclock" title="Permanent link">&para;</a></h3>
+<h3 id="boltclock">Boltclock</h3>
 <p>Utilities for deterministic pauses and simple scheduling.</p>
-<div class="codehilite"><pre><span></span><code>#<span class="w"> </span><span class="k">pause</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="nv">seconds</span>
-<span class="nv">Boltclock</span>.<span class="k">pause</span><span class="ss">(</span><span class="mi">2</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span><code># pause for 2 seconds
+Boltclock.pause(2)
 
-<span class="nv">fn</span><span class="w"> </span><span class="nv">afterwait</span><span class="ss">()</span><span class="c1">;</span>
-<span class="w">  </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s1">&#39;resuming after wait&#39;</span>
-<span class="k">end</span>
+fn afterwait();
+  sys.out &#39;resuming after wait&#39;
+end
 
-<span class="nv">Boltclock</span>.<span class="k">pause</span><span class="ss">(</span><span class="mi">1</span><span class="ss">)</span>
-<span class="nv">let</span>.<span class="k">call</span><span class="w"> </span><span class="nl">afterwait</span><span class="ss">()</span>
+Boltclock.pause(1)
+let.call afterwait()
 </code></pre></div>
-
-<h3 id="boltloop">Boltloop<a class="headerlink" href="#boltloop" title="Permanent link">&para;</a></h3>
+<h3 id="boltloop">Boltloop</h3>
 <p>Simple repeated execution helper.</p>
-<div class="codehilite"><pre><span></span><code>BOLTLOOP.LOOP(5)
+<div class="highlight"><pre><span></span><code>BOLTLOOP.LOOP(5)
   sys.out &#39;tick&#39;
 end.loop
 </code></pre></div>
-
 <p>Use <code>BOLTLOOP.LOOP(times)</code> for fixed-count repetition. The block ends with <code>end.loop</code>.</p>
-<h3 id="random">Random<a class="headerlink" href="#random" title="Permanent link">&para;</a></h3>
+<h3 id="random">Random</h3>
 <p>Pick random items from a provided list or data arguments.</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">Random</span><span class="p">.</span><span class="nx">main</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">data1</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">data2</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">data3</span><span class="err">&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code>Random.main(&#39;data1&#39;, &#39;data2&#39;, &#39;data3&#39;)
 
-<span class="kd">choice</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">Random</span><span class="p">.</span><span class="nx">main</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">red</span><span class="sc">&#39;,&#39;</span><span class="nx">blue</span><span class="sc">&#39;,&#39;</span><span class="nx">green</span><span class="err">&#39;</span><span class="p">)</span>
-<span class="nx">sys</span><span class="p">.</span><span class="nx">out</span><span class="w"> </span><span class="o">/</span><span class="kd">choice</span><span class="o">/</span>
+choice = Random.main(&#39;red&#39;,&#39;blue&#39;,&#39;green&#39;)
+sys.out /choice/
 </code></pre></div>
-
-<h3 id="void0-runtime-stop">void.0 - runtime stop<a class="headerlink" href="#void0-runtime-stop" title="Permanent link">&para;</a></h3>
+<h3 id="void0-runtime-stop">void.0 - runtime stop</h3>
 <p>To immediately halt Bolt execution from your script use the sentinel <code>void.0</code>.</p>
-<div class="codehilite"><pre><span></span><code>sys.out &#39;starting&#39;
+<div class="highlight"><pre><span></span><code>sys.out &#39;starting&#39;
 void.0
 # code below will not execute
 </code></pre></div>

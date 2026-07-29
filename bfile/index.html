@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Official documentation for the Bolt programming language">
+        <meta name="description" content="Documentation for the BOLT programming language">
       
       
         <meta name="author" content="Swifteex Studio">
       
       
-        <link rel="canonical" href="https://SwifteexStudio.github.io/Swifteex/docs/bfiledocs/">
+      
+        <link rel="prev" href="..">
       
       
-        <link rel="prev" href="../modules/">
-      
+        <link rel="next" href="../modules/">
       
       
         
@@ -27,14 +27,11 @@
     
     
       
-        <title>Bfile - Bolt Runtime Engine Documentation</title>
+        <title>BFile - BOLT Documentation</title>
       
     
     
       <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
-      
-        
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -62,14 +59,7 @@
   </head>
   
   
-    
-    
-      
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -94,7 +84,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Bolt Runtime Engine Documentation" class="md-header__button md-logo" aria-label="Bolt Runtime Engine Documentation" data-md-component="logo">
+    <a href=".." title="BOLT Documentation" class="md-header__button md-logo" aria-label="BOLT Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,44 +98,18 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Bolt Runtime Engine Documentation
+            BOLT Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Bfile
+              BFile
             
           </span>
         </div>
       </div>
     </div>
-    
-      
-        <form class="md-header__option" data-md-component="palette">
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
-</form>
-      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -218,13 +182,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Bolt Runtime Engine Documentation" class="md-nav__button md-logo" aria-label="Bolt Runtime Engine Documentation" data-md-component="logo">
+    <a href=".." title="BOLT Documentation" class="md-nav__button md-logo" aria-label="BOLT Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    Bolt Runtime Engine Documentation
+    BOLT Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -243,34 +207,7 @@
   <span class="md-ellipsis">
     
   
-    Native syntax
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../modules/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Usage of modules in bolt
+    Home
   
 
     
@@ -306,7 +243,7 @@
   <span class="md-ellipsis">
     
   
-    Bfile
+    BFile
   
 
     
@@ -324,7 +261,7 @@
   <span class="md-ellipsis">
     
   
-    Bfile
+    BFile
   
 
     
@@ -601,6 +538,33 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -896,7 +860,7 @@
 
 
 
-<h1 id="bfile-module-official-reference">Bfile Module — Official Reference<a class="headerlink" href="#bfile-module-official-reference" title="Permanent link">&para;</a></h1>
+<h1 id="bfile-module-official-reference">Bfile Module — Official Reference</h1>
 <p><strong>Module:</strong> <code>bfile</code>
 <strong>Type:</strong> Core Built-in
 <strong>Available in:</strong> Bolt v1.70+
@@ -905,7 +869,7 @@
 <hr />
 <p>Bfile is the official filesystem module bundled directly into the Bolt runtime. It provides a clean, safe, and portable API for reading, writing, appending, copying, and managing files and directories — without requiring any external libraries or manual stream handling. All operations are synchronous and return values immediately.</p>
 <hr />
-<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<h2 id="table-of-contents">Table of Contents</h2>
 <ul>
 <li><a href="#importing-bfile">Importing Bfile</a></li>
 <li><a href="#the-local-keyword">The <code>local</code> Keyword</a></li>
@@ -930,40 +894,36 @@
 <li><a href="#cross-platform-notes">Cross-Platform Notes</a></li>
 </ul>
 <hr />
-<h2 id="importing-bfile">Importing Bfile<a class="headerlink" href="#importing-bfile" title="Permanent link">&para;</a></h2>
+<h2 id="importing-bfile">Importing Bfile</h2>
 <p>Bfile must be explicitly loaded before use. Use the <code>$get</code> directive at the top of your script.</p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 </code></pre></div>
-
 <p>This directive links all <code>bfile.*</code> functions into the current execution context. Calling any <code>bfile.*</code> function without this directive will raise a runtime module error.</p>
 <p><strong>Version check:</strong>
 If your runtime is below v1.70, the directive will fail silently or throw an import error. Verify your version:</p>
-<div class="codehilite"><pre><span></span><code>bolt<span class="w"> </span>--version
+<div class="highlight"><pre><span></span><code>bolt<span class="w"> </span>--version
 </code></pre></div>
-
 <hr />
-<h2 id="the-local-keyword">The <code>local</code> Keyword<a class="headerlink" href="#the-local-keyword" title="Permanent link">&para;</a></h2>
+<h2 id="the-local-keyword">The <code>local</code> Keyword</h2>
 <p>Bfile introduces a special path keyword: <code>local</code>.</p>
 <p>When <code>local</code> is passed as a path argument to any bfile function, it resolves to <strong>the directory containing the currently running script</strong> — not the working directory from which the <code>bolt</code> command was invoked.</p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # These two calls are equivalent when running from C:\projects\app\
 content = bfile.read(&quot;C:\projects\app\config.txt&quot;)
 content = bfile.read(local + &quot;\config.txt&quot;)
 </code></pre></div>
-
 <p><strong>Fallback behaviour:</strong> If the script has no known source path (e.g., it was passed as an inline string via the REPL or <code>bolt -e</code>), <code>local</code> resolves to the current working directory (<code>os.getcwd()</code>).</p>
 <p><strong>Usage with joinpath (recommended):</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 config_path = bfile.joinpath(local, &quot;config&quot;, &quot;settings.json&quot;)
 data = bfile.read(config_path)
 sys.out data
 </code></pre></div>
-
 <p><code>local</code> works as a first-class value anywhere a path string is accepted.</p>
 <hr />
-<h2 id="safe-mode">Safe Mode<a class="headerlink" href="#safe-mode" title="Permanent link">&para;</a></h2>
+<h2 id="safe-mode">Safe Mode</h2>
 <p>Bfile respects the Bolt interpreter's <strong>safe mode</strong> flag. When the interpreter is started in safe mode, all file operations are restricted to the directory of the running script.</p>
 <p><strong>Restrictions in safe mode:</strong></p>
 <ul>
@@ -972,12 +932,11 @@ sys.out data
 <li>Overwriting the running script itself is also blocked.</li>
 </ul>
 <p><strong>Error raised:</strong></p>
-<div class="codehilite"><pre><span></span><code>File access to &#39;/etc/passwd&#39; is disallowed in safe mode.
+<div class="highlight"><pre><span></span><code>File access to &#39;/etc/passwd&#39; is disallowed in safe mode.
 </code></pre></div>
-
 <p>Safe mode is intended for sandboxed or untrusted script execution environments. There is no bfile-level API to toggle safe mode — it is set at the interpreter level.</p>
 <hr />
-<h2 id="error-identifiers">Error Identifiers<a class="headerlink" href="#error-identifiers" title="Permanent link">&para;</a></h2>
+<h2 id="error-identifiers">Error Identifiers</h2>
 <p>Bfile uses a three-value error namespace accessible at <code>bfile.error</code>:</p>
 <table>
 <thead>
@@ -1006,25 +965,22 @@ sys.out data
 </tbody>
 </table>
 <p>These string values are embedded in all exception messages raised by bfile functions, making them parseable in error-handling logic or log filtering.</p>
-<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<span class="nb">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">read</span><span class="ss">(</span><span class="s2">&quot;missing.txt&quot;</span><span class="ss">)</span>
-#<span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">file</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">missing</span>,<span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">runtime</span><span class="w"> </span><span class="nv">throws</span>:
-#<span class="w"> </span><span class="nv">RuntimeError</span>:<span class="w"> </span><span class="nv">bfile</span>.<span class="nv">error</span>.<span class="nv">FileNotFound</span>:<span class="w"> </span><span class="nv">File</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">found</span>:<span class="w"> </span><span class="s1">&#39;missing.txt&#39;</span>
+result = bfile.read(&quot;missing.txt&quot;)
+# If the file is missing, the runtime throws:
+# RuntimeError: bfile.error.FileNotFound: File not found: &#39;missing.txt&#39;
 </code></pre></div>
-
 <p>Use <code>--debug</code> for full stack traces:</p>
-<div class="codehilite"><pre><span></span><code>bolt<span class="w"> </span>--debug<span class="w"> </span>--run<span class="w"> </span>script.bolt
+<div class="highlight"><pre><span></span><code>bolt<span class="w"> </span>--debug<span class="w"> </span>--run<span class="w"> </span>script.bolt
 </code></pre></div>
-
 <hr />
-<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<h2 id="functions">Functions</h2>
 <hr />
-<h3 id="bfileread">bfile.read<a class="headerlink" href="#bfileread" title="Permanent link">&para;</a></h3>
+<h3 id="bfileread">bfile.read</h3>
 <p>Reads the full contents of a file and returns them as a string.</p>
-<div class="codehilite"><pre><span></span><code>bfile.read(path)
+<div class="highlight"><pre><span></span><code>bfile.read(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1053,40 +1009,36 @@ sys.out data
 </ul>
 <p><strong>Behaviour note:</strong> If the return value is not assigned to a variable, the content is printed directly to <code>sys.out</code>.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="o">$</span><span class="n">get</span><span class="o">.</span><span class="n">bfile</span>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<span class="c1"># Read and print a file</span>
-<span class="n">bfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;readme.txt&quot;</span><span class="p">)</span>
+# Read and print a file
+bfile.read(&quot;readme.txt&quot;)
 
-<span class="c1"># Read into a variable</span>
-<span class="n">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;readme.txt&quot;</span><span class="p">)</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="n">content</span>
+# Read into a variable
+content = bfile.read(&quot;readme.txt&quot;)
+sys.out content
 </code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # Read using the local keyword
 notes = bfile.read(local + &quot;/notes.txt&quot;)
 sys.out notes
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
-
-#<span class="w"> </span><span class="nv">Read</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">check</span><span class="w"> </span><span class="nv">contents</span>
-<span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">read</span><span class="ss">(</span><span class="s2">&quot;users.txt&quot;</span><span class="ss">)</span>
-<span class="k">if</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">data</span>
-<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s2">&quot;Admin record found&quot;</span>
-<span class="k">else</span>
-<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s2">&quot;No admin record&quot;</span>
-<span class="k">end</span>.<span class="k">if</span>
+# Read and check contents
+data = bfile.read(&quot;users.txt&quot;)
+if &quot;admin&quot; in data
+    sys.out &quot;Admin record found&quot;
+else
+    sys.out &quot;No admin record&quot;
+end.if
 </code></pre></div>
-
 <hr />
-<h3 id="bfilewrite">bfile.write<a class="headerlink" href="#bfilewrite" title="Permanent link">&para;</a></h3>
+<h3 id="bfilewrite">bfile.write</h3>
 <p>Writes data to a new file constructed from a directory, filename, and extension. <strong>Overwrites</strong> the file if it already exists.</p>
-<div class="codehilite"><pre><span></span><code>bfile.write(data, directory, filename, extension)
+<div class="highlight"><pre><span></span><code>bfile.write(data, directory, filename, extension)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1132,34 +1084,30 @@ sys.out notes
 </ul>
 <p><strong>Extension handling:</strong> The extension parameter accepts both plain strings (<code>"txt"</code>, <code>".txt"</code>) and Bolt type literals (<code>.txt</code>). In all cases, a single leading <code>.</code> is guaranteed.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<span class="gh">#</span> Write a plain text file to the script directory
+# Write a plain text file to the script directory
 bfile.write(&quot;Hello, world!&quot;, local, &quot;output&quot;, &quot;txt&quot;)
-<span class="gh">#</span> Creates: &lt;script_dir&gt;/output.txt
+# Creates: &lt;script_dir&gt;/output.txt
 </code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 username = &quot;Ariyan&quot;
 report = &quot;User: &quot; + username + &quot; logged in.&quot;
 bfile.write(report, local, &quot;log&quot;, &quot;.log&quot;)
-<span class="gh">#</span> Creates: &lt;script_dir&gt;/log.log
+# Creates: &lt;script_dir&gt;/log.log
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<div class="codehilite"><pre><span></span><code><span class="o">$</span><span class="n">get</span><span class="o">.</span><span class="n">bfile</span>
-
-<span class="c1"># Write with a constructed directory</span>
-<span class="n">bfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;data here&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/exports&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;result&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;csv&quot;</span><span class="p">)</span>
-<span class="c1"># Creates: &lt;script_dir&gt;/exports/result.csv</span>
+# Write with a constructed directory
+bfile.write(&quot;data here&quot;, local + &quot;/exports&quot;, &quot;result&quot;, &quot;csv&quot;)
+# Creates: &lt;script_dir&gt;/exports/result.csv
 </code></pre></div>
-
 <hr />
-<h3 id="bfilewritefile">bfile.writefile<a class="headerlink" href="#bfilewritefile" title="Permanent link">&para;</a></h3>
+<h3 id="bfilewritefile">bfile.writefile</h3>
 <p>Writes data to a specific, fully-specified file path. <strong>Overwrites</strong> the file if it already exists. This is the simpler alternative to <code>bfile.write</code> when you already have a complete path.</p>
-<div class="codehilite"><pre><span></span><code>bfile.writefile(path, data)
+<div class="highlight"><pre><span></span><code>bfile.writefile(path, data)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1192,23 +1140,20 @@ bfile.write(report, local, &quot;log&quot;, &quot;.log&quot;)
 <li>Safe mode error if path is outside the script directory.</li>
 </ul>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 bfile.writefile(local + &quot;/config.txt&quot;, &quot;debug=true&quot;)
 </code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 path = bfile.joinpath(local, &quot;output&quot;, &quot;result.txt&quot;)
 bfile.writefile(path, &quot;Final result: 42&quot;)
 </code></pre></div>
-
 <hr />
-<h3 id="bfileappend">bfile.append<a class="headerlink" href="#bfileappend" title="Permanent link">&para;</a></h3>
+<h3 id="bfileappend">bfile.append</h3>
 <p>Appends data to an existing file. If the file does not exist, it is <strong>created</strong>.</p>
-<div class="codehilite"><pre><span></span><code>bfile.append(path, data)
+<div class="highlight"><pre><span></span><code>bfile.append(path, data)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1242,25 +1187,22 @@ bfile.writefile(path, &quot;Final result: 42&quot;)
 </ul>
 <p><strong>Note:</strong> No newline is appended automatically. If you want each append on a new line, include <code>"\n"</code> in your data.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 bfile.append(local + &quot;/log.txt&quot;, &quot;Session started\n&quot;)
 bfile.append(local + &quot;/log.txt&quot;, &quot;User connected\n&quot;)
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<div class="codehilite"><pre><span></span><code><span class="err">$</span><span class="k">get</span><span class="p">.</span><span class="n">bfile</span>
-
-<span class="err">#</span><span class="w"> </span><span class="n">Build</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="nf">log</span><span class="w"> </span><span class="n">entry</span>
-<span class="n">entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;[INFO] Operation completed\n&quot;</span>
-<span class="n">bfile</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="k">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;/events.log&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">entry</span><span class="p">)</span>
+# Build a log entry
+entry = &quot;[INFO] Operation completed\n&quot;
+bfile.append(local + &quot;/events.log&quot;, entry)
 </code></pre></div>
-
 <hr />
-<h3 id="bfileexists">bfile.exists<a class="headerlink" href="#bfileexists" title="Permanent link">&para;</a></h3>
+<h3 id="bfileexists">bfile.exists</h3>
 <p>Checks whether a file or directory exists at the given path.</p>
-<div class="codehilite"><pre><span></span><code>bfile.exists(path)
+<div class="highlight"><pre><span></span><code>bfile.exists(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1282,30 +1224,27 @@ bfile.append(local + &quot;/log.txt&quot;, &quot;User connected\n&quot;)
 </table>
 <p><strong>Returns:</strong> <code>bool</code> — <code>true</code> if the path exists (file or directory), <code>false</code> otherwise.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<span class="k">if</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">exists</span><span class="ss">(</span><span class="nv">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/config.txt&quot;</span><span class="ss">)</span>
-<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s2">&quot;Config found&quot;</span>
-<span class="k">else</span>
-<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s2">&quot;Config missing — using defaults&quot;</span>
-<span class="k">end</span>.<span class="k">if</span>
+if bfile.exists(local + &quot;/config.txt&quot;)
+    sys.out &quot;Config found&quot;
+else
+    sys.out &quot;Config missing — using defaults&quot;
+end.if
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
-
-<span class="nv">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/data/output.csv&quot;</span>
-<span class="k">if</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">exists</span><span class="ss">(</span><span class="nv">target</span><span class="ss">)</span>
-<span class="w">    </span><span class="nv">bfile</span>.<span class="nv">remove</span><span class="ss">(</span><span class="nv">target</span><span class="ss">)</span>
-<span class="k">end</span>.<span class="k">if</span>
-<span class="nv">bfile</span>.<span class="nv">writefile</span><span class="ss">(</span><span class="nv">target</span>,<span class="w"> </span><span class="s2">&quot;col1,col2\n&quot;</span><span class="ss">)</span>
+target = local + &quot;/data/output.csv&quot;
+if bfile.exists(target)
+    bfile.remove(target)
+end.if
+bfile.writefile(target, &quot;col1,col2\n&quot;)
 </code></pre></div>
-
 <hr />
-<h3 id="bfileisfile">bfile.isfile<a class="headerlink" href="#bfileisfile" title="Permanent link">&para;</a></h3>
+<h3 id="bfileisfile">bfile.isfile</h3>
 <p>Checks whether a path exists <strong>and</strong> refers specifically to a file (not a directory or symlink to a directory).</p>
-<div class="codehilite"><pre><span></span><code>bfile.isfile(path)
+<div class="highlight"><pre><span></span><code>bfile.isfile(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1327,23 +1266,21 @@ bfile.append(local + &quot;/log.txt&quot;, &quot;User connected\n&quot;)
 </table>
 <p><strong>Returns:</strong> <code>bool</code></p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<span class="nv">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/data.json&quot;</span>
-<span class="k">if</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">isfile</span><span class="ss">(</span><span class="nv">path</span><span class="ss">)</span>
-<span class="w">    </span><span class="nv">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">read</span><span class="ss">(</span><span class="nv">path</span><span class="ss">)</span>
-<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="nv">content</span>
-<span class="k">else</span>
-<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s2">&quot;Not a file&quot;</span>
-<span class="k">end</span>.<span class="k">if</span>
+path = local + &quot;/data.json&quot;
+if bfile.isfile(path)
+    content = bfile.read(path)
+    sys.out content
+else
+    sys.out &quot;Not a file&quot;
+end.if
 </code></pre></div>
-
 <hr />
-<h3 id="bfileisdir">bfile.isdir<a class="headerlink" href="#bfileisdir" title="Permanent link">&para;</a></h3>
+<h3 id="bfileisdir">bfile.isdir</h3>
 <p>Checks whether a path exists <strong>and</strong> refers specifically to a directory.</p>
-<div class="codehilite"><pre><span></span><code>bfile.isdir(path)
+<div class="highlight"><pre><span></span><code>bfile.isdir(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1365,24 +1302,22 @@ bfile.append(local + &quot;/log.txt&quot;, &quot;User connected\n&quot;)
 </table>
 <p><strong>Returns:</strong> <code>bool</code></p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="o">$</span><span class="n">get</span><span class="o">.</span><span class="n">bfile</span>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<span class="n">target_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/exports&quot;</span>
-<span class="k">if</span><span class="w"> </span><span class="n">bfile</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
-<span class="w">    </span><span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="s2">&quot;Export directory ready&quot;</span>
-<span class="k">else</span>
-<span class="w">    </span><span class="n">bfile</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
-<span class="w">    </span><span class="n">sys</span><span class="o">.</span><span class="n">out</span><span class="w"> </span><span class="s2">&quot;Export directory created&quot;</span>
-<span class="n">end</span><span class="o">.</span><span class="k">if</span>
+target_dir = local + &quot;/exports&quot;
+if bfile.isdir(target_dir)
+    sys.out &quot;Export directory ready&quot;
+else
+    bfile.mkdir(target_dir)
+    sys.out &quot;Export directory created&quot;
+end.if
 </code></pre></div>
-
 <hr />
-<h3 id="bfilelistdir">bfile.listdir<a class="headerlink" href="#bfilelistdir" title="Permanent link">&para;</a></h3>
+<h3 id="bfilelistdir">bfile.listdir</h3>
 <p>Returns a list of names (files and subdirectories) inside a directory.</p>
-<div class="codehilite"><pre><span></span><code>bfile.listdir()
+<div class="highlight"><pre><span></span><code>bfile.listdir()
 bfile.listdir(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1412,35 +1347,31 @@ bfile.listdir(path)
 </ul>
 <p><strong>Note:</strong> Entries are names only, not full paths. Use <code>bfile.joinpath</code> to construct full paths from results.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # List the script&#39;s own directory
 entries = bfile.listdir()
 sys.out entries
 </code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # List a subdirectory
 files = bfile.listdir(local + &quot;/assets&quot;)
 sys.out files
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
-
-#<span class="w"> </span><span class="nv">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">specific</span><span class="w"> </span><span class="nv">file</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">present</span>
-<span class="nv">entries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">listdir</span><span class="ss">()</span>
-<span class="k">if</span><span class="w"> </span><span class="s2">&quot;config.bolt&quot;</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">entries</span>
-<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s2">&quot;Config script detected&quot;</span>
-<span class="k">end</span>.<span class="k">if</span>
+# Check if a specific file is present
+entries = bfile.listdir()
+if &quot;config.bolt&quot; in entries
+    sys.out &quot;Config script detected&quot;
+end.if
 </code></pre></div>
-
 <hr />
-<h3 id="bfileremove">bfile.remove<a class="headerlink" href="#bfileremove" title="Permanent link">&para;</a></h3>
+<h3 id="bfileremove">bfile.remove</h3>
 <p>Removes a single file at the given path. <strong>Silently succeeds</strong> if the file does not exist.</p>
-<div class="codehilite"><pre><span></span><code>bfile.remove(path)
+<div class="highlight"><pre><span></span><code>bfile.remove(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1468,26 +1399,23 @@ sys.out files
 </ul>
 <p><strong>Note:</strong> This function only removes files. To remove directories, use <code>bfile.rmdir</code> or <code>bfile.rmtree</code>.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 bfile.remove(local + &quot;/temp.txt&quot;)
 sys.out &quot;Cleanup complete&quot;
 </code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 old_log = local + &quot;/logs/session_old.log&quot;
 if bfile.isfile(old_log)
     bfile.remove(old_log)
 end.if
 </code></pre></div>
-
 <hr />
-<h3 id="bfilermdir">bfile.rmdir<a class="headerlink" href="#bfilermdir" title="Permanent link">&para;</a></h3>
+<h3 id="bfilermdir">bfile.rmdir</h3>
 <p>Removes a <strong>single, empty</strong> directory. Fails if the directory contains any files or subdirectories.</p>
-<div class="codehilite"><pre><span></span><code>bfile.rmdir(path)
+<div class="highlight"><pre><span></span><code>bfile.rmdir(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1515,18 +1443,16 @@ end.if
 </ul>
 <p><strong>Silently succeeds</strong> if the directory does not exist.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 bfile.rmdir(local + &quot;/tmp_empty&quot;)
 </code></pre></div>
-
 <p>To remove a directory with contents, use <code>bfile.rmtree</code>.</p>
 <hr />
-<h3 id="bfilermtree">bfile.rmtree<a class="headerlink" href="#bfilermtree" title="Permanent link">&para;</a></h3>
+<h3 id="bfilermtree">bfile.rmtree</h3>
 <p>Recursively removes a directory <strong>and all of its contents</strong> — files, subdirectories, and nested structures. This is a destructive operation with no undo.</p>
-<div class="codehilite"><pre><span></span><code>bfile.rmtree(path)
+<div class="highlight"><pre><span></span><code>bfile.rmtree(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1555,20 +1481,18 @@ bfile.rmdir(local + &quot;/tmp_empty&quot;)
 <p><strong>Silently succeeds</strong> if the directory does not exist.</p>
 <p><strong>Warning:</strong> This permanently deletes everything inside the target directory. There is no confirmation prompt or recycle bin. Use with care.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # Wipe and recreate a build directory
 bfile.rmtree(local + &quot;/build&quot;)
 bfile.mkdir(local + &quot;/build&quot;)
 sys.out &quot;Build directory reset&quot;
 </code></pre></div>
-
 <hr />
-<h3 id="bfilecopy">bfile.copy<a class="headerlink" href="#bfilecopy" title="Permanent link">&para;</a></h3>
+<h3 id="bfilecopy">bfile.copy</h3>
 <p>Copies a file from a source path to a destination path. Preserves file metadata (timestamps, permissions) using the underlying <code>copy2</code> mechanism.</p>
-<div class="codehilite"><pre><span></span><code>bfile.copy(src_path, dest_path)
+<div class="highlight"><pre><span></span><code>bfile.copy(src_path, dest_path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1602,26 +1526,23 @@ sys.out &quot;Build directory reset&quot;
 </ul>
 <p><strong>Behaviour:</strong> If <code>dest_path</code> is an existing directory, the file is copied into it using the source filename. If <code>dest_path</code> is a full file path, it is used as the output filename.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # Copy a config file to a backup
 bfile.copy(local + &quot;/config.txt&quot;, local + &quot;/config.bak&quot;)
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<div class="codehilite"><pre><span></span><code>$get.bfile
-
-<span class="gh">#</span> Copy a file into a subdirectory
+# Copy a file into a subdirectory
 bfile.mkdir(local + &quot;/backup&quot;)
 bfile.copy(local + &quot;/data.json&quot;, local + &quot;/backup&quot;)
-<span class="gh">#</span> Result: &lt;script_dir&gt;/backup/data.json
+# Result: &lt;script_dir&gt;/backup/data.json
 </code></pre></div>
-
 <hr />
-<h3 id="bfilemkdir">bfile.mkdir<a class="headerlink" href="#bfilemkdir" title="Permanent link">&para;</a></h3>
+<h3 id="bfilemkdir">bfile.mkdir</h3>
 <p>Creates a directory at the given path. <strong>Automatically creates all missing parent directories.</strong> Silently succeeds if the directory already exists.</p>
-<div class="codehilite"><pre><span></span><code>bfile.mkdir(path)
+<div class="highlight"><pre><span></span><code>bfile.mkdir(path)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1648,32 +1569,28 @@ bfile.copy(local + &quot;/data.json&quot;, local + &quot;/backup&quot;)
 <li>Safe mode error if path is outside the script directory.</li>
 </ul>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # Create a single directory
 bfile.mkdir(local + &quot;/output&quot;)
 </code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # Create a deeply nested directory structure in one call
 bfile.mkdir(local + &quot;/output/reports/2025/q1&quot;)
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
-
-#<span class="w"> </span><span class="nv">Conditional</span><span class="w"> </span><span class="nv">creation</span>
-<span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="nv">bfile</span>.<span class="nv">isdir</span><span class="ss">(</span><span class="nv">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/cache&quot;</span><span class="ss">)</span>
-<span class="w">    </span><span class="nv">bfile</span>.<span class="nv">mkdir</span><span class="ss">(</span><span class="nv">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/cache&quot;</span><span class="ss">)</span>
-<span class="k">end</span>.<span class="k">if</span>
+# Conditional creation
+if !bfile.isdir(local + &quot;/cache&quot;)
+    bfile.mkdir(local + &quot;/cache&quot;)
+end.if
 </code></pre></div>
-
 <hr />
-<h3 id="bfilejoinpath">bfile.joinpath<a class="headerlink" href="#bfilejoinpath" title="Permanent link">&para;</a></h3>
+<h3 id="bfilejoinpath">bfile.joinpath</h3>
 <p>Joins multiple path components into a single well-formed path string, handling separators automatically across platforms.</p>
-<div class="codehilite"><pre><span></span><code>bfile.joinpath(part1, part2, ...)
+<div class="highlight"><pre><span></span><code>bfile.joinpath(part1, part2, ...)
 </code></pre></div>
-
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1697,7 +1614,7 @@ bfile.mkdir(local + &quot;/output/reports/2025/q1&quot;)
 <p><strong>Behaviour:</strong> If called with no arguments, returns an empty string. If the first argument is <code>local</code>, it is resolved to the script's directory before joining.</p>
 <p><strong>Note:</strong> This is the recommended way to build paths in Bolt scripts. It prevents double-slash errors, handles Windows/Unix differences, and integrates cleanly with <code>local</code>.</p>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # Join three components
 path = bfile.joinpath(local, &quot;data&quot;, &quot;results.txt&quot;)
@@ -1705,8 +1622,7 @@ sys.out path
 # Output (Linux): /home/user/project/data/results.txt
 # Output (Windows): C:\Users\user\project\data\results.txt
 </code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 # Use in a read call
 folder = &quot;configs&quot;
@@ -1715,33 +1631,30 @@ full = bfile.joinpath(local, folder, file)
 content = bfile.read(full)
 sys.out content
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<div class="codehilite"><pre><span></span><code>$get.bfile
-
-<span class="gh">#</span> Build a log path and append
+# Build a log path and append
 log_path = bfile.joinpath(local, &quot;logs&quot;, &quot;run.log&quot;)
 bfile.append(log_path, &quot;Startup complete\n&quot;)
 </code></pre></div>
-
 <hr />
-<h2 id="error-handling-patterns">Error Handling Patterns<a class="headerlink" href="#error-handling-patterns" title="Permanent link">&para;</a></h2>
+<h2 id="error-handling-patterns">Error Handling Patterns</h2>
 <p>Bfile does not provide a try/catch-style mechanism in Bolt v1.x. Errors raised by bfile functions propagate as runtime exceptions and will halt execution unless the interpreter is invoked with error tolerance flags.</p>
 <p><strong>Recommended defensive pattern — check before acting:</strong></p>
-<div class="codehilite"><pre><span></span><code>$<span class="nv">get</span>.<span class="nv">bfile</span>
+<div class="highlight"><pre><span></span><code>$get.bfile
 
-<span class="nv">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">local</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/config.txt&quot;</span>
+config = local + &quot;/config.txt&quot;
 
-<span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="nv">bfile</span>.<span class="nv">exists</span><span class="ss">(</span><span class="nv">config</span><span class="ss">)</span>
-<span class="w">    </span><span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="s2">&quot;Error: config.txt not found&quot;</span>
-<span class="w">    </span><span class="nv">void</span>.<span class="mi">0</span>
-<span class="k">end</span>.<span class="k">if</span>
+if !bfile.exists(config)
+    sys.out &quot;Error: config.txt not found&quot;
+    void.0
+end.if
 
-<span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">bfile</span>.<span class="nv">read</span><span class="ss">(</span><span class="nv">config</span><span class="ss">)</span>
-<span class="nv">sys</span>.<span class="nv">out</span><span class="w"> </span><span class="nv">data</span>
+data = bfile.read(config)
+sys.out data
 </code></pre></div>
-
 <p><strong>Recommended pattern — validate before write:</strong></p>
-<div class="codehilite"><pre><span></span><code>$get.bfile
+<div class="highlight"><pre><span></span><code>$get.bfile
 
 out_dir = bfile.joinpath(local, &quot;output&quot;)
 
@@ -1751,19 +1664,16 @@ end.if
 
 bfile.writefile(bfile.joinpath(out_dir, &quot;result.txt&quot;), &quot;done&quot;)
 </code></pre></div>
-
 <p><strong>Debugging failed operations:</strong></p>
 <p>Run with the <code>--debug</code> flag to receive full stack traces and error context:</p>
-<div class="codehilite"><pre><span></span><code>bolt<span class="w"> </span>--debug<span class="w"> </span>--run<span class="w"> </span>script.bolt
+<div class="highlight"><pre><span></span><code>bolt<span class="w"> </span>--debug<span class="w"> </span>--run<span class="w"> </span>script.bolt
 </code></pre></div>
-
 <p>The error message format for all bfile errors is:</p>
-<div class="codehilite"><pre><span></span><code>RuntimeError: bfile.error.&lt;ErrorType&gt;: &lt;human-readable description&gt;
+<div class="highlight"><pre><span></span><code>RuntimeError: bfile.error.&lt;ErrorType&gt;: &lt;human-readable description&gt;
 </code></pre></div>
-
 <p>Parse the <code>bfile.error.*</code> prefix to distinguish filesystem errors from other runtime errors in logs or tooling.</p>
 <hr />
-<h2 id="cross-platform-notes">Cross-Platform Notes<a class="headerlink" href="#cross-platform-notes" title="Permanent link">&para;</a></h2>
+<h2 id="cross-platform-notes">Cross-Platform Notes</h2>
 <p>Bfile is designed to work identically on Windows, Linux, and macOS.</p>
 <ul>
 <li><strong>Path separators:</strong> Use <code>bfile.joinpath</code> to construct paths — never hard-code <code>\</code> or <code>/</code> separators manually in path strings.</li>
